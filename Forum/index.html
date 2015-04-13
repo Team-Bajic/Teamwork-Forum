@@ -5,30 +5,108 @@
   <title>Forum</title>
   <meta name="description" content="Forum">
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/libs/require.js" data-main="js/main"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.css">
+
+  <script type="text/javascript" src="js/libs/jquery.js"></script>
+  <script type="text/javascript" src="js/libs/handlebars.js"></script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/js/foundation.min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.0.min.js"></script>
 </head>
 
 <body>
 	<main>
-		<h1>Forum</h1>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="panel">
+            <h1 class="large 5">Forum</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-3 columns ">
+          <div class="panel">
+          	<h2>Categories</h2>
+              <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
+
+            </div>
+          </div>
+        </div>
+
+        <div class="large-9 columns">
+
+          <div class="row">
+            <!-- <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"/></div> -->
+            <div class="large-10 columns">
+              <p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
+              <ul class="inline-list">
+                <li><a href="">Reply</a></li>
+                <li><a href="">Share</a></li>
+              </ul>
+
+              <h6>2 Comments</h6>
+              <div class="row">
+                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
+                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+              </div>
+              <div class="row">
+                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
+                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- <aside class="large-3 columns hide-for-small">
+
+        </aside> -->
+
+      </div>
+
+      <footer class="row">
+        <div class="large-12 columns">
+          <hr/>
+          <div class="row">
+            <div class="large-5 columns">
+              <p>© Copyright Team Bajic</p>
+            </div>
+            <div class="large-7 columns">
+              <ul class="inline-list right">
+                <li><a href="#">Section 1</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
 	</main>
-  <script type="text/javascript">
-    Parse.initialize("OHLDDw4fScOBF6B9rRO40p4urKuEoNXpakX2UvXX", "bybx8TlFj4ekkE8ewBIy9aEvFJbcX26nWbT02yAN");
-    
-    // var TestObject = Parse.Object.extend("TestObject");
-    // var testObject = new TestObject();
-    //   testObject.save({foo: "bar"}, {
-    //   success: function(object) {
-    //     $(".success").show();
-    //   },
-    //   error: function(model, error) {
-    //     $(".error").show();
-    //   }
-    // });
-  </script>
+  <script type="text/javascript" src="js/models.js"></script>
+  <script type="text/javascript" src="js/views.js"></script>
+	<script type="text/javascript" src="js/forum.js"></script>
 </body>
+
+<!-- Templates -->
+  <!-- Login template -->
+  <script id="login-template" type="text/x-handlebars-template">
+  <div class="panel">
+    <div class="large-4 columns">
+      <label>Username
+        <input type="text" placeholder="Username" />
+      </label>
+      <label>Password
+        <input type="password" placeholder="password" />
+      </label>
+    </div>
+  </div>
+  </script>
+
+  <!-- Category template -->
+  <script id="category-template" type="text/x-handlebars-template">
+    <section class="section">
+      <h5 class="title"><a href="#">{{categoryTitle}}</a></h5>
+    </section>
+  </script>
 
 </html>
