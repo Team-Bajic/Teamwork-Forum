@@ -29,6 +29,8 @@ $(document).ready(function(){
     //     console.log(user);
     //   }
     // });
+    console.log(Parse.User.current().get('username'));
+
     var category = new Forum.models.Category().create('test');
 
     category.saveToParse(function(result){
@@ -42,7 +44,7 @@ $(document).ready(function(){
       console.log('question result:');
       console.log(result);
     });
-    
+
     var categoryView = new Forum.views.CategoryView();
 
     categoryView.render('.section-container');
