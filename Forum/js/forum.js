@@ -29,10 +29,20 @@ $(document).ready(function(){
     //     console.log(user);
     //   }
     // });
-    var category = new Forum.models.Category().create('test', function(){}, function(){});
+    var category = new Forum.models.Category().create('test');
 
-    var question = new Forum.models.Question().create('testTitle', Parse.User.current(), category, 'blqblq', function(){}, function(){});
+    category.saveToParse(function(result){
+      console.log('category result:');
+      console.log(result);
+    });
 
+    var question = new Forum.models.Question().create('testTitle', Parse.User.current(), category, 'blqblq');
+
+    question.saveToParse(function(result){
+      console.log('question result:');
+      console.log(result);
+    });
+    
     var categoryView = new Forum.views.CategoryView();
 
     categoryView.render('.section-container');

@@ -4,41 +4,42 @@ Forum.models = (function(){
   Parse.initialize(Forum.ApplicationID, Forum.JavaScriptKey);
 
   var Category = Parse.Object.extend('Category', {
-    create: function(title, onSuccess, onError){
-      this.save({
-        title: title
+      create: function(title){
+        this.title = title;
+
+        return this;
       },
-      {
-          success: function(category){
-            console.log(category);
-            onSuccess();
-          },
-          error: function(category, error){
-            console.log('Error - ' + error + ', category object - ' + category);
-            onError(category, error);
-          }
-      })
-    }
+      saveToParse: function(onSuccess, onError){
+        this.save({
+          title: this.title
+        },
+        {
+            success: onSuccess,
+            error: onError
+        })
+      }
   });
 
   var Question = Parse.Object.extend('Question', {
-    create: function(title, postedBy, category, questionText, onSuccess, onError){
+    create: function(title, postedBy, category, questionText){
+      this.title = title;
+      this.postedBy = postedBy;
+      this.category = category;
+      this.questionText = questionText;
+
+      return this;
+    },
+    saveToParse: function(onSuccess, onError){
       this.save({
-        title: title,
-        postedBy: postedBy,
-        category: category,
-        questionText: questionText,
+        title: this.title,
+        postedBy: this.postedBy,
+        category: this.category,
+        questionText: this.questionText,
         visits: 0
       },
       {
-          success: function(question){
-            console.log(question);
-            onSuccess();
-          },
-          error: function(question, error){
-            console.log('Error - ' + error + ', question object - ' + question);
-            onError(question, error);
-          }
+          success: onSuccess,
+          error: onError
       });
     }
   });
