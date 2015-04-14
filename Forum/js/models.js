@@ -20,6 +20,23 @@ Forum.models = (function(){
       }
   });
 
+  var Tag = Parse.Object.extend('Tag', {
+      create: function(title){
+        this.title = title;
+
+        return this;
+      },
+      saveToParse: function(onSuccess, onError){
+        this.save({
+          title: this.title
+        },
+        {
+            success: onSuccess,
+            error: onError
+        })
+      }
+  });
+
   var Question = Parse.Object.extend('Question', {
     create: function(title, postedBy, category, questionText){
       this.title = title;
@@ -83,6 +100,7 @@ Forum.models = (function(){
 
   return {
     Category: Category,
+    Tag: Tag,
     Question: Question,
     Answer: Answer
   };
