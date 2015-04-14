@@ -1,6 +1,6 @@
 var Forum = Forum || {};
 
-Forum.views = (function(){
+Forum.views = (function() {
   var LoginView = Parse.View.extend({
     template: Handlebars.compile($('#login-template').html()),
 
@@ -12,8 +12,10 @@ Forum.views = (function(){
   var CategoryView = Parse.View.extend({
     template: Handlebars.compile($('#category-template').html()),
 
-    render: function(element) {
-      $(element).html(this.template({categoryTitle: 'test'}));
+    render: function(element, content) {
+      $(element).append(this.template({
+        categoryTitle: content.get('title')
+      }));
     }
   });
 

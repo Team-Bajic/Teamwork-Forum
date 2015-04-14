@@ -29,24 +29,26 @@ $(document).ready(function(){
     //     console.log(user);
     //   }
     // });
-    console.log(Parse.User.current().get('username'));
 
-    var category = new Forum.models.Category().create('test');
+    new Forum.models.Category().getAll();
+    // new Forum.models.Question().getAll();
+    
+    // var category = new Forum.models.Category().create('test');
 
-    category.saveToParse(function(result){
-      console.log('category result:');
-      console.log(result);
-    });
+    // category.saveToParse(function(result){
+    //   console.log('category result:');
+    //   console.log(result);
+    // });
 
-    var question = new Forum.models.Question().create('testTitle', Parse.User.current(), category, 'blqblq');
+    // var question = new Forum.models.Question().create('testTitle', Parse.User.current(), category, 'blqblq');
 
-    question.saveToParse(function(result){
-      console.log('question result:');
-      console.log(result);
-    });
+    // question.saveToParse(function(result){
+    //   console.log('question result:');
+    //   console.log(result);
+    // });
 
-    var categoryView = new Forum.views.CategoryView();
+    // var categoryView = new Forum.views.CategoryView();
 
-    categoryView.render('.section-container');
+    // categoryView.render('.section-container');
 
 });

@@ -1,44 +1,57 @@
 var Forum = Forum || {};
 
-Forum.models = (function(){
+Forum.models = (function() {
   Parse.initialize(Forum.ApplicationID, Forum.JavaScriptKey);
 
   var Category = Parse.Object.extend('Category', {
-      create: function(title){
-        this.title = title;
+    create: function(title) {
+      this.title = title;
 
-        return this;
-      },
-      saveToParse: function(onSuccess, onError){
-        this.save({
-          title: this.title
+      return this;
+    },
+    getAll: function() {
+      var query = new Parse.Query(Category);
+
+      query.find({
+        success: function(categories) {
+          categories.forEach(function(cat) {
+            var categoryView = new Forum.views.CategoryView();
+            categoryView.render('.section-container', cat);
+          })
         },
-        {
-            success: onSuccess,
-            error: onError
-        })
-      }
+        error: function(error) {
+          console.log(error)
+        }
+      })
+    },
+    saveToParse: function(onSuccess, onError) {
+      this.save({
+        title: this.title
+      }, {
+        success: onSuccess,
+        error: onError
+      })
+    }
   });
 
   var Tag = Parse.Object.extend('Tag', {
-      create: function(title){
-        this.title = title;
+    create: function(title) {
+      this.title = title;
 
-        return this;
-      },
-      saveToParse: function(onSuccess, onError){
-        this.save({
-          title: this.title
-        },
-        {
-            success: onSuccess,
-            error: onError
-        })
-      }
+      return this;
+    },
+    saveToParse: function(onSuccess, onError) {
+      this.save({
+        title: this.title
+      }, {
+        success: onSuccess,
+        error: onError
+      })
+    }
   });
 
   var Question = Parse.Object.extend('Question', {
-    create: function(title, postedBy, category, questionText){
+    create: function(title, postedBy, category, questionText) {
       this.title = title;
       this.postedBy = postedBy;
       this.category = category;
@@ -46,23 +59,22 @@ Forum.models = (function(){
 
       return this;
     },
-    saveToParse: function(onSuccess, onError){
+    saveToParse: function(onSuccess, onError) {
       this.save({
         title: this.title,
         postedBy: this.postedBy,
         category: this.category,
         questionText: this.questionText,
         visits: 0
-      },
-      {
-          success: onSuccess,
-          error: onError
+      }, {
+        success: onSuccess,
+        error: onError
       });
     }
   });
 
   var Answer = Parse.Object.extend('Answer', {
-    createByUser: function(title, postedBy, question, answerText){
+    createByUser: function(title, postedBy, question, answerText) {
       this.title = title;
       this.postedBy = postedBy;
       this.author = postedBy.get('username');
@@ -72,7 +84,7 @@ Forum.models = (function(){
 
       return this;
     },
-    createByGuest: function(title, author, question, answerText){
+    createByGuest: function(title, author, question, answerText) {
       this.title = title;
       this.postedBy = null;
       this.author = author;
@@ -82,7 +94,7 @@ Forum.models = (function(){
 
       return this;
     },
-    saveToParse: function(onSuccess, onError){
+    saveToParse: function(onSuccess, onError) {
       this.save({
         title: this.title,
         postedBy: this.postedBy,
@@ -90,10 +102,9 @@ Forum.models = (function(){
         question: this.question,
         answerText: this.answerText,
         answerType: this.answerType
-      },
-      {
-          success: onSuccess,
-          error: onError
+      }, {
+        success: onSuccess,
+        error: onError
       });
     }
   });
