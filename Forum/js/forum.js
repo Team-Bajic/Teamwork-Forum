@@ -4,25 +4,37 @@ Forum.ApplicationID = 'OHLDDw4fScOBF6B9rRO40p4urKuEoNXpakX2UvXX';
 Forum.JavaScriptKey = 'bybx8TlFj4ekkE8ewBIy9aEvFJbcX26nWbT02yAN';
 
 $(document).ready(function(){
-  Parse.initialize(Forum.ApplicationID, Forum.JavaScriptKey);
 
-  var LoginView = Parse.View.extend({
-    template: Handlebars.compile($('#login-template').html()),
+    Parse.initialize(Forum.ApplicationID, Forum.JavaScriptKey);
 
-    render: function(element) {
-      $(element).html(this.template({}));
+    if(!Parse.User.current()){
+      Parse.User.logIn('admin', 'admin', {
+        success: function(user){
+          console.log(user);
+        }
+      });
     }
-  });
 
-  var CategoryView = Parse.View.extend({
-    template: Handlebars.compile($('#category-template').html()),
+    // admin.set('username', 'admin');
+    // admin.set('password', 'admin');
+    // admin.set('email', 'admin@gmail.com');
+    //
+    // admin.signUp(null, {
+    //   success: function(user){
+    //     returnedValue = user;
+    //     console.log(user);
+    //   },
+    //   error: function(error, user){
+    //     console.log(error);
+    //     console.log(user);
+    //   }
+    // });
+    var category = new Forum.models.Category().create('test', function(){}, function(){});
 
-    render: function(element) {
-      $(element).html(this.template({categoryTitle: 'test'}));
-    }
-  });
+    var question = new Forum.models.Question().create('testTitle', Parse.User.current(), category, 'blqblq', function(){}, function(){});
 
-  var test = new CategoryView();
+    var categoryView = new Forum.views.CategoryView();
 
-  test.render('.section-container');
+    categoryView.render('.section-container');
+
 });
