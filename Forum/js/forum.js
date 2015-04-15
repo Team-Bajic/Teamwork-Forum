@@ -29,10 +29,10 @@ $(document).ready(function() {
     //     console.log(user);
     //   }
     // });
-    
-    Forum.models.Category().getAll()
-        .then(function () {
-            console.log(Forum.models.Category().categoryData);
+
+    Forum.models.Category.prototype.getAll()
+        .then(function(result) {
+            console.log(JSON.parse(JSON.stringify(result)));
         });
 
     // var category = new Forum.models.Category().create('test1');

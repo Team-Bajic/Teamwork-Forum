@@ -10,20 +10,6 @@ Forum.models = (function() {
 
       return this;
     },
-    getAll: function() {
-      var query = new Parse.Query(Category);
-
-      return query.find({
-        success: function(categories) {
-          categories.forEach(function(category) {
-            Forum.models.Category().categoryData.push(category.toJSON());
-          })
-        },
-        error: function(error) {
-          console.log(error)
-        }
-      })
-    },
     saveToParse: function(onSuccess, onError) {
       this.save({
         title: this.title
@@ -33,6 +19,19 @@ Forum.models = (function() {
       })
     }
   });
+
+  Category.prototype.getAll = function() {
+    var query = new Parse.Query(Category);
+
+    return query.find({
+      success: function(categories) {
+        return categories;
+      },
+      error: function(error) {
+        console.log(error)
+      }
+    })
+  }
 
   var Tag = Parse.Object.extend('Tag', {
     create: function(title) {
@@ -122,17 +121,15 @@ Forum.models = (function() {
   });
 
   return {
-    Category: function() {
-      return new Category();
-    },
-    Tag: function () {
+    Category: Category,
+    Tag: function() {
       return new Tag();
     },
-    Question: function () {
+    Question: function() {
       return new Question();
     },
-    Answer: function () {
-      return new Answer(); 
+    Answer: function() {
+      return new Answer();
     }
   };
 })();
