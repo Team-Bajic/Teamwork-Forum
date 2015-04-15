@@ -1,56 +1,9 @@
 var Forum = Forum || {};
 
 Forum.ApplicationID = 'OHLDDw4fScOBF6B9rRO40p4urKuEoNXpakX2UvXX';
-Forum.JavaScriptKey = 'bybx8TlFj4ekkE8ewBIy9aEvFJbcX26nWbT02yAN';
+Forum.RestApiKey = 'K9J7vXfCWIvDiC0VwMxF2wzdo0ktzMjMcsLCsFZH';
+Forum.baseUrl = 'https://api.parse.com/1/classes/';
 
 $(document).ready(function() {
-
-    Parse.initialize(Forum.ApplicationID, Forum.JavaScriptKey);
-
-    if (!Parse.User.current()) {
-        Parse.User.logIn('admin', 'admin', {
-            success: function(user) {
-                console.log(user);
-            }
-        });
-    }
-
-    // admin.set('username', 'admin');
-    // admin.set('password', 'admin');
-    // admin.set('email', 'admin@gmail.com');
-    //
-    // admin.signUp(null, {
-    //   success: function(user){
-    //     returnedValue = user;
-    //     console.log(user);
-    //   },
-    //   error: function(error, user){
-    //     console.log(error);
-    //     console.log(user);
-    //   }
-    // });
-
-    Forum.models.Category.prototype.getAll()
-        .then(function(result) {
-            console.log(JSON.parse(JSON.stringify(result)));
-        });
-
-    // var category = new Forum.models.Category().create('test1');
-
-    // category.saveToParse(function(result){
-    //   console.log('category result:');
-    //   console.log(result);
-    // });
-
-    // var question = new Forum.models.Question().create('testTitle', Parse.User.current(), category, 'blqblq');
-
-    // question.saveToParse(function(result){
-    //   console.log('question result:');
-    //   console.log(result);
-    // });
-
-    // var categoryView = new Forum.views.CategoryView();
-
-    // categoryView.render('.section-container');
-
+    Forum.data.Category.getById('P7B5dDhDqC');
 });
