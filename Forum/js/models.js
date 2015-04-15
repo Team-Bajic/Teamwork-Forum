@@ -4,6 +4,7 @@ Forum.models = (function() {
   Parse.initialize(Forum.ApplicationID, Forum.JavaScriptKey);
 
   var Category = Parse.Object.extend('Category', {
+    categoryData: [],
     create: function(title) {
       this.title = title;
 
@@ -12,11 +13,10 @@ Forum.models = (function() {
     getAll: function() {
       var query = new Parse.Query(Category);
 
-      query.find({
+      return query.find({
         success: function(categories) {
-          categories.forEach(function(cat) {
-            var categoryView = new Forum.views.CategoryView();
-            categoryView.render('.section-container', cat);
+          categories.forEach(function(category) {
+            Forum.models.Category().categoryData.push(category.toJSON());
           })
         },
         error: function(error) {
@@ -58,6 +58,18 @@ Forum.models = (function() {
       this.questionText = questionText;
 
       return this;
+    },
+    getCategoryQuestions: function(category) {
+      var query = new Parse.Query(Question);
+      query.equalTo('category', category);
+      query.find({
+        success: function(questions) {
+          console.log(questions);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
     },
     saveToParse: function(onSuccess, onError) {
       this.save({
@@ -110,9 +122,17 @@ Forum.models = (function() {
   });
 
   return {
-    Category: Category,
-    Tag: Tag,
-    Question: Question,
-    Answer: Answer
+    Category: function() {
+      return new Category();
+    },
+    Tag: function () {
+      return new Tag();
+    },
+    Question: function () {
+      return new Question();
+    },
+    Answer: function () {
+      return new Answer(); 
+    }
   };
 })();
