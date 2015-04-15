@@ -5,5 +5,5 @@ Forum.RestApiKey = 'K9J7vXfCWIvDiC0VwMxF2wzdo0ktzMjMcsLCsFZH';
 Forum.baseUrl = 'https://api.parse.com/1/classes/';
 
 $(document).ready(function() {
-    Forum.data.Category.getById('P7B5dDhDqC');
+    Forum.data.Question.getById('0i3XiNVmko');
 });
