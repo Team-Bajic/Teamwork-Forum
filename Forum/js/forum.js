@@ -12,4 +12,7 @@ $(document).ready(function() {
 
     var temp = new Forum.views.CategoryView();
     temp.render($('.section-container'), {title: 'test'});
+
+    Forum.data.User.logIn('test', 'test');
+    Forum.data.User.currentUser();
 });

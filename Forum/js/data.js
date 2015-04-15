@@ -139,7 +139,61 @@ Forum.data = (function(){
             }, null);
         }
     };
-    var User = {};
+    var User = {
+        logIn: function (username, password) {
+            $.ajax({
+                url: 'https://api.parse.com/1/login',
+                method: 'GET',
+                data: {username: username, password: password},
+                success: function(result){
+                    window.sessionStorage.sessionToken = result.sessionToken;
+                },
+                error: null,
+                headers:{
+                    'X-Parse-Application-Id': Forum.ApplicationID,
+                    'X-Parse-REST-API-Key': Forum.RestApiKey,
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        logOut: function(){
+
+        },
+        signUp: function(username, password, email){
+            $.ajax({
+                url: 'https://api.parse.com/1/users',
+                method: 'POST',
+                data: JSON.stringify({username: username, password: password, email: email}),
+                success: function(result){
+                    console.log(result);
+                },
+                error: null,
+                headers:{
+                    'X-Parse-Application-Id': Forum.ApplicationID,
+                    'X-Parse-REST-API-Key': Forum.RestApiKey,
+
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        currentUser: function () {
+            $.ajax({
+                url: 'https://api.parse.com/1/users/me',
+                method: 'GET',
+                data: null,
+                success: function(result){
+                    console.log(result);
+                },
+                error: null,
+                headers:{
+                    'X-Parse-Application-Id': Forum.ApplicationID,
+                    'X-Parse-REST-API-Key': Forum.RestApiKey,
+                    'X-Parse-Session-Token': window.sessionStorage.sessionToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+    };
 
     return {
         Category: Category,
