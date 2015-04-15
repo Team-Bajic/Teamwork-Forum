@@ -3,46 +3,46 @@ var Forum = Forum || {};
 Forum.data = (function(){
     var Category = {
         create: function(title){
-            Forum.Requester.postRequest(Forum.baseUrl + 'Category/', {title: title}, '', function(result){
-                console.log(result.objectId);
+            return Forum.Requester.postRequest(Forum.baseUrl + 'Category/', {title: title}, '', function(result){
+                return result;
             }, null);
         },
         getById: function(id){
-            Forum.Requester.getRequest(Forum.baseUrl + 'Category/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Category/' + id, '', function(result){
+                return result;
             }, null);
         },
         deleteById: function(id){
-            Forum.Requester.deleteRequest(Forum.baseUrl + 'Category/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.deleteRequest(Forum.baseUrl + 'Category/' + id, '', function(result){
+                return result;
             }, null);
         },
         getAll: function () {
-            Forum.Requester.getRequest(Forum.baseUrl + 'Category/', '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Category/', '', function(result){
+                return result;
             }, null);
         }
     };
 
     var Tag = {
         create: function(title){
-            Forum.Requester.postRequest(Forum.baseUrl + 'Tag/', {title: title}, '', function(result){
-                console.log(result.objectId);
+            return Forum.Requester.postRequest(Forum.baseUrl + 'Tag/', {title: title}, '', function(result){
+                return result;
             }, null);
         },
         getById: function(id){
-            Forum.Requester.getRequest(Forum.baseUrl + 'Tag/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Tag/' + id, '', function(result){
+                return result;
             }, null);
         },
         deleteById: function(id){
-            Forum.Requester.deleteRequest(Forum.baseUrl + 'Tag/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.deleteRequest(Forum.baseUrl + 'Tag/' + id, '', function(result){
+                return result;
             }, null);
         },
         getAll: function () {
-            Forum.Requester.getRequest(Forum.baseUrl + 'Tag/', '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Tag/', '', function(result){
+                return result;
             }, null);
         }
     };
@@ -64,23 +64,23 @@ Forum.data = (function(){
                 }
             };
 
-            Forum.Requester.postRequest(Forum.baseUrl + 'Question/', dataToSave, '', function(result){
-                console.log(result.objectId);
+            return Forum.Requester.postRequest(Forum.baseUrl + 'Question/', dataToSave, '', function(result){
+                return result;
             }, null);
         },
         getById: function(id){
-            Forum.Requester.getRequest(Forum.baseUrl + 'Question/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Question/' + id, '', function(result){
+                return result;
             }, null);
         },
         deleteById: function(id){
-            Forum.Requester.deleteRequest(Forum.baseUrl + 'Question/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.deleteRequest(Forum.baseUrl + 'Question/' + id, '', function(result){
+                return result;
             }, null);
         },
         getAll: function () {
-            Forum.Requester.getRequest(Forum.baseUrl + 'Question/', '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Question/', '', function(result){
+                return result;
             }, null);
         }
     };
@@ -102,8 +102,8 @@ Forum.data = (function(){
                 }
             };
 
-            Forum.Requester.postRequest(Forum.baseUrl + 'Answer/', dataToSave, '', function(result){
-                console.log(result.objectId);
+            return Forum.Requester.postRequest(Forum.baseUrl + 'Answer/', dataToSave, '', function(result){
+                return result;
             }, null);
         },
         createByGuest: function(author, questionId, answerText){
@@ -119,23 +119,23 @@ Forum.data = (function(){
                 }
             };
 
-            Forum.Requester.postRequest(Forum.baseUrl + 'Answer/', dataToSave, '', function(result){
-                console.log(result.objectId);
+            return Forum.Requester.postRequest(Forum.baseUrl + 'Answer/', dataToSave, '', function(result){
+                return result;
             }, null);
         },
         getById: function(id){
-            Forum.Requester.getRequest(Forum.baseUrl + 'Answer/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Answer/' + id, '', function(result){
+                return result;
             }, null);
         },
         deleteById: function(id){
-            Forum.Requester.deleteRequest(Forum.baseUrl + 'Answer/' + id, '', function(result){
-                console.log(result);
+            return Forum.Requester.deleteRequest(Forum.baseUrl + 'Answer/' + id, '', function(result){
+                return result;
             }, null);
         },
         getAll: function () {
-            Forum.Requester.getRequest(Forum.baseUrl + 'Answer/', '', function(result){
-                console.log(result);
+            return Forum.Requester.getRequest(Forum.baseUrl + 'Answer/', '', function(result){
+                return result;
             }, null);
         }
     };

@@ -3,7 +3,7 @@ var Forum = Forum || {};
 Forum.Requester = (function(){
 
 	function makeRequest(url, method, data, urlParams, onSuccess, onError){
-		$.ajax({
+		return $.ajax({
 			url: (url + urlParams).toString(),
 			method: method,
 			type: method,
@@ -19,19 +19,19 @@ Forum.Requester = (function(){
 	}
 
 	function getRequest(url, urlParams, onSuccess, onError){
-		makeRequest(url, 'GET', null, urlParams, onSuccess,onError);
+		return makeRequest(url, 'GET', null, urlParams, onSuccess,onError);
 	}
 
 	function postRequest(url, data, onSuccess, onError){
-		makeRequest(url, 'POST', data, '', onSuccess,onError);
+		return makeRequest(url, 'POST', data, '', onSuccess,onError);
 	}
 
 	function putRequest(url, data, urlParams, onSuccess, onError){
-		makeRequest(url, 'PUT', data, urlParams, onSuccess,onError);
+		return makeRequest(url, 'PUT', data, urlParams, onSuccess,onError);
 	}
 
 	function deleteRequest(url, urlParams, onSuccess, onError){
-		makeRequest(url, 'DELETE', null, urlParams, onSuccess,onError);
+		return makeRequest(url, 'DELETE', null, urlParams, onSuccess,onError);
 	}
 
 	return {

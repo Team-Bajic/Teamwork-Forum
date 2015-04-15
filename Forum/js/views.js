@@ -1,23 +1,23 @@
 var Forum = Forum || {};
 
 Forum.views = (function() {
-  var LoginView = Parse.View.extend({
-    template: Handlebars.compile($('#login-template').html()),
+  var LoginView = function (){
+    this.template = Handlebars.compile($('#login-template').html());
+  };
 
-    render: function(element) {
-      $(element).html(this.template({}));
-    }
-  });
+  var CategoryView = function(){
+      this.template = Handlebars.compile($('#category-template').html());
+  };
 
-  var CategoryView = Parse.View.extend({
-    template: Handlebars.compile($('#category-template').html()),
+  LoginView.prototype.render = function(element) {
+    $(element).html(this.template({}));
+  };
 
-    render: function(element, content) {
+  CategoryView.prototype.render = function(element, content) {
       $(element).append(this.template({
-        categoryTitle: content.get('title')
+        categoryTitle: content.title
       }));
-    }
-  });
+  };
 
   return {
     CategoryView: CategoryView,
