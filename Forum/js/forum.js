@@ -14,9 +14,9 @@ $(document).ready(function() {
 	Forum.data.User.logIn('test', 'test')
 		.then(function(argument) {
 			console.log('logged in');
-			Forum.data.User.logOut();
-		}).then(function() {
-			console.log('logged out');
+			return Forum.data.User.currentUser();
+		}).then(function(result) {
+			console.log(result);
 		})
 
 });

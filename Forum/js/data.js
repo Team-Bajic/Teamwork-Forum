@@ -175,7 +175,7 @@ Forum.data = (function() {
             return Forum.Requester.getRequest({
                 'X-Parse-Session-Token': window.sessionStorage.sessionToken
             }, '/users/me', null, '', function(result) {
-                console.log(result);
+                
             }, null)
         }
     };

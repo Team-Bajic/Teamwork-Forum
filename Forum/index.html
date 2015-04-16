@@ -36,33 +36,7 @@
 
         <div class="large-9 columns">
 
-          <div class="row">
-            <!-- <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"/></div> -->
-            <div class="large-10 columns">
-              <p><strong>Some Person said:</strong> Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong.</p>
-              <ul class="inline-list">
-                <li><a href="">Reply</a></li>
-                <li><a href="">Share</a></li>
-              </ul>
-
-              <h6>2 Comments</h6>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-            </div>
-          </div>
         </div>
-
-
-
-        <!-- <aside class="large-3 columns hide-for-small">
-
-        </aside> -->
 
       </div>
 
@@ -101,13 +75,27 @@
 
   <!-- Category template -->
   <script id="category-template" type="text/x-handlebars-template">
-    <section class="section">
-      <h5 class="title"><a href="#">{{categoryTitle}}</a></h5>
-    </section>
+    {{#each categories}}
+      <section class="section" data-id="{{objectId}}">
+        <h5 class="title"><a href="#">{{title}}</a></h5>
+      </section>
+    {{/each}}
+  </script>
+
+  <script id="question-template", type="text/x-handlebars-template">
+    {{#each questions}}
+      <div class="row" data-id="{{objectId}}">
+        <div class="panel">
+          <h1 class="large-3">{{title}}</h1>
+          <h2>postedBy: {{postedBy.objectId}}</h2>
+        </div>
+      </div>
+    {{/each}}
   </script>
 
   <script type="text/javascript" src="js/data.js"></script>
   <script type="text/javascript" src="js/views.js"></script>
+  <script type="text/javascript" src="js/controllers.js"></script>
   <script type="text/javascript" src="js/requester.js"></script>
   <script type="text/javascript" src="js/router.js"></script>
   <script type="text/javascript" src="js/forum.js"></script>
