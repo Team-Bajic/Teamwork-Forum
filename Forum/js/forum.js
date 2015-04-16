@@ -3,7 +3,7 @@ var Forum = Forum || {};
 $(document).ready(function() {
 	Forum.data.Question.getById('0i3XiNVmko')
 		.then(function(result) {
-			 console.log(result);
+			console.log(result);
 		});
 
 	var temp = new Forum.views.CategoryView();
@@ -12,8 +12,7 @@ $(document).ready(function() {
 	});
 
 	Forum.data.User.logIn('test', 'test')
-		.then(function(argument) {
-			console.log('logged in');
+		.then(function(result) {
 			return Forum.data.User.currentUser();
 		}).then(function(result) {
 			console.log(result);

@@ -32,7 +32,7 @@ Forum.controllers = (function() {
 					controllerData.categoriesData = categoriesData;
 
 					return Forum.data.Question.getAll();
-				}).then(function(result){
+				}).then(function(result) {
 					var questionsData = JSON.parse(JSON.stringify(result.results));
 
 					var categoryView = new Forum.views.CategoryView();
@@ -42,7 +42,7 @@ Forum.controllers = (function() {
 					questionView.render('.large-9', questionsData);
 				});
 		},
-		createQuestion: function(){
+		createQuestion: function() {
 
 		}
 	};
