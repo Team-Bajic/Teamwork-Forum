@@ -141,7 +141,7 @@ Forum.data = (function(){
     };
     var User = {
         logIn: function (username, password) {
-            $.ajax({
+            return $.ajax({
                 url: 'https://api.parse.com/1/login',
                 method: 'GET',
                 data: {username: username, password: password},
@@ -157,34 +157,49 @@ Forum.data = (function(){
             });
         },
         logOut: function(){
-
-        },
-        signUp: function(username, password, email){
-            $.ajax({
-                url: 'https://api.parse.com/1/users',
+            return $.ajax({
+                url: 'https://api.parse.com/1/logout',
                 method: 'POST',
-                data: JSON.stringify({username: username, password: password, email: email}),
-                success: function(result){
-                    console.log(result);
+                success: function(){
+                    delete window.sessionStorage.sessionToken;
                 },
                 error: null,
                 headers:{
                     'X-Parse-Application-Id': Forum.ApplicationID,
                     'X-Parse-REST-API-Key': Forum.RestApiKey,
-
+                    'X-Parse-Session-Token': window.sessionStorage.sessionToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        signUp: function(username, password, email){
+            return $.ajax({
+                url: 'https://api.parse.com/1/users',
+                method: 'POST',
+                data: JSON.stringify({username: username, password: password, email: email}),
+                success: function(result){
+                    // console.log(result);
+                },
+                error: null,
+                headers:{
+                    'X-Parse-Application-Id': Forum.ApplicationID,
+                    'X-Parse-REST-API-Key': Forum.RestApiKey,
                     'Content-Type': 'application/json'
                 }
             });
         },
         currentUser: function () {
-            $.ajax({
+            return $.ajax({
                 url: 'https://api.parse.com/1/users/me',
                 method: 'GET',
                 data: null,
                 success: function(result){
                     console.log(result);
                 },
-                error: null,
+                error: function (error) {
+                    console.log(error)
+                    return null;
+                },
                 headers:{
                     'X-Parse-Application-Id': Forum.ApplicationID,
                     'X-Parse-REST-API-Key': Forum.RestApiKey,
