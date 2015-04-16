@@ -1,11 +1,9 @@
 var Forum = Forum || {};
 
-Forum.baseUrl = 'https://api.parse.com/1/classes/';
-
 $(document).ready(function() {
 	Forum.data.Question.getById('0i3XiNVmko')
 		.then(function(result) {
-			// console.log(result);
+			 console.log(result);
 		});
 
 	var temp = new Forum.views.CategoryView();

@@ -21,7 +21,7 @@ Forum.Requester = (function() {
 
 		return obj;
 	}
-
+	
 	function makeRequest(headers, url, method, data, urlParams, onSuccess, onError) {
 		return $.ajax({
 			url: (url + urlParams).toString(),
