@@ -2,7 +2,15 @@ var Forum = Forum || {};
 
 Forum.controllers = (function() {
 	var UserController = {
-
+		logInUser: function(username, password) {
+			return Forum.data.User.logIn(username, password);
+		},
+		logOutUser: function() {
+			return Forum.data.User.logOut();
+		},
+		registerUser: function(username, password) {
+			return Forum.data.User.signUp(username, password);
+		}
 	};
 
 	var CategoryController = {
@@ -59,7 +67,6 @@ Forum.controllers = (function() {
 					if (result != null) {
 						content.isLogged = true;
 					}
-
 
 					var categoryView = new Forum.views.CategoryView();
 					var questionView = new Forum.views.QuestionView();

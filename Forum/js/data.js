@@ -168,15 +168,15 @@ Forum.data = (function() {
 			}
 		},
 		logOut: function() {
-            if(window.sessionStorage.sessionToken){
-    			return Forum.Requester.postRequest({
-    				'X-Parse-Session-Token': window.sessionStorage.sessionToken
-    			}, '/logout', null, function() {
-    				delete window.sessionStorage.sessionToken;
-    			}, null)
-            } else {
-                return null;
-            }
+			if (window.sessionStorage.sessionToken) {
+				return Forum.Requester.postRequest({
+					'X-Parse-Session-Token': window.sessionStorage.sessionToken
+				}, '/logout', null, function() {
+					delete window.sessionStorage.sessionToken;
+				}, null)
+			} else {
+				return null;
+			}
 		},
 		signUp: function(username, password, email) {
 			return Forum.Requester.postRequest(null, '/users', {
@@ -188,17 +188,17 @@ Forum.data = (function() {
 			}, null)
 		},
 		currentUser: function() {
-            if(window.sessionStorage.sessionToken){
-    			return Forum.Requester.getRequest({
-    				'X-Parse-Session-Token': window.sessionStorage.sessionToken
-    			}, '/users/me', null, '', function(result) {
+			if (window.sessionStorage.sessionToken) {
+				return Forum.Requester.getRequest({
+					'X-Parse-Session-Token': window.sessionStorage.sessionToken
+				}, '/users/me', null, '', function(result) {
 
-    			}, function(error) {
-    				return null;
-    			})
-            } else {
-                return null;
-            }
+				}, function(error) {
+					return null;
+				})
+			} else {
+				return null;
+			}
 		}
 	};
 
