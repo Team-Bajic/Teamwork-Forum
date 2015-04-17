@@ -91,9 +91,9 @@
     {{#each questions}}
       <div class="row" data-id="{{objectId}}">
         <div class="panel">
-          <h2 class="large-10"><a href="#">{{title}}</a></h2>
+          <h2 class="large-10"><a href="#/question/{{objectId}}">{{title}}</a></h2>
           <p class="questionParagraph large-10" >{{questionText}}</p>
-          <p>postedBy:<a href="#"> {{postedBy.username}}</a></p>
+          <p>postedBy:<a href="#/"> {{postedBy.username}}</a></p>
         </div>
       </div>
     {{/each}}
@@ -104,8 +104,8 @@
       {{#if isLogged}}
         <a href="#/logout" class="button tiny" id="logout">Logout</a>
       {{else}}
-        <a href="#" data-reveal-id="login" class="button tiny" >Log in</a>
-        <a href="#" data-reveal-id="register" class="button tiny" >Register</a>
+        <a href="#/login-modal" data-reveal-id="login" class="button tiny" >Log in</a>
+        <a href="#/register-modal" data-reveal-id="register" class="button tiny" >Register</a>
         <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
           <label for="">User name:</label>
           <input type="text"/><br>
@@ -114,7 +114,6 @@
           <a href="#/login" class="button tiny login">Login</a>
           <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
-
 
         <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
           <label for="">User name:</label>

@@ -53,10 +53,10 @@ Forum.controllers = (function() {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
 
 					return Forum.data.User.currentUser();
-				}).then(function(result){
+				}).then(function(result) {
 					var content = {};
 
-					if(result != null){
+					if (result != null) {
 						content.isLogged = true;
 					}
 
