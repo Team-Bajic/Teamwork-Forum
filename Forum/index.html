@@ -6,6 +6,7 @@
   <meta name="description" content="Forum">
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.1/css/foundation.css">
+  <link rel="stylesheet" href="css/styles.css"/>
 
   <script type="text/javascript" src="js/libs/jquery.js"></script>
   <script type="text/javascript" src="js/libs/sammy-latest.min.js"></script>
@@ -110,8 +111,8 @@
     {{#each questions}}
       <div class="row" data-id="{{objectId}}">
         <div class="panel">
-          <h2 class="large-3"><a href="#">{{title}}</a></h2>
-          <h6 class="large-3">{{questionText}}</h6>
+          <h2 class="large-10"><a href="#">{{title}}</a></h2>
+          <p class="questionParagraph large-10" >{{questionText}}</p>
           <p>postedBy:<a href="#"> {{postedBy.username}}</a></p>
         </div>
       </div>
