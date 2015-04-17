@@ -52,11 +52,22 @@ Forum.controllers = (function() {
 				}).then(function(result) {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
 
+					return Forum.data.User.currentUser();
+				}).then(function(result){
+					var content = {};
+
+					if(result != null){
+						content.isLogged = true;
+					}
+
+
 					var categoryView = new Forum.views.CategoryView();
 					var questionView = new Forum.views.QuestionView();
+					var headerView = new Forum.views.HeaderView();
 
 					categoryView.render('.section-container', controllerData.categoriesData);
 					questionView.render('.large-9', controllerData.questionsData);
+					headerView.render('.header', content);
 				});
 		},
 		createQuestion: function() {

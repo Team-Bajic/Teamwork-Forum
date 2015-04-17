@@ -4,6 +4,14 @@ var Forum = Forum || {};
 	Forum.Router = new Sammy(function() {
 		this.get('#/', Forum.controllers.PageController.ShowMain);
 
+		this.get('#/logout', function(){
+			var _this = this;
+			Forum.data.User.logOut()
+			.then(function(){
+				_this.redirect('#/');
+			});
+		});
+
 		this.get('#/:objectId', function() {
 			return Forum.controllers.QuestionController.showQuestion(this.params['objectId']);
 		});

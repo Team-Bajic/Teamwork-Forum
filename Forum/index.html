@@ -21,28 +21,8 @@
         <div class="large-12 columns">
           <div class="panel">
             <h1 class="large 5">Forum</h1>
-            <a href="#" data-reveal-id="login" class="button tiny" >Log in</a>
-            <a href="#" data-reveal-id="register" class="button tiny" >Register</a>
-
-            <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-              <label for="">User name:</label>
-              <input type="text"/><br>
-              <label for="">Password:</label>
-              <input type="password"/><br>
-              <button>Log in</button>
-              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-            </div>
-
-
-            <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-              <label for="">User name:</label>
-              <input type="text"/><br>
-              <label for="">Password:</label>
-              <input type="password"/><br>
-              <label for="">Confirm password:</label>
-              <input type="password"/><br>
-              <button>Log in</button>
-              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+            <div class="header">
+              
             </div>
           </div>
         </div>
@@ -117,6 +97,37 @@
         </div>
       </div>
     {{/each}}
+  </script>
+
+  <script id="header-template", type="text/x-handlebars-template">
+    <ul class="right">
+      {{#if isLogged}}
+        <a href="#/logout" class="button tiny" id="logout">Logout</a>
+      {{else}}
+        <a href="#" data-reveal-id="login" class="button tiny" >Log in</a>
+        <a href="#" data-reveal-id="register" class="button tiny" >Register</a>
+        <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+          <label for="">User name:</label>
+          <input type="text"/><br>
+          <label for="">Password:</label>
+          <input type="password"/><br>
+          <a href="#/login" class="button tiny login">Login</a>
+          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+
+
+        <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+          <label for="">User name:</label>
+          <input type="text"/><br>
+          <label for="">Password:</label>
+          <input type="password"/><br>
+          <label for="">Confirm password:</label>
+          <input type="password"/><br>
+          <button>Log in</button>
+          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+      {{/if}}
+    </ul>
   </script>
 
   <script type="text/javascript" src="js/data.js"></script>
