@@ -140,7 +140,13 @@ Forum.data = (function() {
 			}, null);
 		},
 		getAll: function() {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '', function(result) {
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, queryParams, function(result) {
+				return result;
+			}, null);
+		},
+		getAnswersByQuestion: function(questionId) {
+			var queryParams = '?where={"question":{"__type":"Pointer","className":"Question","objectId":"' + questionId + '"}}';
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, queryParams, function(result) {
 				return result;
 			}, null);
 		}

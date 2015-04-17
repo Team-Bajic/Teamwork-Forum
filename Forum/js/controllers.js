@@ -14,7 +14,25 @@ Forum.controllers = (function() {
 	};
 
 	var QuestionController = {
+		showQuestion: function(questionId) {
+			var controllerData = {};
 
+			Forum.data.Question.getById(questionId)
+				.then(function(result) {
+
+					controllerData.questionData = JSON.parse(JSON.stringify(result));
+
+					return Forum.data.Answer.getAnswersByQuestion(controllerData.questionData.objectId);
+				}).then(function(result) {
+					controllerData.answersData = JSON.parse(JSON.stringify(result));
+
+					// var questionView = new Forum.views.QuestionView();
+					// var answersView = new Forum.views.AnswerView();
+
+					// questionView.render( /*selector*/ , controllerData.questionData);
+					// answersView.render( /*selector*/ , controllerData.answersData)
+				});
+		}
 	};
 
 	var AnswerController = {
@@ -27,6 +45,7 @@ Forum.controllers = (function() {
 
 			Forum.data.Category.getAll()
 				.then(function(result) {
+
 					controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
 
 					return Forum.data.Question.getAll();
