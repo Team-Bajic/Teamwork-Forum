@@ -38,7 +38,13 @@
     /*color: green;*/
     /*line-height: 13px;*/
 /*}*/
+
 .questionParagraph{
-    text-overflow: ellipsis; white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
+}
+
+.large-12 {
+    width: 101.5%;
 }
