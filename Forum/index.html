@@ -110,8 +110,9 @@
     {{#each questions}}
       <div class="row" data-id="{{objectId}}">
         <div class="panel">
-          <a href="#/{{objectId}}">{{title}}</a>
-          <h2>postedBy: {{postedBy.username}}</h2>
+          <h2 class="large-3"><a href="#">{{title}}</a></h2>
+          <h6 class="large-3">{{questionText}}</h6>
+          <p>postedBy:<a href="#"> {{postedBy.username}}</a></p>
         </div>
       </div>
     {{/each}}
