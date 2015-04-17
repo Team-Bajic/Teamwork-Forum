@@ -85,10 +85,11 @@ Forum.data = (function() {
 			}, null);
 		},
 		getAll: function() {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, '', function(result) {
+			var parameters = '?include=postedBy';
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + parameters, null, '', function(result) {
 				return result;
 			}, null);
-		}
+		},
 	};
 	var Answer = {
 		createByUser: function(postedByID, questionID, answerText) {
@@ -156,9 +157,9 @@ Forum.data = (function() {
 					password: password
 				}, '', function(result) {
 					window.sessionStorage.sessionToken = result.sessionToken;
-				}, function(error){
-                    console.log(error);
-                })
+				}, function(error) {
+					console.log(error);
+				})
 			}
 		},
 		logOut: function() {
@@ -182,9 +183,9 @@ Forum.data = (function() {
 				'X-Parse-Session-Token': window.sessionStorage.sessionToken
 			}, '/users/me', null, '', function(result) {
 
-			}, function(error){
-                return null;
-            })
+			}, function(error) {
+				return null;
+			})
 		}
 	};
 
