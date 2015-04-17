@@ -149,16 +149,16 @@ Forum.data = (function() {
 	var User = {
 		logIn: function(username, password) {
 			if (window.sessionStorage.sessionToken) {
-				return this.currentUser().then(function(result) {
-					console.log('User "' + result.username + '" already logged in!');
-				});
+				return this.currentUser();
 			} else {
 				return Forum.Requester.getRequest(null, '/login', {
 					username: username,
 					password: password
 				}, '', function(result) {
 					window.sessionStorage.sessionToken = result.sessionToken;
-				}, null)
+				}, function(error){
+                    console.log(error);
+                })
 			}
 		},
 		logOut: function() {
@@ -182,7 +182,9 @@ Forum.data = (function() {
 				'X-Parse-Session-Token': window.sessionStorage.sessionToken
 			}, '/users/me', null, '', function(result) {
 
-			}, null)
+			}, function(error){
+                return null;
+            })
 		}
 	};
 

@@ -27,19 +27,17 @@ Forum.controllers = (function() {
 
 			Forum.data.Category.getAll()
 				.then(function(result) {
-					var categoriesData = JSON.parse(JSON.stringify(result.results));
-
-					controllerData.categoriesData = categoriesData;
+					controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
 
 					return Forum.data.Question.getAll();
 				}).then(function(result) {
-					var questionsData = JSON.parse(JSON.stringify(result.results));
+					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
 
 					var categoryView = new Forum.views.CategoryView();
 					var questionView = new Forum.views.QuestionView();
 
 					categoryView.render('.section-container', controllerData.categoriesData);
-					questionView.render('.large-9', questionsData);
+					questionView.render('.large-9', controllerData.questionsData);
 				});
 		},
 		createQuestion: function() {
