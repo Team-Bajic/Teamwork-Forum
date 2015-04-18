@@ -60,7 +60,7 @@ Forum.views = (function() {
 
 				$('#loginButton').on('click', function(event) {
 					$('div#login').foundation('reveal', 'close');
-					Forum.controllers.UserController.logInUser('test', 'test').then(function(){
+					Forum.controllers.UserController.logInUser($('#loginUsername').val().trim(), $('#loginPassword').val().trim()).then(function(){
             _this.render('.header', {isLogged: true, isAdmin: false});
           })
 				});

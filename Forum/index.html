@@ -16,51 +16,48 @@
 </head>
 
 <body>
-	<main>
-      <div class="row">
-        <div class="large-12 columns">
-          <div class="panel">
-            <h1 class="large 5">Forum</h1>
-            <div class="header">
-              
-            </div>
+  <header class="row">
+    <div class="panel large-12 columns">
+        <h1 class="large 5">Forum</h1>
+        <div class="header">
+          
+        </div>
+    </div>
+  </header>
+	<main class="row">
+    <div class="row">
+      <div class="large-3 columns ">
+        <div class="panel">
+        	<h2>Categories</h2>
+          <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
+
           </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="large-3 columns ">
-          <div class="panel">
-          	<h2>Categories</h2>
-              <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-
-            </div>
-          </div>
-        </div>
-
-        <div class="large-9 columns">
-
-        </div>
+      <div class="large-9 columns">
 
       </div>
 
-      <footer class="row">
-        <div class="large-12 columns">
-          <hr/>
-          <div class="row">
-            <div class="large-5 columns">
-              <p>© Copyright Team Bajic</p>
-            </div>
-            <div class="large-7 columns">
-              <ul class="inline-list right">
-                <li><a href="#">Section 1</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
+    </div>
 	</main>
-
+  <footer class="row">
+    <div class="row">
+      <div class="large-12 columns">
+        <hr/>
+        <div class="row">
+          <div class="large-5 columns">
+            <p>© Copyright Team Bajic</p>
+          </div>
+          <div class="large-7 columns">
+            <ul class="inline-list right">
+              <li><a href="#">Section 1</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 
 <!-- Templates -->
@@ -94,20 +91,21 @@
         <a data-reveal-id="register" class="button tiny" >Register</a>
         <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
           <label for="">User name:</label>
-          <input type="text"/><br>
+          <input type="text" id="loginUsername"/>
           <label for="">Password:</label>
-          <input type="password"/><br>
+          <input type="password" id="loginPassword"/>
           <a id="loginButton" class="button tiny login">Login</a>
           <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
 
         <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
           <label for="">User name:</label>
-          <input type="text"/><br>
+          <input type="text"/>
           <label for="">Password:</label>
-          <input type="password"/><br>
+          <input type="password"/>
           <label for="">Confirm password:</label>
-          <input type="password"/><br>
+          <input type="password"/>
+          <label for="">Email</label> <input type="email"/>
           <a id="registerButton" class="button tiny login">Register</a>
           <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
