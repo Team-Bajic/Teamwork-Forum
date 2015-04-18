@@ -42,8 +42,9 @@ Forum.views = (function() {
 		$(element).html(this.template(content));
 
 		$('#logout').on('click', function() {
-			Forum.controllers.UserController.logOutUser()
-			_this.render('.header', {});
+			Forum.controllers.UserController.logOutUser().then(function(){
+        _this.render('.header', {});
+      })
 		});
 
 		assignLoginEvents();
@@ -59,8 +60,9 @@ Forum.views = (function() {
 
 				$('#loginButton').on('click', function(event) {
 					$('div#login').foundation('reveal', 'close');
-					Forum.controllers.UserController.logInUser('test', 'test')
-					_this.render('.header', {});
+					Forum.controllers.UserController.logInUser('test', 'test').then(function(){
+            _this.render('.header', {isLogged: true, isAdmin: false});
+          })
 				});
 			});
 		};
