@@ -38,9 +38,18 @@ Forum.views = (function() {
 	};
 
 	HeaderView.prototype.render = function(element, content) {
+		var _this = this;
 		$(element).html(this.template(content));
 
-		(function assignLoginEvents() {
+		$('#logout').on('click', function() {
+			Forum.controllers.UserController.logOutUser()
+			_this.render('.header', {});
+		});
+
+		assignLoginEvents();
+		assignRegisterEvents();
+
+		function assignLoginEvents() {
 			$("a[data-reveal-id='login']").on('click', function(event) {
 				$('div#login').foundation('reveal', 'open');
 
@@ -51,14 +60,12 @@ Forum.views = (function() {
 				$('#loginButton').on('click', function(event) {
 					$('div#login').foundation('reveal', 'close');
 					Forum.controllers.UserController.logInUser('test', 'test')
-						.then(function(result) {
-
-						});
+					_this.render('.header', {});
 				});
 			});
-		})();
+		};
 
-		(function assignRegisterEvents() {
+		function assignRegisterEvents() {
 			$("a[data-reveal-id='register']").on('click', function(event) {
 				$('div#register').foundation('reveal', 'open');
 
@@ -67,19 +74,9 @@ Forum.views = (function() {
 				});
 
 				$('#registerButton').on('click', function(event) {
-					Forum.controllers.UserController.registerUser('test', 'test');
 					$('div#register').foundation('reveal', 'close');
+					// Forum.controllers.UserController.registerUser('test', 'test');
 				});
-			});
-		})();
-
-		if (window.sessionStorage.sessionToken) {
-			$('#logout').on('click', function() {
-
-				Forum.controllers.UserController.logOutUser()
-					.then(function(result) {
-
-					});
 			});
 		};
 	}
