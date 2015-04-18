@@ -60,60 +60,8 @@
   </footer>
 </body>
 
-<!-- Templates -->
-  <!-- Category template -->
-  <script id="category-template" type="text/x-handlebars-template">
-    {{#each categories}}
-      <section class="section" data-id="{{objectId}}">
-        <h5 class="title"><a href="#">{{title}}</a></h5>
-      </section>
-    {{/each}}
-  </script>
-
-  <script id="question-template", type="text/x-handlebars-template">
-    {{#each questions}}
-      <div class="row" data-id="{{objectId}}">
-        <div class="panel">
-          <h2 class="large-10"><a href="#/question/{{objectId}}">{{title}}</a></h2>
-          <p class="questionParagraph large-10" >{{questionText}}</p>
-          <p>postedBy:<a href="#/"> {{postedBy.username}}</a></p>
-        </div>
-      </div>
-    {{/each}}
-  </script>
-
-  <script id="header-template", type="text/x-handlebars-template">
-    <ul class="right">
-      {{#if isLogged}}
-        <a id="logout" class="button tiny">Logout</a>
-      {{else}}
-        <a data-reveal-id="login" class="button tiny" >Log in</a>
-        <a data-reveal-id="register" class="button tiny" >Register</a>
-        <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-          <label for="">User name:</label>
-          <input type="text" id="loginUsername"/>
-          <label for="">Password:</label>
-          <input type="password" id="loginPassword"/>
-          <a id="loginButton" class="button tiny login">Login</a>
-          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-        </div>
-
-        <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-          <label for="">User name:</label>
-          <input type="text"/>
-          <label for="">Password:</label>
-          <input type="password"/>
-          <label for="">Confirm password:</label>
-          <input type="password"/>
-          <label for="">Email</label> <input type="email"/>
-          <a id="registerButton" class="button tiny login">Register</a>
-          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-        </div>
-      {{/if}}
-    </ul>
-  </script>
-
   <script type="text/javascript" src="js/data.js"></script>
+  <script type="text/javascript" src="js/templateLoader.js"></script>
   <script type="text/javascript" src="js/views.js"></script>
   <script type="text/javascript" src="js/controllers.js"></script>
   <script type="text/javascript" src="js/requester.js"></script>

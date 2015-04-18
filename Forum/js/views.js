@@ -1,29 +1,21 @@
 var Forum = Forum || {};
 
 Forum.views = (function() {
-	var LoginView = function() {
-		this.template = Handlebars.compile($('#login-template').html());
-	};
-
 	var CategoryView = function() {
-		this.template = Handlebars.compile($('#category-template').html());
+		this.template = Forum.templateLoader('category-template');
 	};
 
 	var QuestionView = function() {
-		this.template = Handlebars.compile($('#question-template').html());
+		this.template = Forum.templateLoader('question-template');
 	};
 
 	var HeaderView = function() {
-		this.template = Handlebars.compile($('#header-template').html());
+		this.template = Forum.templateLoader('header-template');
 	};
 
 	// var AnswerView = function() {
-	// 	this.template = Handlebars.compile($('#answer-template').html());
+	//  this.template = Forum.templateLoader('answer-template');
 	// };
-
-	LoginView.prototype.render = function(element) {
-		$(element).html(this.template({}));
-	};
 
 	CategoryView.prototype.render = function(element, categories) {
 		$(element).html(this.template({
@@ -42,9 +34,9 @@ Forum.views = (function() {
 		$(element).html(this.template(content));
 
 		$('#logout').on('click', function() {
-			Forum.controllers.UserController.logOutUser().then(function(){
-        _this.render('.header', {});
-      })
+			Forum.controllers.UserController.logOutUser().then(function() {
+				_this.render('.header', {});
+			})
 		});
 
 		assignLoginEvents();
@@ -60,9 +52,12 @@ Forum.views = (function() {
 
 				$('#loginButton').on('click', function(event) {
 					$('div#login').foundation('reveal', 'close');
-					Forum.controllers.UserController.logInUser($('#loginUsername').val().trim(), $('#loginPassword').val().trim()).then(function(){
-            _this.render('.header', {isLogged: true, isAdmin: false});
-          })
+					Forum.controllers.UserController.logInUser($('#loginUsername').val().trim(), $('#loginPassword').val().trim()).then(function() {
+						_this.render('.header', {
+							isLogged: true,
+							isAdmin: false
+						});
+					})
 				});
 			});
 		};
@@ -91,9 +86,8 @@ Forum.views = (function() {
 
 	return {
 		CategoryView: CategoryView,
-		LoginView: LoginView,
 		QuestionView: QuestionView,
-		HeaderView: HeaderView
-			// AnswerView: AnswerView
+		HeaderView: HeaderView,
+		// AnswerView: AnswerView
 	};
 })();
