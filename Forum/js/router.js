@@ -11,6 +11,14 @@ var Forum = Forum || {};
 		this.get('#/createQuestion', function() {
 			console.log('My Page');
 		});
+
+		this.get('#/logout', function(){
+			var _this = this;
+			Forum.data.User.logOut()
+			.then(function(){
+				_this.redirect('#/');
+			});
+		});
 	});
 
 	Forum.Router.run('#/');
