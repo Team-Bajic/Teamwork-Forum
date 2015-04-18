@@ -1,9 +1,9 @@
 var Forum = Forum || {};
 
-Forum.templates = (function(){
+Forum.templates = (function() {
 	var HeaderTemplate = {
 		template: Forum.templateLoader('header-template'),
-		addEventHandlers: function(){
+		addEventHandlers: function() {
 			assignLoginEvents();
 			assignRegisterEvents();
 
@@ -17,11 +17,6 @@ Forum.templates = (function(){
 
 					$('#loginButton').on('click', function(event) {
 						$('div#login').foundation('reveal', 'close');
-						Forum.data.User.logIn($('#loginUsername').val().trim(), $('#loginPassword').val().trim())
-	          			.then(function() {
-	          				$('main').append('<a href="#/" class="temp"></a>');
-	          				$('.temp').trigger('click');
-						})
 					});
 				});
 			};
@@ -36,7 +31,7 @@ Forum.templates = (function(){
 
 					$('#registerButton').on('click', function(event) {
 						$('div#register').foundation('reveal', 'close');
-					 	//Forum.controllers.UserController.registerUser('test', 'test');
+						//Forum.controllers.UserController.registerUser('test', 'test');
 					});
 				});
 			};
