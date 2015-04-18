@@ -32,6 +32,8 @@ Forum.templates = (function() {
 						$('div#register').append($('<div id="notification"></div>'));
 					}			
 
+
+
 					if (password != confirmPassword) {
 						$('#notification').text('The passwords don\'t match. Check and re-enter again.');
 					} else {
@@ -65,17 +67,23 @@ Forum.templates = (function() {
 							var message = '';
 							switch (errorCode) {
 								case 125: 
-								message = "Invalid email address";
-								break;
-								case 202:					
-								message = "This username has been already taken";
-								break;
+									message = "Invalid email address";
+									break;
+								case 200:					
+								  message = "Please, choose your username";
+									break;
+								case 201:					
+								  message = "Please, choose your password";
+								  break;
+							  case 202:					
+									message = "This username has been already taken. Choose another one.";
+								  break;
 								case 203:					
-								message = "This email has been already taken.";
-								break;
+									message = "There's an useralready with this email address.";
+									break;
 								default:
-								message = "Unknown error during registration";
-								break;
+									message = "Unknown error during registration";
+									break;
 							}
 							$('#notification').text(message);
 						})
