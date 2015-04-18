@@ -179,13 +179,29 @@ Forum.data = (function() {
 			}
 		},
 		signUp: function(username, password, email) {
-			return Forum.Requester.postRequest(null, '/users', {
+			return Forum.Requester.postRequest(null, '/users', JSON.stringify({
 				username: username,
 				password: password,
 				email: email
-			}, '', function(result) {
-				console.log(result);
+			}), '', function(result) {
+				console.log(result);				
 			}, null)
+		},
+		updateRole : function(roleId, userId) {
+			return Forum.Requester.putRequest(null, '/roles/' + roleId, JSON.stringify({ 
+				"users" : {
+					"__op": "AddRelation",
+					"objects": [{
+						"__type": "Pointer",
+						"className": "_User",
+						"objectId": userId
+					}]
+				}
+			}), '', function(result) {
+				console.log(result)}, null);
+		},
+		getUsersRole : function() { 
+			return Forum.Requester.getRequest(null, '/roles', '', '?where={"name":"users"}', function() {}, null);
 		},
 		currentUser: function() {
 			if (window.sessionStorage.sessionToken) {

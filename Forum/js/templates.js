@@ -22,16 +22,78 @@ Forum.templates = (function() {
 			};
 
 			function assignRegisterEvents() {
+				function checkPoint() {
+					var username = $('div#register').children('#username').val();
+					var password = $('div#register').children('#password').val();
+					var confirmPassword = $('div#register').children('#confirm-password').val();
+					var email = $('div#register').children('#email').val();
+					
+					if(!($('div#register').children('#notification').length)) {
+						$('div#register').append($('<div id="notification"></div>'));
+					}			
+
+					if (password != confirmPassword) {
+						$('#notification').text('The passwords don\'t match. Check and re-enter again.');
+					} else {
+
+						function response() {
+							var deferredObject = $.Deferred();
+							deferredObject.resolve();
+							deferredObject.notify();
+							return Forum.controllers.UserController.registerUser(username, password, email);							
+						} 
+
+						$.when(response())
+						.done(function(res){
+							$('#notification').text('Account succesfully created');
+
+							function getRole() {
+								var deferredObject = $.Deferred();
+								deferredObject.resolve();
+								return Forum.data.User.getUsersRole();
+							}
+							$.when(getRole()).done(function(role) {
+								console.log(role);
+								Forum.data.User.updateRole(role.results[0].objectId, res.objectId);	
+							})
+							.fail(function(){ console.log('Failed to get the users role') }) 
+							$('div#register').foundation('reveal', 'close');
+						})
+						.fail(function(res){
+							console.log('failed')
+							var errorCode = JSON.parse(res.responseText).code;
+							var message = '';
+							switch (errorCode) {
+								case 125: 
+								message = "Invalid email address";
+								break;
+								case 202:					
+								message = "This username has been already taken";
+								break;
+								case 203:					
+								message = "This email has been already taken.";
+								break;
+								default:
+								message = "Unknown error during registration";
+								break;
+							}
+							$('#notification').text(message);
+						})
+						.progress(function(){
+							$('#notification').text('Working...');
+						}) 
+					}
+				}
+
 				$("a[data-reveal-id='register']").on('click', function(event) {
 					$('div#register').foundation('reveal', 'open');
 
 					$('.close-reveal-modal').on('click', function(event) {
-						$('div#register').foundation('reveal', 'close');
+						checkPoint();
 					});
 
 					$('#registerButton').on('click', function(event) {
-						$('div#register').foundation('reveal', 'close');
-						//Forum.controllers.UserController.registerUser('test', 'test');
+						checkPoint();
 					});
 				});
 			};
