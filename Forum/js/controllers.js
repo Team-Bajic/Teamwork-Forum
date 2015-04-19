@@ -8,8 +8,8 @@ Forum.controllers = (function() {
 		logOutUser: function() {
 			return Forum.data.User.logOut();
 		},
-		registerUser: function(username, password) {
-			return Forum.data.User.signUp(username, password);
+		registerUser: function(username, password, email) {
+			return Forum.data.User.signUp(username, password, email);
 		}
 	};
 
