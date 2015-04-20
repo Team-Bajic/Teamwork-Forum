@@ -68,16 +68,13 @@ Forum.controllers = (function() {
 						content.isLogged = true;
 					}
 
-					var mainView = new Forum.views.MainView(controllerData.categoriesData, controllerData.questionsData, content);
+					var categoryView = new Forum.views.CategoryView();
+					var questionView = new Forum.views.QuestionView();
+					var headerView = new Forum.views.HeaderView();
 
-					mainView.render();
-					// var categoryView = new Forum.views.CategoryView();
-					// var questionView = new Forum.views.QuestionView();
-					// var headerView = new Forum.views.HeaderView();
-
-					// categoryView.render('.section-container', controllerData.categoriesData);
-					// questionView.render('.large-9', controllerData.questionsData);
-					// headerView.render('.header', content);
+					categoryView.render('.section-container', controllerData.categoriesData);
+					questionView.render('.large-9', controllerData.questionsData);
+					headerView.render('.header', content);
 				});
 		},
 		createQuestion: function() {

@@ -2,7 +2,9 @@ var Forum = Forum || {};
 
 (function() {
 	Forum.Router = new Sammy(function() {
-		this.get('#/', Forum.controllers.PageController.ShowMain);
+		this.get('#/', function() {
+			Forum.controllers.PageController.ShowMain();
+		});
 
 		this.get('#/question/:objectId', function() {
 			return Forum.controllers.QuestionController.showQuestion(this.params['objectId']);
