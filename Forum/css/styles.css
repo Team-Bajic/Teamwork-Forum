@@ -38,7 +38,14 @@
     /*color: green;*/
     /*line-height: 13px;*/
 /*}*/
-
+@font-face {
+    font-family: 'Lobster';
+    src: url(fonts/Lobster%201.4.otf);
+    /*src: url(fonts/Lighthouse_PersonalUse.ttf)*/
+}
+.lobster{
+    font-family: 'Lobster';
+}
 .questionParagraph{
     text-overflow: ellipsis;
     white-space: nowrap;
