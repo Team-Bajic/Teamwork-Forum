@@ -14,21 +14,6 @@ var Forum = Forum || {};
 			console.log('My Page');
 		});
 
-		this.get('#/logout', function() {
-			var _this = this;
-			Forum.data.User.logOut()
-				.then(function() {
-					_this.redirect('#/');
-				});
-		});
-
-		this.get('#/login', function() {
-			var _this = this;
-			Forum.data.User.logIn($('#loginUsername').val().trim(), $('#loginPassword').val().trim())
-				.then(function() {
-					_this.redirect('#/');
-				});
-		});
 	});
 
 	Forum.Router.run('#/');

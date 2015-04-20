@@ -12,6 +12,7 @@ Forum.views = (function() {
   var HeaderView = function() {
     this.template = Forum.templateLoader('header-template');
   };
+  
   // var AnswerView = function() {
   // this.template = Forum.templateLoader('answertemplate');
   // };
@@ -46,8 +47,10 @@ Forum.views = (function() {
           $('div#login').foundation('reveal', 'close');
         });
         $('#loginButton').on('click', function(event) {
+          var username = $('#loginUsername').val().trim(),
+              password = $('#loginPassword').val().trim();
           $('div#login').foundation('reveal', 'close');
-          Forum.controllers.UserController.logInUser($('#loginUsername').val().trim(), $('#loginPassword').val().trim()).then(function() {
+          Forum.controllers.UserController.logInUser(username, password).then(function() {
             _this.render('.header', {
               isLogged: true,
               isAdmin: false
