@@ -1,3 +1,7 @@
+html {
+    overflow-y: scroll; 
+}
+
 @font-face {
     font-family: 'Lobster';
     src: url(fonts/Lobster%201.4.otf);
@@ -14,31 +18,33 @@
     box-shadow: 1px 0.5px 5px 0px rgba(0,0,0,0.75);
 }
 
-.lobster{
-    font-family: 'Lobster';
-}
-
 h1 a{
     color: #333;
     transition: color .3s;
 }
 
-.questionParagraph{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+p{
+    font-size: 1.1em;
 }
 
 .question{
     background-color: #fdfdfe;
     font-family: 'PT Sans';
+}
 
-}
-p{
-    font-size: 1.1em;
-}
 .questionTitle{
     font-family: 'PT Sans';
+}
+
+.questionParagraph{
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.fullQuestionParagraph {
+    width: 100%;
 }
 
 .large-12 {
