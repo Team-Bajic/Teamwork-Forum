@@ -3,7 +3,6 @@ var Forum = Forum || {};
 (function() {
 	Forum.Router = new Sammy(function() {
 		this.get('#/', function() {
-			debugger;
 			Forum.controllers.HeaderController.showHeader();
 			Forum.controllers.CategoryController.showCategories();
 			Forum.controllers.QuestionController.showAllQuestions();

@@ -47,12 +47,12 @@ p{
     width: 100%;
 }
 
-.large-12 {
-    width: 101.5%;
-}
-
 .top-bar{
     background-color: #ccc;
+}
+
+aside.large-3.columns {
+    padding-left: 0;
 }
 
 #loginButton, #registerButton {
