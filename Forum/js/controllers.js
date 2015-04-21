@@ -16,23 +16,23 @@ Forum.controllers = (function() {
 	};
 
 	var CategoryController = {
-		showCategory: function(categoryId){
+		showCategory: function(categoryId) {
 			Forum.data.Category.getById(categoryId)
-			.then(function(result){
-				controllerData.categoryData = JSON.parse(JSON.stringify(result));
+				.then(function(result) {
+					controllerData.categoryData = JSON.parse(JSON.stringify(result));
 
-				return Forum.data.Question.getQuestionsByCategory(controllerData.categoryData.objectId);
-			}).then(function(result){
-				controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
-				console.log(result);
-				var categoryView = new Forum.views.SingleCategoryView();
-				var questionsView = new Forum.views.QuestionsView();
+					return Forum.data.Question.getQuestionsByCategory(controllerData.categoryData.objectId);
+				}).then(function(result) {
+					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
+					console.log(result);
+					var categoryView = new Forum.views.SingleCategoryView();
+					var questionsView = new Forum.views.QuestionsView();
 
-				categoryView.render('main', controllerData.categoryData);
-				questionsView.render('.questionsBody', controllerData.questionsData);
-			});
+					categoryView.render('main', controllerData.categoryData);
+					questionsView.render('.questionsBody', controllerData.questionsData);
+				});
 		},
-		showCategories: function(){
+		showCategories: function() {
 			Forum.data.Category.getAll()
 				.then(function(result) {
 					controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
@@ -66,14 +66,14 @@ Forum.controllers = (function() {
 					singleQuestionView.render('main', controllerData);
 				});
 		},
-		showAllQuestions: function(){
+		showAllQuestions: function() {
 			Forum.data.Question.getAll()
-			.then(function(result){
-				controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
-				var questionsView = new Forum.views.QuestionsView();
+				.then(function(result) {
+					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
+					var questionsView = new Forum.views.QuestionsView();
 
-				questionsView.render('main', controllerData.questionsData);
-			});
+					questionsView.render('main', controllerData.questionsData);
+				});
 		}
 	};
 
@@ -82,17 +82,19 @@ Forum.controllers = (function() {
 	};
 
 	var HeaderController = {
-		showHeader: function(){
+		showHeader: function() {
 			var user = Forum.data.User.currentUser();
 			controllerData.userData = null;
 
-			if(user != null){
-				user.then(function(result){
-					controllerData.userData = result;
-					var headerView = new Forum.views.HeaderView();
+			var headerView = new Forum.views.HeaderView();
 
+			if (user != null) {
+				user.then(function(result) {
+					controllerData.userData = result;
 					headerView.render('.header', controllerData.userData);
 				});
+			} else {
+				headerView.render('.header', controllerData.userData);
 			}
 		}
 	};
