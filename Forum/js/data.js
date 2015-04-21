@@ -184,7 +184,8 @@ Forum.data = (function() {
 				password: password,
 				email: email
 			}), '', function(result) {
-				console.log(result);				
+				console.log(result);
+				return result;				
 			}, null)
 		},
 		updateRole : function(roleId, userId) {
