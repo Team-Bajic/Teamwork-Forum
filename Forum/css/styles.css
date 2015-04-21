@@ -43,9 +43,11 @@
     src: url(fonts/Lobster%201.4.otf);
     /*src: url(fonts/Lighthouse_PersonalUse.ttf)*/
 }
+
 .lobster{
     font-family: 'Lobster';
 }
+
 .questionParagraph{
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -58,4 +60,10 @@
 
 .top-bar{
     background-color: #ccc;
+}
+
+#loginButton, #registerButton {
+    display: block;
+    width: 30%;
+    margin: 0 auto;
 }
