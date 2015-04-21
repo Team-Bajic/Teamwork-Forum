@@ -31,6 +31,14 @@ h1 a{
 
 .question{
     background-color: #fdfdfe;
+    font-family: 'PT Sans';
+
+}
+p{
+    font-size: 1.1em;
+}
+.questionTitle{
+    font-family: 'PT Sans';
 }
 
 .large-12 {
