@@ -2,44 +2,37 @@ var Forum = Forum || {};
 
 Forum.views = (function() {
   var CategoryView = function() {
-    this.template = Forum.templateLoader('category-template');
+
   };
 
   var QuestionsView = function() {
-    this.template = Forum.templateLoader('question-template');
+
   };
 
   var SingleQuestionView = function() {
-    this.template = Forum.templateLoader('single-question-template');
+
   };
 
   var HeaderView = function() {
-    this.template = Forum.templateLoader('header-template');
+
   };
 
   CategoryView.prototype.render = function(element, categories) {
-    $(element).html(this.template({
-      categories: categories
-    }));
+    $(element).html(Forum.templateBuilder('category-template', {categories: categories}));
   };
 
   QuestionsView.prototype.render = function(element, questions) {
-    $(element).html(this.template({
-      questions: questions
-    }));
+    $(element).html(Forum.templateBuilder('question-template', {questions: questions}));
   };
 
   SingleQuestionView.prototype.render = function (element, data) {
-    $(element).html(this.template({
-      data: data
-    }));
+    $(element).html(Forum.templateBuilder('single-question-template', {data: data}));
   };
 
   HeaderView.prototype.render = function(element, content) {
-
     var _this = this;
 
-    $(element).html(this.template(content));
+    $(element).html(Forum.templateBuilder('header-template', content));
 
     $('#logout').on('click', function() {
       Forum.controllers.UserController.logOutUser()
