@@ -62,8 +62,10 @@ Forum.views = (function() {
 
         $('#loginButton').on('click', function(event) {
           $('div#login').foundation('reveal', 'close');
+          var username = $('#loginUsername').val().trim(),
+              password = $('#loginPassword').val().trim();
 
-          Forum.controllers.UserController.logInUser($('#loginUsername').val().trim(), $('#loginPassword').val().trim())
+          Forum.controllers.UserController.logInUser(username, password)
             .then(function(result) {
               _this.render('.header', result);
             })
