@@ -75,7 +75,7 @@ Forum.data = (function() {
 			}, null);
 		},
 		getById: function(id) {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, '', function(result) {
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, '?include=postedBy', function(result) {
 				return result;
 			}, null);
 		},
