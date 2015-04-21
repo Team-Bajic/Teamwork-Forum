@@ -86,15 +86,14 @@ Forum.controllers = (function() {
 			var user = Forum.data.User.currentUser();
 			controllerData.userData = null;
 
-			if(null != null){
+			if(user != null){
 				user.then(function(result){
 					controllerData.userData = result;
+					var headerView = new Forum.views.HeaderView();
+
+					headerView.render('.header', controllerData.userData);
 				});
 			}
-			
-			var headerView = new Forum.views.HeaderView();
-
-			headerView.render('.header', controllerData.userData);
 		}
 	};
 
