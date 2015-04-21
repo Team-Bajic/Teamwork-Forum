@@ -1,6 +1,6 @@
 <nav data-topbar role="navigation">
   <ul class="right">
-    {{#if isLogged}}
+    {{#if sessionToken}}
       <a id="logout" class="button tiny">Logout</a>
     {{else}}
       <a data-reveal-id="login" class="button tiny" >Log in</a>

@@ -1,5 +1,10 @@
 var Forum = Forum || {};
 
+Forum.templateBuilder = function(templateName, data){
+	var template = Forum.templateLoader(templateName);
+	return template(data);
+}
+
 Forum.templateLoader = function render(tmpl_name) {
 	if (!render.tmpl_cache) {
 		render.tmpl_cache = {};

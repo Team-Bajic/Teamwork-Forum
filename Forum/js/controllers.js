@@ -62,19 +62,13 @@ Forum.controllers = (function() {
 
 					return Forum.data.User.currentUser();
 				}).then(function(result) {
-					var content = {};
-
-					if (result != null) {
-						content.isLogged = true;
-					}
-
 					var categoryView = new Forum.views.CategoryView();
 					var questionView = new Forum.views.QuestionView();
 					var headerView = new Forum.views.HeaderView();
 
 					categoryView.render('.section-container', controllerData.categoriesData);
 					questionView.render('.large-9', controllerData.questionsData);
-					headerView.render('.header', content);
+					headerView.render('.header', result);
 				});
 		},
 		createQuestion: function() {

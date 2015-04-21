@@ -57,11 +57,8 @@ Forum.views = (function() {
           $('div#login').foundation('reveal', 'close');
 
           Forum.controllers.UserController.logInUser($('#loginUsername').val().trim(), $('#loginPassword').val().trim())
-            .then(function() {
-              _this.render('.header', {
-                isLogged: true,
-                isAdmin: false
-              });
+            .then(function(result) {
+              _this.render('.header', result);
             })
         });
       });
