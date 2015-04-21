@@ -89,6 +89,12 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
+        getQuestionsByCategory: function(questionId) {
+            var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}';
+            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
+                return result;
+            }, null);
+        }
 	};
 	var Answer = {
 		createByUser: function(postedByID, questionID, answerText) {

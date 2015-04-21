@@ -17,6 +17,10 @@ Forum.views = (function() {
 
   };
 
+  var SingleCategoryView = function(){
+
+  };
+
   CategoryView.prototype.render = function(element, categories) {
     $(element).html(Forum.templateBuilder('category-template', {categories: categories}));
   };
@@ -27,6 +31,10 @@ Forum.views = (function() {
 
   SingleQuestionView.prototype.render = function (element, data) {
     $(element).html(Forum.templateBuilder('single-question-template', {data: data}));
+  };
+
+  SingleCategoryView.prototype.render = function (element, data) {
+    $(element).html(Forum.templateBuilder('single-category-template', {data: data}));
   };
 
   HeaderView.prototype.render = function(element, content) {
@@ -155,6 +163,7 @@ Forum.views = (function() {
     CategoryView: CategoryView,
     QuestionsView: QuestionsView,
     SingleQuestionView: SingleQuestionView,
-    HeaderView: HeaderView
+    HeaderView: HeaderView,
+    SingleCategoryView: SingleCategoryView
   };
 })();
