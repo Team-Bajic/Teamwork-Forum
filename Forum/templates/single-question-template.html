@@ -1,0 +1,13 @@
+<div class="row" data-id="{{objectId}}">
+	<div class="panel">
+		<h2 class="large-8">{{data.questionData.title}}</h2>
+		<p class="fullQuestionParagraph large-4" >{{data.questionData.questionText}}</p>
+		<p>postedBy:<a href="#/"> {{data.questionData.postedBy.username}}</a></p>
+	</div>
+	{{#each data.answersData}}
+	<div class="panel">
+		<p class="answerParagraph large-8">{{answerText}}</p>
+		<p>postedBy:<a href="#/"> {{author}}</a></p>
+	</div>
+	{{/each}}
+</div>

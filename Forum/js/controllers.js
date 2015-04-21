@@ -32,13 +32,11 @@ Forum.controllers = (function() {
 
 					return Forum.data.Answer.getAnswersByQuestion(controllerData.questionData.objectId);
 				}).then(function(result) {
-					controllerData.answersData = JSON.parse(JSON.stringify(result));
+					controllerData.answersData = JSON.parse(JSON.stringify(result.results));
 
-					// var questionView = new Forum.views.QuestionView();
-					// var answersView = new Forum.views.AnswerView();
+					var singleQuestionView = new Forum.views.SingleQuestionView();
 
-					// questionView.render( /*selector*/ , controllerData.questionData);
-					// answersView.render( /*selector*/ , controllerData.answersData)
+					singleQuestionView.render('.large-9', controllerData);
 				});
 		}
 	};
@@ -63,7 +61,7 @@ Forum.controllers = (function() {
 					return Forum.data.User.currentUser();
 				}).then(function(result) {
 					var categoryView = new Forum.views.CategoryView();
-					var questionView = new Forum.views.QuestionView();
+					var questionView = new Forum.views.QuestionsView();
 					var headerView = new Forum.views.HeaderView();
 
 					categoryView.render('.section-container', controllerData.categoriesData);

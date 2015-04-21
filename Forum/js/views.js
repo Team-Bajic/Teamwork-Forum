@@ -5,17 +5,17 @@ Forum.views = (function() {
     this.template = Forum.templateLoader('category-template');
   };
 
-  var QuestionView = function() {
+  var QuestionsView = function() {
     this.template = Forum.templateLoader('question-template');
+  };
+
+  var SingleQuestionView = function() {
+    this.template = Forum.templateLoader('single-question-template');
   };
 
   var HeaderView = function() {
     this.template = Forum.templateLoader('header-template');
   };
-
-  // var AnswerView = function() {
-  // this.template = Forum.templateLoader('answertemplate');
-  // };
 
   CategoryView.prototype.render = function(element, categories) {
     $(element).html(this.template({
@@ -23,9 +23,15 @@ Forum.views = (function() {
     }));
   };
 
-  QuestionView.prototype.render = function(element, questions) {
+  QuestionsView.prototype.render = function(element, questions) {
     $(element).html(this.template({
       questions: questions
+    }));
+  };
+
+  SingleQuestionView.prototype.render = function (element, data) {
+    $(element).html(this.template({
+      data: data
     }));
   };
 
@@ -154,7 +160,8 @@ Forum.views = (function() {
 
   return {
     CategoryView: CategoryView,
-    QuestionView: QuestionView,
+    QuestionsView: QuestionsView,
+    SingleQuestionView: SingleQuestionView,
     HeaderView: HeaderView
   };
 })();
