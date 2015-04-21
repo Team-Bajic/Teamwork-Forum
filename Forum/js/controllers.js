@@ -24,7 +24,7 @@ Forum.controllers = (function() {
 					return Forum.data.Question.getQuestionsByCategory(controllerData.categoryData.objectId);
 				}).then(function(result) {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
-					console.log(result);
+
 					var categoryView = new Forum.views.SingleCategoryView();
 					var questionsView = new Forum.views.QuestionsView();
 
@@ -50,8 +50,6 @@ Forum.controllers = (function() {
 
 	var QuestionController = {
 		showQuestion: function(questionId) {
-			//var controllerData = {};
-
 			Forum.data.Question.getById(questionId)
 				.then(function(result) {
 
@@ -66,13 +64,26 @@ Forum.controllers = (function() {
 					singleQuestionView.render('main', controllerData);
 				});
 		},
-		showAllQuestions: function() {
-			Forum.data.Question.getAll()
+		showAllQuestions: function(page) {
+			if(!page || page < 0){
+				page = 0;
+			}
+
+			Forum.data.Question.getInRange(3 * page, 3)
 				.then(function(result) {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
-					var questionsView = new Forum.views.QuestionsView();
 
-					questionsView.render('main', controllerData.questionsData);
+					return Forum.data.Question.getCount();
+				}).then(function(result){
+					var count = result.count;
+
+					var questionsView = new Forum.views.QuestionsView();
+					var next = page + 1;
+					var previous = page - 1;
+					var previousStatus = (previous < 0 ? "unavailable" : "available");
+					var nextStatus = (next * 3 >= count ? "unavailable" : "available");
+
+					questionsView.render('main', {questions: controllerData.questionsData, next : next, previous : previous, previousStatus: previousStatus, nextStatus: nextStatus});
 				});
 		}
 	};
@@ -99,41 +110,12 @@ Forum.controllers = (function() {
 		}
 	};
 
-	/*var PageController = {
-		ShowMain: function() {
-			var controllerData = {};
-
-			Forum.data.Category.getAll()
-				.then(function(result) {
-					controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
-
-					return Forum.data.Question.getAll();
-				}).then(function(result) {
-					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
-
-					return Forum.data.User.currentUser();
-				}).then(function(result) {
-					var categoryView = new Forum.views.CategoryView();
-					var questionView = new Forum.views.QuestionsView();
-					var headerView = new Forum.views.HeaderView();
-
-					categoryView.render('aside', controllerData.categoriesData);
-					questionView.render('main', controllerData.questionsData);
-					headerView.render('.header', result);
-				});
-		},
-		createQuestion: function() {
-
-		}
-	};*/
-
 	return {
 		UserController: UserController,
 		CategoryController: CategoryController,
 		TagController: TagController,
 		QuestionController: QuestionController,
 		AnswerController: AnswerController,
-		//PageController: PageController,
 		HeaderController: HeaderController
 	};
 })();

@@ -89,8 +89,24 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
+        getInRange: function(skipNum, limitNum){
+            var queryParams = "?skip=" + skipNum + "&limit=" + limitNum;
+
+            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
+                return result;
+            }, null);
+        },
+        getCount: function(){
+            var queryParams = "?count=1&limit=0";
+
+            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
+                return result;
+            }, null);
+        }
+        ,
         getQuestionsByCategory: function(questionId) {
             var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}';
+
             return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
                 return result;
             }, null);

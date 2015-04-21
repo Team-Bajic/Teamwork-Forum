@@ -21,12 +21,12 @@ Forum.views = (function() {
 
   };
 
-  CategoryView.prototype.render = function(element, categories) {
-    $(element).html(Forum.templateBuilder('category-template', {categories: categories}));
+  CategoryView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('category-template', {categories: data}));
   };
 
-  QuestionsView.prototype.render = function(element, questions) {
-    $(element).html(Forum.templateBuilder('question-template', {questions: questions}));
+  QuestionsView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('question-template', data));
   };
 
   SingleQuestionView.prototype.render = function (element, data) {
