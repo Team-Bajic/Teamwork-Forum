@@ -69,7 +69,7 @@ Forum.controllers = (function() {
 				page = 0;
 			}
 
-			Forum.data.Question.getInRange(3 * page, 3)
+			Forum.data.Question.getInRange(5 * page, 5)
 				.then(function(result) {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
 
