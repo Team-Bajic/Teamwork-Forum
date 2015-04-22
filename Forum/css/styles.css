@@ -53,10 +53,19 @@ a.#loginButton, a.#registerButton {
     margin: 0 auto;
 }
 
+.accordion {
+    margin: 0;
+}
+
+.accordion .accordion-navigation > a {
+    padding: .4rem;
+    background: none;
+    transition: background-color .3s;
+}
+
 textarea {
     min-height: 7em;
-}
-.hide{
+}.hide{
     visibility: hidden;
 
 }

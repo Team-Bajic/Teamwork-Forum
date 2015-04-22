@@ -2,10 +2,12 @@
 <div class="panel">
 	<h2 class="lobster">Categories</h2>
   	<div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-  	{{#each categories}}
-  		<section class="section" data-id="{{objectId}}">
-	    	<h5 class="title"><a href="#/category/{{objectId}}">{{title}}</a></h5>
-	  	</section>
-  	{{/each}}
+	  	<ul class="accordion">
+	  	{{#each categories}}
+	  		<li class="accordion-navigation" data-id="{{objectId}}">
+		    	<a href="#/category/{{objectId}}">{{title}}</a>
+		  	</li>
+	  	{{/each}}
+	  	</ul>
 	</div>
 </div>
