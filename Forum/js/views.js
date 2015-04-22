@@ -39,25 +39,17 @@ Forum.views = (function() {
     assignNewQuestionEvents();
     assignNewAnswerEvents();
 
-    tinymce.init({
-    selector: "textarea",
-    plugins: [
-        "advlist autolink lists link image charmap print preview anchor",
-        "searchreplace visualblocks code fullscreen",
-        "insertdatetime media table contextmenu paste"
-    ],
-    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-    });
+    $('#createQuestionBox').hide();
 
+    Forum.editor = CKEDITOR.replace('editor');
 
     function assignNewQuestionEvents() {
       $('.reveal-options-block').on('click', function (event) {
-        $('div.options-block').removeClass('hide');
-        $('.hide-options-block').removeClass('hide');
+        $('#createQuestionBox').slideDown();
       });
 
       $('.dismiss-button').on('click', function (event) {
-        $('div.options-block').addClass('hide');
+        $('#createQuestionBox').slideUp();
         clearFields();
       });
     }
@@ -76,9 +68,8 @@ Forum.views = (function() {
     }
 
     function clearFields () {
-      $("input[name='new-question-title']").val('');
-      $("textarea[name='new-question-content']").val('');
-      $("input[name='new-question-tags']").val('');
+      $("#createQuestionBox").find("input").val('');
+      Forum.editor.setData("");
     }
   };
 
