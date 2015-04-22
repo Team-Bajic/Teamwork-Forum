@@ -52,12 +52,11 @@ Forum.views = (function() {
     function assignNewQuestionEvents() {
       $('.reveal-options-block').on('click', function (event) {
         $('div.options-block').removeClass('hide');
-        $('hide.options-block').removeClass('hide');
+        $('.hide-options-block').removeClass('hide');
       });
 
-      $('.hide-options-block').on('click', function (event) {
+      $('.dismiss-button').on('click', function (event) {
         $('div.options-block').addClass('hide');
-        $('hide.options-block').addClass('hide');
         clearFields();
       });
     }
