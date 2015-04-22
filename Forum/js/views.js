@@ -37,6 +37,7 @@ Forum.views = (function() {
     $(element).html(Forum.templateBuilder('single-category-template', {data: data}));
 
     assignNewQuestionEvents();
+    assignNewAnswerEvents();
 
     function assignNewQuestionEvents() {
       $('.reveal-options-block').on('click', function (event) {
@@ -46,6 +47,19 @@ Forum.views = (function() {
 
       $('.dismiss-button').on('click', function (event) {
         $('div.options-block').addClass('hide');
+        clearFields();
+      });
+    }
+
+    function assignNewAnswerEvents() {
+      $('.reveal-answer-block').on('click', function (event) {
+        $('div.answer-block').removeClass('hide');
+        $('.hide-answer-block').removeClass('hide');
+      });
+
+      $('.hide-answer-block').on('click', function (event) {
+        $('div.answer-block').addClass('hide');
+        $('.hide-answer-block').addClass('hide');
         clearFields();
       });
     }
