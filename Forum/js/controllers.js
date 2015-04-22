@@ -29,7 +29,7 @@ Forum.controllers = (function() {
 					var questionsView = new Forum.views.QuestionsView();
 
 					categoryView.render('main', controllerData.categoryData);
-					questionsView.render('.questionsBody', controllerData.questionsData);
+					questionsView.render('.questionsBody', {questions: controllerData.questionsData});
 				});
 		},
 		showCategories: function() {
