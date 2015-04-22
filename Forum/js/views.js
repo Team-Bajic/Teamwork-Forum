@@ -35,6 +35,27 @@ Forum.views = (function() {
 
   SingleCategoryView.prototype.render = function (element, data) {
     $(element).html(Forum.templateBuilder('single-category-template', {data: data}));
+
+    assignNewQuestionEvents();
+
+    function assignNewQuestionEvents() {
+      $('.reveal-options-block').on('click', function (event) {
+        $('div.options-block').removeClass('hide');
+        $('hide.options-block').removeClass('hide');
+      });
+
+      $('.hide-options-block').on('click', function (event) {
+        $('div.options-block').addClass('hide');
+        $('hide.options-block').addClass('hide');
+        clearFields();
+      });
+    }
+
+    function clearFields () {
+      $("input[name='new-question-title']").val('');
+      $("textarea[name='new-question-content']").val('');
+      $("input[name='new-question-tags']").val('');
+    }
   };
 
   HeaderView.prototype.render = function(element, content) {

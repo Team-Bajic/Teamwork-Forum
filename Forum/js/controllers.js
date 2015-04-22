@@ -28,7 +28,7 @@ Forum.controllers = (function() {
 					var categoryView = new Forum.views.SingleCategoryView();
 					var questionsView = new Forum.views.QuestionsView();
 
-					categoryView.render('main', controllerData.categoryData);
+					categoryView.render('.questions-container', controllerData.categoryData);
 					questionsView.render('.questionsBody', {questions: controllerData.questionsData});
 				});
 		},
@@ -38,7 +38,7 @@ Forum.controllers = (function() {
 					controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
 
 					var categoryView = new Forum.views.CategoryView();
-					categoryView.render('aside', controllerData.categoriesData);
+					categoryView.render('.categories-container', controllerData.categoriesData);
 
 				});
 		}
@@ -61,7 +61,7 @@ Forum.controllers = (function() {
 
 					var singleQuestionView = new Forum.views.SingleQuestionView();
 
-					singleQuestionView.render('main', controllerData);
+					singleQuestionView.render('.questions-container', controllerData);
 				});
 		},
 		showAllQuestions: function(page) {
@@ -83,7 +83,7 @@ Forum.controllers = (function() {
 					var previousStatus = (previous < 0 ? "unavailable" : "available");
 					var nextStatus = (next * 3 >= count ? "unavailable" : "available");
 
-					questionsView.render('main', {questions: controllerData.questionsData, next : next, previous : previous, previousStatus: previousStatus, nextStatus: nextStatus});
+					questionsView.render('.questions-container', {questions: controllerData.questionsData, next : next, previous : previous, previousStatus: previousStatus, nextStatus: nextStatus});
 				});
 		}
 	};
