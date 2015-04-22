@@ -90,7 +90,7 @@ Forum.data = (function() {
 			}, null);
 		},
         getInRange: function(skipNum, limitNum){
-            var queryParams = "?skip=" + skipNum + "&limit=" + limitNum;
+            var queryParams = "?skip=" + skipNum + "&limit=" + limitNum + '&include=postedBy';
 
             return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
                 return result;
@@ -102,10 +102,9 @@ Forum.data = (function() {
             return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
                 return result;
             }, null);
-        }
-        ,
+        },
         getQuestionsByCategory: function(questionId) {
-            var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}';
+            var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy';
 
             return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
                 return result;
