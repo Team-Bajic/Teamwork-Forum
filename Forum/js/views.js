@@ -105,6 +105,7 @@ Forum.views = (function() {
     assignRegisterEvents();
 
     function assignLoginEvents() {
+      $('#loginForm').validate();
       $("a[data-reveal-id='login']").on('click', function(event) {
         $('div#login').foundation('reveal', 'open');
 
@@ -128,6 +129,7 @@ Forum.views = (function() {
         var confirmPassword = $('div#register').children('#confirm-password').val();
         var email = $('div#register').children('#email').val();
 
+        $('#registerForm').validate();
         if (!($('div#register').children('#notification').length)) {
           $('div#register').append($('<div id="notification"></div>'));
         }
