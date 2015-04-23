@@ -43,6 +43,10 @@ p {
     width: 100%;
 }
 
+.category-heading {
+    padding: 1%;
+}
+
 .top-bar{
     background-color: #ccc;
 }
@@ -51,6 +55,10 @@ a.#loginButton, a.#registerButton {
     display: block;
     width: 30%;
     margin: 0 auto;
+}
+
+.new-question-controls {
+    margin-top: 1.25rem;
 }
 
 .accordion {

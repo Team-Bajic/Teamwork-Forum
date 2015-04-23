@@ -34,18 +34,22 @@ Forum.views = (function() {
 
     assignNewAnswerEvents();
 
-    $(".answer-box").hide();
+    $("#createAnswerBox").hide();
 
     Forum.editor = CKEDITOR.replace('editor');
 
     function assignNewAnswerEvents() {
       $('.reveal-answer-block').on('click', function (event) {
-        $(".answer-box").slideDown();
+        $("#createAnswerBox").slideDown();
       });
 
       $('.dismiss-button').on('click', function (event) {
-        $(".answer-box").slideUp();
+        $("#createAnswerBox").slideUp();
         Forum.editor.setData("");
+      });
+
+      $('.post-button').on('click', function (event) {
+        // Forum.controllers.AnswerController.addAnswer();
       });
     }
   };
@@ -67,6 +71,20 @@ Forum.views = (function() {
       $('.dismiss-button').on('click', function (event) {
         $('#createQuestionBox').slideUp().find("input").val('');
         Forum.editor.setData("");
+      });
+
+      $('.post-button').on('click', function (event) {
+        
+        Forum.data.User.currentUser()
+          .then(function (result) {
+            var title = $("input[name='new-question-title']").val(),
+                questionText = Forum.editor.getData(),
+                categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
+                tags = $("input[name='new-question-tags']").val(),
+                postedByID = result.objectId;
+                
+            Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID)
+          });
       });
     }
   };
@@ -90,18 +108,14 @@ Forum.views = (function() {
       $("a[data-reveal-id='login']").on('click', function(event) {
         $('div#login').foundation('reveal', 'open');
 
-        $('.closerevealmodal').on('click', function(event) {
-          $('div#login').foundation('reveal', 'close');
-        });
-
         $('#loginButton').on('click', function(event) {
-          $('div#login').foundation('reveal', 'close');
           var username = $('#loginUsername').val().trim(),
               password = $('#loginPassword').val().trim();
 
           Forum.controllers.UserController.logInUser(username, password)
             .then(function(result) {
               _this.render('.header', result);
+              $('div#login').foundation('reveal', 'close');
             })
         });
       });

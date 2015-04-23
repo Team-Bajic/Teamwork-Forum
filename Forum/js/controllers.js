@@ -108,6 +108,9 @@ Forum.controllers = (function() {
 					
 					questionsView.render('.questions-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
 				});
+		},
+		addQuestion: function (title, postedByID, questionText, categoryID) {
+			Forum.data.Question.create(title, postedByID, questionText, categoryID)
 		}
 	};
 

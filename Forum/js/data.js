@@ -54,25 +54,37 @@ Forum.data = (function() {
 	};
 
 	var Question = {
-		create: function(title, postedByID, categoryID, questionText) {
-			var dataToSave = {
-				title: title,
-				questionText: questionText,
-				postedBy: {
-					__type: 'Pointer',
-					className: '_User',
-					objectId: postedByID
-				},
-				category: {
-					__type: 'Pointer',
-					className: 'Category',
-					objectId: categoryID
-				}
-			};
+		create: function(title, postedByID, questionText, categoryID) {
+			var user = Forum.data.User.currentUser(),
+				headerAddition;
 
-			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Question/', dataToSave, '', function(result) {
-				return result;
-			}, null);
+			if (user != null) {
+				user.then(function(result) {
+					var dataToSave = {
+						title: title,
+						questionText: questionText,
+						postedBy: {
+							__type: 'Pointer',
+							className: '_User',
+							objectId: postedByID
+						},
+						category: {
+							__type: 'Pointer',
+							className: 'Category',
+							objectId: categoryID
+						}
+					};
+
+					headerAddition = {
+						'X-Parse-Session-Token': result.sessionToken
+					};
+
+					return Forum.Requester.postRequest(headerAddition, Forum.classesUrl + '/Question/', JSON.stringify(dataToSave), '', function(result) {
+						return result;
+					}, null);
+				})
+			}
+
 		},
 		getById: function(id) {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, '?include=postedBy', function(result) {
@@ -89,34 +101,34 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-        getInRange: function(skipNum, limitNum){
-            var queryParams = "?skip=" + skipNum + "&limit=" + limitNum + '&include=postedBy';
+		getInRange: function(skipNum, limitNum) {
+			var queryParams = "?skip=" + skipNum + "&limit=" + limitNum + '&include=postedBy';
 
-            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
-                return result;
-            }, null);
-        },
-        getInRangeByCategory: function(questionId, skipNum, limitNum){
-            var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy' + "&skip=" + skipNum + "&limit=" + limitNum;
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
+				return result;
+			}, null);
+		},
+		getInRangeByCategory: function(questionId, skipNum, limitNum) {
+			var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy' + "&skip=" + skipNum + "&limit=" + limitNum;
 
-            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
-                return result;
-            }, null);
-        },
-        getCount: function(){
-            var queryParams = "?count=1&limit=0";
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
+				return result;
+			}, null);
+		},
+		getCount: function() {
+			var queryParams = "?count=1&limit=0";
 
-            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
-                return result;
-            }, null);
-        },
-        getQuestionsByCategory: function(questionId) {
-            var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy';
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
+				return result;
+			}, null);
+		},
+		getQuestionsByCategory: function(questionId) {
+			var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy';
 
-            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
-                return result;
-            }, null);
-        }
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
+				return result;
+			}, null);
+		}
 	};
 	var Answer = {
 		createByUser: function(postedByID, questionID, answerText) {
@@ -213,12 +225,12 @@ Forum.data = (function() {
 				email: email
 			}), '', function(result) {
 				console.log(result);
-				return result;				
+				return result;
 			}, null)
 		},
-		updateRole : function(roleId, userId) {
-			return Forum.Requester.putRequest(null, '/roles/' + roleId, JSON.stringify({ 
-				"users" : {
+		updateRole: function(roleId, userId) {
+			return Forum.Requester.putRequest(null, '/roles/' + roleId, JSON.stringify({
+				"users": {
 					"__op": "AddRelation",
 					"objects": [{
 						"__type": "Pointer",
@@ -227,9 +239,10 @@ Forum.data = (function() {
 					}]
 				}
 			}), '', function(result) {
-				console.log(result)}, null);
+				console.log(result)
+			}, null);
 		},
-		getUsersRole : function() { 
+		getUsersRole: function() {
 			return Forum.Requester.getRequest(null, '/roles', '', '?where={"name":"users"}', function() {}, null);
 		},
 		currentUser: function() {
