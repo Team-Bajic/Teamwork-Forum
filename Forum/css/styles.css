@@ -64,9 +64,5 @@ a.#loginButton, a.#registerButton {
 }
 
 textarea {
-    min-height: 7em;
-}
-
-.hide{
-    visibility: hidden;
+    min-height: 5em;
 }
