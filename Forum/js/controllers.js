@@ -16,12 +16,16 @@ Forum.controllers = (function() {
 	};
 
 	var CategoryController = {
-		showCategory: function(categoryId) {
+		showCategory: function(categoryId, page) {
 			Forum.data.Category.getById(categoryId)
 				.then(function(result) {
 					controllerData.categoryData = JSON.parse(JSON.stringify(result));
 
-					return Forum.data.Question.getQuestionsByCategory(controllerData.categoryData.objectId);
+					if (!page || page < 0) {
+						page = 0;
+					}
+
+					return Forum.data.Question.getInRangeByCategory(controllerData.categoryData.objectId, Forum.config.questionsPerPage * page, Forum.config.questionsPerPage);
 				}).then(function(result) {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
 
@@ -29,7 +33,16 @@ Forum.controllers = (function() {
 					var questionsView = new Forum.views.QuestionsView();
 
 					categoryView.render('.questions-container', controllerData.categoryData);
-					questionsView.render('.questionsBody', {questions: controllerData.questionsData});
+
+					var count = controllerData.questionsData.length;
+
+					var next = (page + 1 > count / Forum.config.questionsPerPage ? page : page + 1);
+					var previous = (page - 1 <= 0 ? 0 : page - 1);
+					var previousStatus = (page <= 0 ? "unavailable" : "available");
+					var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
+
+					questionsView.render('.questionsBody', QuestionController.paginate(controllerData.questionsData.length, page,
+					 'category/' + controllerData.categoryData.objectId + '/', controllerData.questionsData));
 				});
 		},
 		showCategories: function() {
@@ -64,26 +77,36 @@ Forum.controllers = (function() {
 					singleQuestionView.render('.questions-container', controllerData);
 				});
 		},
+		paginate: function(count, page, url, questions){
+			var next = (page + 1 > count / Forum.config.questionsPerPage ? page : page + 1);
+			var previous = (page - 1 <= 0 ? 0 : page - 1);
+			var previousStatus = (page <= 0 ? "unavailable" : "available");
+			var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
+
+			return {
+						questions: controllerData.questionsData,
+						next: next,
+						previous: previous,
+						previousStatus: previousStatus,
+						nextStatus: nextStatus,
+						url: url
+					}
+		},
 		showAllQuestions: function(page) {
-			if(!page || page < 0){
+
+			if (!page || page < 0) {
 				page = 0;
 			}
 
-			Forum.data.Question.getInRange(5 * page, 5)
+			Forum.data.Question.getInRange(Forum.config.questionsPerPage * page, Forum.config.questionsPerPage)
 				.then(function(result) {
 					controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
 
 					return Forum.data.Question.getCount();
-				}).then(function(result){
-					var count = result.count;
-
+				}).then(function(result) {
 					var questionsView = new Forum.views.QuestionsView();
-					var next = page + 1;
-					var previous = page - 1;
-					var previousStatus = (previous < 0 ? "unavailable" : "available");
-					var nextStatus = (next * 3 >= count ? "unavailable" : "available");
-
-					questionsView.render('.questions-container', {questions: controllerData.questionsData, next : next, previous : previous, previousStatus: previousStatus, nextStatus: nextStatus});
+					
+					questionsView.render('.questions-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
 				});
 		}
 	};

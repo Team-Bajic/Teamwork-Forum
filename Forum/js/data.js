@@ -96,6 +96,13 @@ Forum.data = (function() {
                 return result;
             }, null);
         },
+        getInRangeByCategory: function(questionId, skipNum, limitNum){
+            var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy' + "&skip=" + skipNum + "&limit=" + limitNum;
+
+            return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result){
+                return result;
+            }, null);
+        },
         getCount: function(){
             var queryParams = "?count=1&limit=0";
 
