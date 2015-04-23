@@ -41,10 +41,6 @@ var Forum = Forum || {};
 			Forum.controllers.CategoryController.showCategories();	
 		});
 
-		this.get('#/createQuestion', function() {
-			console.log('My Page');
-		});
-
 	});
 
 	Forum.Router.run('#/');

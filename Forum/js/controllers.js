@@ -42,7 +42,7 @@ Forum.controllers = (function() {
 					var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
 
 					questionsView.render('.questionsBody', QuestionController.paginate(controllerData.questionsData.length, page,
-					 'category/' + controllerData.categoryData.objectId + '/', controllerData.questionsData));
+						'category/' + controllerData.categoryData.objectId + '/', controllerData.questionsData));
 				});
 		},
 		showCategories: function() {
@@ -70,27 +70,36 @@ Forum.controllers = (function() {
 
 					return Forum.data.Answer.getAnswersByQuestion(controllerData.questionData.objectId);
 				}).then(function(result) {
+					var user = Forum.data.User.currentUser();
 					controllerData.answersData = JSON.parse(JSON.stringify(result.results));
+					controllerData.userData = null;
 
 					var singleQuestionView = new Forum.views.SingleQuestionView();
 
-					singleQuestionView.render('.questions-container', controllerData);
+					if (user != null) {
+						user.then(function (result) {
+							controllerData.userData = result;
+							singleQuestionView.render('.questions-container', controllerData);
+						});
+					} else {
+						singleQuestionView.render('.questions-container', controllerData);
+					}					
 				});
 		},
-		paginate: function(count, page, url, questions){
+		paginate: function(count, page, url, questions) {
 			var next = (page + 1 > count / Forum.config.questionsPerPage ? page : page + 1);
 			var previous = (page - 1 <= 0 ? 0 : page - 1);
 			var previousStatus = (page <= 0 ? "unavailable" : "available");
 			var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
 
 			return {
-						questions: controllerData.questionsData,
-						next: next,
-						previous: previous,
-						previousStatus: previousStatus,
-						nextStatus: nextStatus,
-						url: url
-					}
+				questions: controllerData.questionsData,
+				next: next,
+				previous: previous,
+				previousStatus: previousStatus,
+				nextStatus: nextStatus,
+				url: url
+			}
 		},
 		showAllQuestions: function(page) {
 
@@ -105,17 +114,22 @@ Forum.controllers = (function() {
 					return Forum.data.Question.getCount();
 				}).then(function(result) {
 					var questionsView = new Forum.views.QuestionsView();
-					
+
 					questionsView.render('.questions-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
 				});
 		},
-		addQuestion: function (title, postedByID, questionText, categoryID) {
+		addQuestion: function(title, postedByID, questionText, categoryID) {
 			Forum.data.Question.create(title, postedByID, questionText, categoryID)
 		}
 	};
 
 	var AnswerController = {
-
+		addAnswerByUser: function (postedBy, questionId, answerText) {
+			Forum.data.Answer.createByUser(postedBy, questionId, answerText);
+		},
+		addAnswerByGuest: function (author, questionId, answerText) {
+			Forum.data.Answer.createByGuest(author, questionId, answerText);
+		}
 	};
 
 	var HeaderController = {

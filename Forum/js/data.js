@@ -131,41 +131,41 @@ Forum.data = (function() {
 		}
 	};
 	var Answer = {
-		createByUser: function(postedByID, questionID, answerText) {
+		createByUser: function(postedById, questionId, answerText) {
 			var dataToSave = {
-				answerText: questionText,
+				answerText: answerText,
 				postedBy: {
 					__type: 'Pointer',
 					className: '_User',
-					objectId: postedByID
+					objectId: postedById
 				},
 				author: '',
 				answerType: 'user',
 				question: {
 					__type: 'Pointer',
 					className: 'Question',
-					objectId: questionID
+					objectId: questionId
 				}
 			};
 
-			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', dataToSave, '', function(result) {
+			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '', function(result) {
 				return result;
 			}, null);
 		},
 		createByGuest: function(author, questionId, answerText) {
 			var dataToSave = {
-				answerText: questionText,
+				answerText: answerText,
 				postedBy: null,
 				author: author,
 				answerType: 'guest',
 				question: {
 					__type: 'Pointer',
 					className: 'Question',
-					objectId: questionID
+					objectId: questionId
 				}
 			};
 
-			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', dataToSave, '', function(result) {
+			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '', function(result) {
 				return result;
 			}, null);
 		},

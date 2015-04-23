@@ -49,7 +49,20 @@ Forum.views = (function() {
       });
 
       $('.post-button').on('click', function (event) {
-        // Forum.controllers.AnswerController.addAnswer();
+        var postedBy,
+            user = Forum.data.User.currentUser(),
+            questionId = $('.question-container').attr('data-id'),
+            answerText = Forum.editor.getData();
+
+        if (user != null) {
+          user.then(function (result) {
+            postedBy = result.objectId;
+            Forum.controllers.AnswerController.addAnswerByUser(postedBy, questionId, answerText);
+          });
+        } else {
+          postedBy = $('.answer-author').val();
+          Forum.controllers.AnswerController.addAnswerByGuest(postedBy, questionId, answerText);
+        }
       });
     }
   };
