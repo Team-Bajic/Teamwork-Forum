@@ -1,5 +1,5 @@
 var Forum = Forum || {};
 
 Forum.config = {
-	questionsPerPage: 3
+	questionsPerPage: 5
 };
