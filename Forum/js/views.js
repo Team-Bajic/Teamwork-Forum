@@ -31,13 +31,29 @@ Forum.views = (function() {
 
   SingleQuestionView.prototype.render = function (element, data) {
     $(element).html(Forum.templateBuilder('single-question-template', {data: data}));
+
+    assignNewAnswerEvents();
+
+    $(".answer-box").hide();
+
+    Forum.editor = CKEDITOR.replace('editor');
+
+    function assignNewAnswerEvents() {
+      $('.reveal-answer-block').on('click', function (event) {
+        $(".answer-box").slideDown();
+      });
+
+      $('.dismiss-button').on('click', function (event) {
+        $(".answer-box").slideUp();
+        Forum.editor.setData("");
+      });
+    }
   };
 
   SingleCategoryView.prototype.render = function (element, data) {
     $(element).html(Forum.templateBuilder('single-category-template', {data: data}));
 
     assignNewQuestionEvents();
-    assignNewAnswerEvents();
 
     $('#createQuestionBox').hide();
 
@@ -49,27 +65,9 @@ Forum.views = (function() {
       });
 
       $('.dismiss-button').on('click', function (event) {
-        $('#createQuestionBox').slideUp();
-        clearFields();
+        $('#createQuestionBox').slideUp().find("input").val('');
+        Forum.editor.setData("");
       });
-    }
-
-    function assignNewAnswerEvents() {
-      $('.reveal-answer-block').on('click', function (event) {
-        $('div.answer-block').removeClass('hide');
-        $('.hide-answer-block').removeClass('hide');
-      });
-
-      $('.hide-answer-block').on('click', function (event) {
-        $('div.answer-block').addClass('hide');
-        $('.hide-answer-block').addClass('hide');
-        clearFields();
-      });
-    }
-
-    function clearFields () {
-      $("#createQuestionBox").find("input").val('');
-      Forum.editor.setData("");
     }
   };
 

@@ -1,5 +1,5 @@
 {{#each questions}}
-<div class="row" data-id="{{objectId}}">
+<div data-id="{{objectId}}">
 	<div class="panel question">
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
 		<p class="questionParagraph large-10" >{{questionText}}</p>
@@ -7,7 +7,7 @@
 	</div>
 </div>
 {{/each}}
-<div class="row text-center">
+<div class="text-center">
 	<ul class="pagination">
 		<li class="arrow {{previousStatus}}">
 			<a href="#/{{url}}page={{previous}}">&laquo;</a>

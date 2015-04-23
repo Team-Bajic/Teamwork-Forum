@@ -1,4 +1,4 @@
-<div class="row" data-id="{{objectId}}">
+<div data-id="{{objectId}}">
 	<div class="panel question">
 		<h2 class="large-8 questionTitle">{{data.questionData.title}}</h2>
 		<p class="fullQuestionParagraph large-4" >{{data.questionData.questionText}}</p>
@@ -10,4 +10,16 @@
 		<p>postedBy:<a href="#/"> {{author}}</a></p>
 	</div>
 	{{/each}}
+
+	<div class="answer-block-controls">
+		<a class="reveal-answer-block button tiny">Add Answer</a>
+	</div>
+	<div id="#createAnswerBox" class="answer-box panel clearfix">
+		<label>Answer:</label>
+		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>
+		<div class="new-question-controls right clearfix">
+			<a class="post-button button tiny">Post</a>
+			<a class="dismiss-button button tiny">Dismiss</a>
+		</div>
+	</div>
 </div>
