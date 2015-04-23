@@ -3,6 +3,7 @@
     {{#if sessionToken}}
       <a id="logout" class="button tiny">Logout</a>
     {{else}}
+    <form  id="loginForm">
       <a data-reveal-id="login" class="button tiny" >Log in</a>
       <a data-reveal-id="register" class="button tiny" >Register</a>
       <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
@@ -10,10 +11,12 @@
         <input type="text" id="loginUsername"/>
         <label for="">Password:</label>
         <input type="password" id="loginPassword"/>
-        <a id="loginButton" class="button">Login</a>
+        <input type="submit" id="loginButton" class="button" />
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
       </div>
+    </form>
 
+    <form action="" id="registerForm">
       <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
         <label for="username">User name:</label>
         <input type="text" id="username"/>
@@ -25,6 +28,7 @@
         <a id="registerButton" class="button">Register</a>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
       </div>
+    </form>
     {{/if}}
   </ul>
 </nav>
