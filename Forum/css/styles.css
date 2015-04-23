@@ -4,7 +4,6 @@ html {
     overflow-y: scroll; 
 }
 
-
 @font-face {
     font-family: 'Lobster';
     src: url(fonts/Lobster%201.4.otf);
@@ -14,35 +13,27 @@ html {
     font-family: 'Lobster';
 }
 
-.question, .questionTitle{
-    background-color: #fdfdfe;
-    font-family: 'PT Sans';
+#header{
+    height: 8em;
 }
 
-body{
+body {
     background: #E9EAED;
     font-family: 'Raleway';
 }
+
 .panel{
     border-radius: 3px;
     -webkit-box-shadow: 1px 0.5px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 1px 0.5px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 1px 0.5px 5px 0px rgba(0,0,0,0.75);
 }
-#header{
-    height: 8em;
-}
-h1 a {
-    color: #333;
-    transition: color .3s;
+
+.question, .questionTitle{
+    background-color: #fdfdfe;
+    font-family: 'Raleway';
 }
 
-p {
-    font-size: 1.1em;
-}
-.reveal-modal > :first-child {
-    margin-top: 1.5rem;
-}
 .questionParagraph{
     width: 100%;
     text-overflow: ellipsis;
@@ -52,6 +43,20 @@ p {
 
 .fullQuestionParagraph {
     width: 100%;
+}
+
+h1 a {
+    color: #333;
+    transition: color .3s;
+}
+
+p {
+    font-size: 1.1em;
+    font-family: 'Raleway';
+}
+
+.reveal-modal > :first-child {
+    margin-top: 1.5rem;
 }
 
 .category-heading {
@@ -68,14 +73,12 @@ a.#loginButton, a.#registerButton {
     margin: 0 auto;
 }
 
-.button{
-    margin: 0;
-}
 .button.tiny{
     padding-top: 0.525rem;
     padding-bottom: 0.5875rem;
     font-size: 0.7875rem;
 }
+
 .new-question-controls {
     margin-top: 1.25rem;
 }
@@ -88,6 +91,8 @@ a.#loginButton, a.#registerButton {
     padding: .4rem;
     background: none;
     transition: background-color .3s;
+    font-family: 'Raleway';
+    font-size: 1.2rem;
 }
 
 textarea {
