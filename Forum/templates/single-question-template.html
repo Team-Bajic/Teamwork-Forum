@@ -16,7 +16,8 @@
 	</div>
 	<div id="createAnswerBox" class="panel clearfix">
 		{{#unless data.userData.sessionToken}}
-		<input type="text" class="answer-author" placeholder="Guest username / E-mail"></input>
+		<input type="text" class="answer-author" placeholder="Name"></input>
+        <input type="email" class="answer-author" placeholder="E-mail"></input>
 		{{/unless}}
 		<label>Answer:</label>
 		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>

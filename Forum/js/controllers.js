@@ -128,7 +128,9 @@ Forum.controllers = (function () {
     };
 
     var AnswerController = {
-
+        showAnswers: function(){
+            
+        }
     };
 
     var HeaderController = {

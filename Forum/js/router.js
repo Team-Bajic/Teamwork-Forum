@@ -26,7 +26,11 @@ var Forum = Forum || {};
                 Forum.controllers.QuestionController.showAllQuestions(0);
             }
 		});
-
+        
+        this.route('get', 'any', function(){
+            console.log('any');
+        });
+        
 		//for questions pagination
 		this.get('#/page=:pageNumber', function() {
             user = Forum.data.User.currentUser();
@@ -153,8 +157,26 @@ var Forum = Forum || {};
 		});
 
 		this.get('#/admin/viewAnswers', function() {
-			Forum.controllers.HeaderController.showHeader();
-            Forum.controllers.CategoryController.showCategories();
+            user = Forum.data.User.currentUser();
+            
+            if(user !== null){
+                user.then(function(result){
+                    passedData.userData = result;
+                    
+                    return Forum.data.Role.getById(passedData.userData.role.objectId);
+                }).then(function(result){
+                    passedData.userData.role = result;
+                    
+                    if(passedData.userData.role.name === "admins"){
+                        Forum.controllers.HeaderController.showHeader(passedData.userData);
+                        Forum.controllers.CategoryController.showCategories();
+                    } else{
+                        Forum.Router.setLocation('#/');
+                    }
+                });
+            } else{
+                Forum.Router.setLocation('#/');
+            }
 		});
         
         this.get('#/admin/viewTags', function() {
