@@ -1,15 +1,12 @@
 <div class="category-container" data-id="{{data.objectId}}">
-	<h4 class="category-heading panel">Category: {{data.title}}</h4>
+	<h4 class="category-heading"><span class="lobster">Category:</span> {{data.title}}</h4>
 	<div class="options-block-controls clearfix">
 		<a class="reveal-options-block button tiny">Add New Question</a>
 	</div>
 
 	<div id="createQuestionBox" class="panel clearfix">
-		<label>Title:</label>
 		<input type="text" name="new-question-title" placeholder="Question title..."></input>
-		<label>Content:</label>
 		<textarea name="editor" id="editor" placeholder="Question content..."></textarea>
-		<label>Tags:</label>
 		<input type="text" name="new-question-tags" placeholder="Tags..."></input>
 		<div class="right">
 			<a class="post-button button tiny">Post</a>

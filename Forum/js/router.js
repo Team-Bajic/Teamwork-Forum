@@ -105,6 +105,7 @@ var Forum = Forum || {};
 
 		this.get('#/user/:objectId', function() {
 			Forum.controllers.HeaderController.showHeader();
+			Forum.controllers.CategoryController.showCategories();
 			Forum.controllers.UserController.showProfile(this.params['objectId']);
 		});
         
