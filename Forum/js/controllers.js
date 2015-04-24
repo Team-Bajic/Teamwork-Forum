@@ -131,7 +131,7 @@ Forum.controllers = (function () {
                     
                     return Forum.data.Role.getById(controllerData.userData.role.objectId);
                 }).then(function(result){
-                    console.log(result);
+
                     if(result.name === "users"){
                         controllerData.userData.user = true;
                     } else if(result.name === "admins"){

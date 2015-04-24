@@ -1,4 +1,4 @@
-<div data-id="{{objectId}}">
+<div class="question-container" data-id="{{data.questionData.objectId}}">
 	<div class="panel question">
 		<h2 class="large-8 questionTitle">{{data.questionData.title}}</h2>
 		<p class="fullQuestionParagraph large-4" >{{data.questionData.questionText}}</p>
@@ -15,11 +15,15 @@
 		<a class="reveal-answer-block button tiny">Add Answer</a>
 	</div>
 	<div id="createAnswerBox" class="panel clearfix">
+		{{#unless data.userData.sessionToken}}
+		<label>Guest username / e-mail</label>
+		<input type="text" class="answer-author" placeholder="Username / E-mail"></input>
+		{{/unless}}
 		<label>Answer:</label>
 		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>
 		<div class="new-question-controls right clearfix">
 			<a class="post-button button tiny">Post</a>
-			<a class="dismiss-button button tiny">Dismiss</a>
+			<a class="dismiss-button button alert tiny">Dismiss</a>
 		</div>
 	</div>
 </div>
