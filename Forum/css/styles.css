@@ -67,7 +67,7 @@ p {
     background-color: #ccc;
 }
 
-a.#loginButton, a.#registerButton {
+#loginButton, #registerButton {
     display: block;
     width: 30%;
     margin: 0 auto;
