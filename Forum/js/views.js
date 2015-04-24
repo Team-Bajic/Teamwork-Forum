@@ -56,11 +56,12 @@ Forum.views = (function() {
 
 				if (user != null) {
 					user.then(function(result) {
+						debugger;
 						postedBy = result.objectId;
 						Forum.controllers.AnswerController.addAnswerByUser(postedBy, questionId, answerText);
 					});
 				} else {
-					postedBy = $('.answer-author').val();
+					postedBy = $('.answer-author').val().trim() ||  $('.answer-email').val().trim();
 					Forum.controllers.AnswerController.addAnswerByGuest(postedBy, questionId, answerText);
 				}
 			});

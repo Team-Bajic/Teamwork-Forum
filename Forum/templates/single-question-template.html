@@ -7,7 +7,11 @@
 	{{#each data.answersData}}
 	<div class="panel">
 		<p class="answerParagraph large-8">{{answerText}}</p>
-		<p>postedBy:<a href="#/"> {{author}}</a></p>
+		{{#if author}}
+		<p>author:<a href="#/"> {{author}}</a></p>
+		{{else}}
+		<p>postedBy:<a href="#/"> {{postedBy.username}}</a></p>
+		{{/if}}
 	</div>
 	{{/each}}
 
@@ -17,7 +21,7 @@
 	<div id="createAnswerBox" class="panel clearfix">
 		{{#unless data.userData.sessionToken}}
 		<input type="text" class="answer-author" placeholder="Name"></input>
-        <input type="email" class="answer-author" placeholder="E-mail"></input>
+        <input type="email" class="answer-email" placeholder="E-mail"></input>
 		{{/unless}}
 		<label>Answer:</label>
 		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>

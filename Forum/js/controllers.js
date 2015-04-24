@@ -78,6 +78,13 @@ Forum.controllers = (function () {
         showQuestion: function (questionId) {
             Forum.data.Question.getById(questionId)
                 .then(function (result) {
+                    var user = Forum.data.User.currentUser();
+
+                    if (user != null) {
+                        user.then(function (result) {
+                            controllerData.userData = result;
+                        });
+                    }
 
                     controllerData.questionData = JSON.parse(JSON.stringify(result));
 
@@ -128,6 +135,12 @@ Forum.controllers = (function () {
     };
 
     var AnswerController = {
+        addAnswerByUser: function (postedBy, questionId, answerText) {
+            Forum.data.Answer.createByUser(postedBy, questionId, answerText);
+        },
+        addAnswerByGuest: function (author, questionId, answerText) {
+            Forum.data.Answer.createByGuest(author, questionId, answerText);
+        },
         showAnswers: function(){
             
         }
@@ -135,7 +148,6 @@ Forum.controllers = (function () {
 
     var HeaderController = {
         showHeader: function (userData) {
-            console.log(userData);
             if(userData === undefined){
                 userData = null;
             } else{
