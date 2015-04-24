@@ -38,9 +38,13 @@ var Forum = Forum || {};
 		this.get('#/category/:objectId/page=:pageNumber', function() {
 			Forum.controllers.HeaderController.showHeader();
 			Forum.controllers.CategoryController.showCategory(this.params['objectId'], parseInt(this.params['pageNumber']));
-			Forum.controllers.CategoryController.showCategories();	
+			Forum.controllers.CategoryController.showCategories();
 		});
 
+		this.get('#/user/:objectId', function() {
+			Forum.controllers.HeaderController.showHeader();
+			Forum.controllers.UserController.showProfile(this.params['objectId']);
+		});
 	});
 
 	Forum.Router.run('#/');

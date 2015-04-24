@@ -12,6 +12,9 @@ Forum.controllers = (function () {
         },
         registerUser: function (username, password, email) {
             return Forum.data.User.signUp(username, password, email);
+        },
+        showProfile: function (objectId) {
+            
         }
     };
 
