@@ -11,6 +11,12 @@ Forum.views = (function() {
 
 	var SingleCategoryView = function() {};
 
+  var ProfileView = function() {};
+
+  ProfileView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('user-profile-template', data));
+  };
+
 	CategoryView.prototype.render = function(element, data) {
 		$(element).html(Forum.templateBuilder('category-template', {
 			categories: data
@@ -224,6 +230,7 @@ Forum.views = (function() {
 		QuestionsView: QuestionsView,
 		SingleQuestionView: SingleQuestionView,
 		HeaderView: HeaderView,
-		SingleCategoryView: SingleCategoryView
+		SingleCategoryView: SingleCategoryView,
+    ProfileView: ProfileView
 	};
 })();

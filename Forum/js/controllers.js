@@ -14,7 +14,18 @@ Forum.controllers = (function () {
             return Forum.data.User.signUp(username, password, email);
         },
         showProfile: function (objectId) {
-            
+            var user = Forum.data.User.currentUser();
+            controllerData.userData = null;
+
+            if (user !== null) {
+                user.then(function (result) {
+                    controllerData.userData = result;
+
+                    var profileView = new Forum.views.ProfileView();
+
+                    profileView.render('.main-container', controllerData.userData);
+                })
+            }
         }
     };
 
@@ -35,7 +46,7 @@ Forum.controllers = (function () {
                     var categoryView = new Forum.views.SingleCategoryView();
                     var questionsView = new Forum.views.QuestionsView();
 
-                    categoryView.render('.questions-container', controllerData.categoryData);
+                    categoryView.render('.main-container', controllerData.categoryData);
 
                     var count = controllerData.questionsData.length;
 
@@ -54,7 +65,7 @@ Forum.controllers = (function () {
                     controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
 
                     var categoryView = new Forum.views.CategoryView();
-                    categoryView.render('.categories-container', controllerData.categoriesData);
+                    categoryView.render('.side-container', controllerData.categoriesData);
 
                 });
         }
@@ -77,7 +88,7 @@ Forum.controllers = (function () {
 
                     var singleQuestionView = new Forum.views.SingleQuestionView();
 
-                    singleQuestionView.render('.questions-container', controllerData);
+                    singleQuestionView.render('.main-container', controllerData);
                 });
         },
         paginate: function (count, page, url, questions) {
@@ -109,7 +120,7 @@ Forum.controllers = (function () {
                 }).then(function (result) {
                     var questionsView = new Forum.views.QuestionsView();
 
-                    questionsView.render('.questions-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
+                    questionsView.render('.main-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID) {
