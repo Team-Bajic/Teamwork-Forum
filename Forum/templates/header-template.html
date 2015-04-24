@@ -1,34 +1,45 @@
 <nav data-topbar role="navigation">
   <ul class="right">
     {{#if sessionToken}}
-      <a id="logout" class="button tiny">Logout</a>
+      {{#if admin}}
+        <a href="#/admin/viewUsers" class="button tiny">View Users</a>
+        <a href="#/admin/viewQuestions" class="button tiny">View Questions</a>
+        <a href="#/admin/viewAnswers" class="button tiny">View Answers</a>
+        <a href="#/admin/viewTags" class="button tiny">View Tags</a>
+      {{/if}}
+      {{#if user}}
+        <a href="#/user/{{objectId}}" class="button tiny">My Profile</a>
+      {{/if}}
+        <a id="logout" class="button tiny">Logout</a>
     {{else}}
-    <form id="loginForm">
       <a data-reveal-id="login" class="button tiny" >Log in</a>
       <a data-reveal-id="register" class="button tiny" >Register</a>
-      <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-        <label for="">User name:</label>
-        <input type="text" id="loginUsername"/>
-        <label for="">Password:</label>
-        <input type="password" id="loginPassword"/>
-        <input type="submit" id="loginButton" class="button" />
-        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-      </div>
-    </form>
+      
+      <form id="loginForm">
+          <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+              <label for="">User name:</label>
+              <input type="text" id="loginUsername" />
+              <label for="">Password:</label>
+              <input type="password" id="loginPassword" />
+              <button id="loginButton" class="button">Login</button>
+              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+      </form>
 
-    <form action="" id="registerForm">
-      <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-        <label for="username">User name:</label>
-        <input type="text" id="username"/>
-        <label for="password">Password:</label>
-        <input type="password" id="password"/>
-        <label for="confirm-password">Confirm password:</label>
-        <input type="password" id="confirm-password"/>
-        <label for="email">Email</label> <input type="email" id="email"/>
-        <a id="registerButton" class="button">Register</a>
-        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-      </div>
-    </form>
+      <form action="" id="registerForm">
+          <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+             <label for="username">User name:</label>
+             <input type="text" id="username" />
+             <label for="password">Password:</label>
+             <input type="password" id="password" />
+             <label for="confirm-password">Confirm password:</label>
+             <input type="password" id="confirm-password" />
+             <label for="email">Email</label>
+             <input type="email" id="email" />
+             <button id="registerButton" class="button">Register</button>
+             <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+      </form>
     {{/if}}
   </ul>
 </nav>

@@ -260,11 +260,18 @@ Forum.data = (function() {
 		}
 	};
 
+    var Role = {
+        getById: function(objectId){
+            return Forum.Requester.getRequest(null, "/roles/" + objectId, null, '', function(){}, null);
+        }
+    };
+    
 	return {
 		Category: Category,
 		Tag: Tag,
 		Question: Question,
 		Answer: Answer,
-		User: User
+		User: User,
+        Role: Role
 	};
 })();
