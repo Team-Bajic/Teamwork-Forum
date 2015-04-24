@@ -1,25 +1,15 @@
 var Forum = Forum || {};
 
 Forum.views = (function() {
-  var CategoryView = function() {
+  var CategoryView = function() {};
 
-  };
+  var QuestionsView = function() {};
 
-  var QuestionsView = function() {
+  var SingleQuestionView = function() {};
 
-  };
+  var HeaderView = function() {};
 
-  var SingleQuestionView = function() {
-
-  };
-
-  var HeaderView = function() {
-
-  };
-
-  var SingleCategoryView = function(){
-
-  };
+  var SingleCategoryView = function(){};
 
   CategoryView.prototype.render = function(element, data) {
     $(element).html(Forum.templateBuilder('category-template', {categories: data}));
@@ -103,14 +93,12 @@ Forum.views = (function() {
   };
 
   HeaderView.prototype.render = function(element, content) {
-    var _this = this;
-
     $(element).html(Forum.templateBuilder('header-template', content));
 
     $('#logout').on('click', function() {
       Forum.controllers.UserController.logOutUser()
         .then(function() {
-          _this.render('.header', {});
+          Forum.Router.refresh();
         })
     });
 
@@ -128,7 +116,7 @@ Forum.views = (function() {
 
           Forum.controllers.UserController.logInUser(username, password)
             .then(function(result) {
-              _this.render('.header', result);
+              Forum.Router.refresh()
               $('div#login').foundation('reveal', 'close');
             })
         });
