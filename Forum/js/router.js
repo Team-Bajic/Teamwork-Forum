@@ -150,9 +150,26 @@ var Forum = Forum || {};
 		});
 
 		this.get('#/user/:objectId', function() {
-			Forum.controllers.HeaderController.showHeader();
-			Forum.controllers.CategoryController.showCategories();
-			Forum.controllers.UserController.showProfile(this.params['objectId']);
+            var _this = this;
+            user = Forum.data.User.currentUser();
+            
+            if(user !== null){
+                user.then(function(result){
+                    passedData.userData = result;
+                    
+                    return Forum.data.Role.getById(passedData.userData.role.objectId);
+                }).then(function(result){
+                    passedData.userData.role = result;
+                    
+                    Forum.controllers.HeaderController.showHeader(passedData.userData);
+                    Forum.controllers.CategoryController.showCategories(passedData.userData);
+                    Forum.controllers.UserController.showProfile(_this.params['objectId'], passedData.userData);
+                });
+            } else{
+                Forum.controllers.HeaderController.showHeader();
+                Forum.controllers.CategoryController.showCategories();
+                Forum.controllers.UserController.showProfile(this.params['objectId']);   
+            }
 		});
         
         this.get('#/admin/viewUsers', function() {
