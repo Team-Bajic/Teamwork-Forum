@@ -66,7 +66,6 @@ Forum.controllers = (function () {
 
                     var categoryView = new Forum.views.CategoryView();
                     categoryView.render('.side-container', controllerData.categoriesData);
-
                 });
         }
     };
@@ -133,30 +132,21 @@ Forum.controllers = (function () {
     };
 
     var HeaderController = {
-        showHeader: function () {
-            var user = Forum.data.User.currentUser();
-            controllerData.userData = null;
-
+        showHeader: function (userData) {
+            console.log(userData);
+            if(userData === undefined){
+                userData = null;
+            } else{
+                if(userData.role.name === "users"){
+                    userData.user = true;
+                } else if(userData.role.name === "admins"){
+                    userData.admin = true;
+                }
+            }
+            
             var headerView = new Forum.views.HeaderView();
 
-            if (user !== null) {
-                user.then(function (result) {
-                    controllerData.userData = result;
-                    
-                    return Forum.data.Role.getById(controllerData.userData.role.objectId);
-                }).then(function(result){
-
-                    if(result.name === "users"){
-                        controllerData.userData.user = true;
-                    } else if(result.name === "admins"){
-                        controllerData.userData.admin = true;
-                    }
-                    
-                    headerView.render('.header', controllerData.userData);
-                });
-            } else {
-                headerView.render('.header', controllerData.userData);
-            }
+            headerView.render('.header', userData);
         }
     };
 

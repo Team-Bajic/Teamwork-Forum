@@ -32,7 +32,7 @@ var Forum = Forum || {};
             user = Forum.data.User.currentUser();
             
             if(user !== null){
-                user.then(function(userData){
+                user.then(function(result){
                     passedData.userData = result;
                     
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
@@ -54,7 +54,7 @@ var Forum = Forum || {};
             user = Forum.data.User.currentUser();
             
             if(user !== null){
-                user.then(function(userData){
+                user.then(function(result){
                     passedData.userData = result;
                     
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
@@ -77,7 +77,7 @@ var Forum = Forum || {};
             user = Forum.data.User.currentUser();
             
             if(user !== null){
-                user.then(function(userData){
+                user.then(function(result){
                     passedData.userData = result;
                     
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
@@ -99,7 +99,7 @@ var Forum = Forum || {};
             user = Forum.data.User.currentUser();
             
             if(user !== null){
-                user.then(function(userData){
+                user.then(function(result){
                     passedData.userData = result;
                     
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
@@ -122,7 +122,7 @@ var Forum = Forum || {};
             user = Forum.data.User.currentUser();
             
             if(user !== null){
-                user.then(function(userData){
+                user.then(function(result){
                     passedData.userData = result;
                     
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
