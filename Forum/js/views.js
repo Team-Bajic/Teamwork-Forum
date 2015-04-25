@@ -57,11 +57,16 @@ Forum.views = (function() {
 				if (user != null) {
 					user.then(function(result) {
 						postedBy = result.objectId;
-						Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText);
+						Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText).then(function(){
+                            $("#createAnswerBox").slideUp();
+				            Forum.editor.setData("");
+                        });
 					});
 				} else {
 					postedBy = $('.answer-author').val().trim() || $('.answer-email').val().trim();
 					Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText);
+                    $("#createAnswerBox").slideUp().find("input").val('');
+                    Forum.editor.setData("");
 				}
 			});
 		}
