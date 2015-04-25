@@ -65,28 +65,32 @@ Forum.controllers = (function () {
             Forum.data.Category.getById(categoryId)
                 .then(function (result) {
                     controllerData.categoryData = JSON.parse(JSON.stringify(result));
-                    console.log(result);
 
                     if (!page || page < 0) {
                         page = 0;
                     }
 
-                    return Forum.data.Question.getInRangeByCategory(controllerData.categoryData.objectId, Forum.config.questionsPerPage * page, Forum.config.questionsPerPage);
-                }).then(function (result) {
-                    controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
+                    var start = Forum.config.questionsPerPage * page;
+                    var end = Forum.config.questionsPerPage * page + Forum.config.questionsPerPage;
+                    var count;
+
+                    if (controllerData.categoryData.questions) {
+                        controllerData.questionsData = controllerData.categoryData.questions.slice(start, end);
+                        count = controllerData.questionsData.length;
+                    } else {
+                        controllerData.questionsData = [];
+                        count = 0;
+                    }
 
                     var categoryView = new Forum.views.SingleCategoryView();
                     var questionsView = new Forum.views.QuestionsView();
-
-                    categoryView.render('.main-container', controllerData.categoryData);
-
-                    var count = controllerData.questionsData.length;
 
                     var next = (page + 1 > count / Forum.config.questionsPerPage ? page : page + 1);
                     var previous = (page - 1 <= 0 ? 0 : page - 1);
                     var previousStatus = (page <= 0 ? "unavailable" : "available");
                     var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
 
+                    categoryView.render('.main-container', controllerData.categoryData);
                     questionsView.render('.questionsBody', QuestionController.paginate(controllerData.questionsData.length, page,
                         'category/' + controllerData.categoryData.objectId + '/', controllerData.questionsData));
                 });
