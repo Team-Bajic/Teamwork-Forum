@@ -1,0 +1,26 @@
+{{#each answers}}
+	<div data-id="{{objectId}}">
+		<div class="panel answer">
+			<h2 class="large-10">
+			Author: 
+			{{#if postedBy}}
+				<a href="#/user/{{postedBy.objectId}}">{{author}}</a>
+			{{else}}
+				{{author}}
+			{{/if}}
+			</h2>
+			<p class="questionParagraph large-10" >{{answerText}}</p>
+			<h2>Question Title: <a href="#/question/{{question.objectId}}">{{question.title}}</a></h2>
+		</div>
+	</div>
+{{/each}}
+<div class="clearfix">
+	<ul class="pagination">
+		<li class="arrow left {{previousStatus}}">
+			<a href="#/{{url}}page={{previous}}">&laquo;</a>
+		</li>
+		<li class="arrow right {{nextStatus}}">
+			<a href="#/{{url}}page={{next}}">&raquo;</a>
+		</li>
+	</ul>
+</div>

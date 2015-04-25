@@ -179,7 +179,26 @@ var Forum = Forum || {};
 		});
 
         this.get('#/search/by=:option/text=:searched', function(){
-            //Forum.controllers.HeaderController.showHeader();
+            var _this = this;
+            user = Forum.data.User.currentUser();
+            
+            if(user !== null){
+                user.then(function(result){
+                    passedData.userData = result;
+                    
+                    return Forum.data.Role.getById(passedData.userData.role.objectId);
+                }).then(function(result){
+                    passedData.userData.role = result;
+
+                    Forum.controllers.HeaderController.showHeader(passedData.userData);
+                    Forum.controllers.CategoryController.showCategories(passedData.userData);
+                });
+            } else{
+                Forum.controllers.HeaderController.showHeader();
+                Forum.controllers.CategoryController.showCategories();
+            }
+            
+            console.log(this.params['option'])
             Forum.controllers.SearchController.getParams(this.params['option'], this.params['searched'], 0);
         });
 
