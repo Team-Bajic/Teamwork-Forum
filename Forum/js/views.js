@@ -56,13 +56,12 @@ Forum.views = (function() {
 
 				if (user != null) {
 					user.then(function(result) {
-						debugger;
 						postedBy = result.objectId;
-						Forum.controllers.AnswerController.addAnswerByUser(postedBy, questionId, answerText);
+						Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText);
 					});
 				} else {
 					postedBy = $('.answer-author').val().trim() ||  $('.answer-email').val().trim();
-					Forum.controllers.AnswerController.addAnswerByGuest(postedBy, questionId, answerText);
+					Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText);
 				}
 			});
 		}
@@ -100,6 +99,9 @@ Forum.views = (function() {
 							postedByID = result.objectId;
 
 						Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID)
+							.then(function (result) {
+								Forum.data.Category.updateCategory(categoryID, result.objectId);
+							})
 					});
 			});
 		}
