@@ -102,7 +102,14 @@ p {
 textarea {
     min-height: 5em;
 }
+#searchFilter, #searchBar{
 
-#searchBar, #searchBarButton{
-    display: inline-block;
+    display: inline;
+    font-size: 12px;
+}
+#searchBar{
+    width: 12em;
+}
+#searchFilter{
+    width: 7em;
 }
