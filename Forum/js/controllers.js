@@ -65,6 +65,7 @@ Forum.controllers = (function () {
             Forum.data.Category.getById(categoryId)
                 .then(function (result) {
                     controllerData.categoryData = JSON.parse(JSON.stringify(result));
+                    console.log(result);
 
                     if (!page || page < 0) {
                         page = 0;
@@ -160,20 +161,20 @@ Forum.controllers = (function () {
                     questionsView.render('.main-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
                 });
         },
-        addQuestion: function (title, postedByID, questionText, categoryID, tags) {
-            Forum.data.Question.create(title, postedByID, questionText, categoryID, tags);
+        addQuestion: function (title, postedByID, questionText, categoryID) {
+            Forum.data.Question.create(title, postedByID, questionText, categoryID)
+                .then(function (result) {
+                    Forum.data.Category.updateCategory(categoryID, result.objectId);
+                });
         }
     };
 
     var AnswerController = {
-        addAnswerByUser: function (postedBy, questionId, answerText) {
-            Forum.data.Answer.createByUser(postedBy, questionId, answerText);
-        },
-        addAnswerByGuest: function (author, questionId, answerText) {
-            Forum.data.Answer.createByGuest(author, questionId, answerText);
-        },
-        showAnswers: function(){
-            
+        addAnswer: function (author, questionId, answerText) {
+            Forum.data.Answer.createByGuest(author, questionId, answerText)
+                .then(function (result) {
+                    Forum.data.Question.updateQuestion(questionId, result.objectId);
+                });
         }
     };
 

@@ -12,7 +12,7 @@ Forum.data = (function() {
 			}, null);
 		},
 		getById: function(id) {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/' + id, null, '', function(result) {
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/' + id, null, '?include=questions', function(result) {
 				return result;
 			}, null);
 		},
@@ -23,6 +23,22 @@ Forum.data = (function() {
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/', null, '', function(result) {
+				return result;
+			}, null);
+		},
+		updateCategory: function(categoryId, questionId) {
+			var dataToUpdate = {
+				"questions": {
+					"__op": "AddUnique",
+					"objects": [{
+						"__type": "Pointer",
+						"className": "Question",
+						"objectId": questionId
+					}]
+				}
+			}
+
+			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + categoryId, JSON.stringify(dataToUpdate), '', function(result) {
 				return result;
 			}, null);
 		}
@@ -90,7 +106,8 @@ Forum.data = (function() {
 
 		},
 		getById: function(id) {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, '?include=postedBy', function(result) {
+			var queryParams = '?include=postedBy&include=answers';
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, queryParams, function(result) {
 				return result;
 			}, null);
 		},
@@ -125,10 +142,19 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-		getQuestionsByCategory: function(questionId) {
-			var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy';
+		updateQuestion: function(questionid, answerId) {
+			var dataToUpdate = {
+				"answers": {
+					"__op": "AddUnique",
+					"objects": [{
+						"__type": "Pointer",
+						"className": "Answer",
+						"objectId": answerId
+					}]
+				}
+			}
 
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams, function(result) {
+			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + questionid, JSON.stringify(dataToUpdate), '', function(result) {
 				return result;
 			}, null);
 		}
