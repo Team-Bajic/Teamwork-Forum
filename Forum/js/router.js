@@ -178,6 +178,10 @@ var Forum = Forum || {};
 			Forum.controllers.CategoryController.showCategories();
 		});
 
+        this.get('#/search/by:option=:searched', function(){
+            
+        })
+
 		this.get('#/admin/viewAnswers', function() {
             user = Forum.data.User.currentUser();
             

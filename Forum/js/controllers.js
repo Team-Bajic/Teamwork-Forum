@@ -29,6 +29,37 @@ Forum.controllers = (function () {
         }
     };
 
+    var SearchController = {
+    	getParams: function(option, searched){
+    		switch(option){
+    			case 'tag':
+    				this.searchByTag(searched);
+    				break;
+    			case 'question':
+    				this.searchByQuestion(searched);
+    				break;
+    			case 'answer':
+    				this.searchByAnswer(searched);
+    				break;
+    			default:
+    				this.showInvalidOption();
+    				break;
+    		}
+    	},
+    	searchByTag: function(searched){
+    		Forum.data.Question.getAllTags()
+    	},
+    	searchByQuestion: function(searched){
+
+    	},
+    	searchByAnswer: function(searched){
+    		
+    	},
+    	showInvalidOption: function(){
+
+    	}
+    }
+
     var CategoryController = {
         showCategory: function (categoryId, page) {
             Forum.data.Category.getById(categoryId)
