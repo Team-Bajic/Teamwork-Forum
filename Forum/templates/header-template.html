@@ -8,9 +8,9 @@
         <a href="#/admin/viewTags" class="button tiny">View Tags</a>
       {{/if}}
       {{#if user}}
-        <a href="#/user/{{objectId}}" class="button tiny">My Profile</a>
+        <a href="#/user/{{objectId}}" class="button tiny radius">My Profile</a>
       {{/if}}
-        <a id="logout" class="button tiny">Logout</a>
+        <a id="logout" class="button tiny radius">Logout</a>
     {{else}}
       <a data-reveal-id="login" class="button tiny radius" >Log in</a>
       <a data-reveal-id="register" class="button tiny radius" >Register</a>
@@ -35,13 +35,14 @@
     </form>
     {{/if}}
   </ul>
-  <!-- <div class="small-4 columns">
-    <input type="text" placeholder="Search" id="searchBar">
-    <ul>
-      Tag<input type="radio" name="searchType" value="Tag">
-      Question<input type="radio" name="searchType" value="Question">
-      Answer<input type="radio" name="searchType" value="Answer">
-    </ul>
+  <div id="searchDiv">
+    <select name="searchFilter" class="radius" id="searchFilter">
+      <option>Search by</option>
+      <option value="Tag">Tag</option>
+      <option value="Question">Question</option>
+      <option value="Answer">Answer</option>
+    </select>
+    <input type="text" placeholder="Search" class="radius" id="searchBar">
+    <button type="button" class="button tiny radius" id="searchBarButton"><i class="fi-magnifying-glass size-18"></i></button>
   </div>
-  <button type="button" class="button tiny" id="searchBarButton">Search</button> -->
 </nav>
