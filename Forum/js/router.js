@@ -178,9 +178,16 @@ var Forum = Forum || {};
 			Forum.controllers.CategoryController.showCategories();
 		});
 
-        this.get('#/search/by:option=:searched', function(){
-            
-        })
+        this.get('#/search/by=:option/text=:searched', function(){
+            //Forum.controllers.HeaderController.showHeader();
+            Forum.controllers.SearchController.getParams(this.params['option'], this.params['searched'], 0);
+        });
+
+        this.get('#/search/by=:option/text=:searched/page=:pageNumber', function(){
+            //Forum.controllers.HeaderController.showHeader();
+            Forum.controllers.SearchController
+            .getParams(this.params['option'], this.params['searched'], parseInt(this.params['pageNumber']));
+        });
 
 		this.get('#/admin/viewAnswers', function() {
             user = Forum.data.User.currentUser();
