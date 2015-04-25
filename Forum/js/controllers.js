@@ -254,6 +254,16 @@ Forum.controllers = (function () {
             var headerView = new Forum.views.HeaderView();
 
             headerView.render('.header', userData);
+            
+            $('#searchBarButton').on('click', function(){
+                if($('#searchBar').val().trim().length === 0){
+                    alert("You cannot search for empty string.");
+                } else{
+                    var selectedOption = $('#searchFilter').val().toLowerCase();
+                
+                    Forum.Router.setLocation('#/search/by=' + selectedOption + '/text=' + $('#searchBar').val()); 
+                }
+            });
         }
     };
 
