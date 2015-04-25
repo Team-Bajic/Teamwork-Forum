@@ -3,6 +3,25 @@ var Forum = Forum || {};
 Forum.controllers = (function () {
     var controllerData = {};
 
+    function paginate(count, page, url, propertyName, data, perPage){
+    	var next = (page + 1 > count / perPage ? page : page + 1);
+        var previous = (page - 1 <= 0 ? 0 : page - 1);
+        var previousStatus = (page <= 0 ? "unavailable" : "available");
+        var nextStatus = (page + 1 > count / perPage ? "unavailable" : "available");
+
+
+        var objToReturn = {};
+        objToReturn[propertyName] = data;
+
+        objToReturn.next = next;
+        objToReturn.previous = previous;
+        objToReturn.previousStatus = previousStatus;
+        objToReturn.nextStatus = nextStatus;
+        objToReturn.url = url;
+        
+        return objToReturn;
+    }
+
     var UserController = {
         logInUser: function (username, password) {
             return Forum.data.User.logIn(username, password);
@@ -69,8 +88,9 @@ Forum.controllers = (function () {
     			questions = questions.slice(page * Forum.config.questionsPerPage, page * Forum.config.questionsPerPage + Forum.config.questionsPerPage);
 
     			questionsView.render('.main-container', 
-    				QuestionController.paginate(questions.length, page,
-    				 '#/search/by=tag/text=' + searched + '/', questions));	
+    				paginate(questions.length, page,
+    				 '#/search/by=tag/text=' + searched + '/', 'questions', questions,
+    				 Forum.config.questionsPerPage));	
     		});
     	},
     	searchByQuestion: function(searched, page){
@@ -88,15 +108,30 @@ Forum.controllers = (function () {
     			questions = questions.slice(page * Forum.config.questionsPerPage, page * Forum.config.questionsPerPage + Forum.config.questionsPerPage);
     			
     			questionsView.render('.main-container', 
-    				QuestionController.paginate(questions.length, page,
-    				 '#/search/by=question/text=' + searched + '/', questions));	
+    				paginate(questions.length, page, 
+    					'#/search/by=question/text=' + searched + '/', 'questions', questions,
+    					Forum.config.questionsPerPage));	
     		});
     	},
     	searchByAnswer: function(searched, page){
-    		
+    		Forum.data.Answer.getAll().then(function(result){
+    			var answers = [];
+
+    			result.results.forEach(function(answer){
+    				if(answer.answerText.toLowerCase().indexOf(searched.toLowerCase()) > -1){
+    					answers.push(answer);
+    				}
+    			});
+
+    			answers = answers.slice(page * Forum.config.questionsPerPage, page * Forum.config.questionsPerPage + Forum.config.questionsPerPage);
+
+    			$('.main-container').html(Forum.templateBuilder('answers-template',
+    			 paginate(answers.length, page, '#/search/by=answer/text=' + searched + '/',
+    			 	'answers', answers, Forum.config.questionsPerPage)));
+    		});
     	},
     	showInvalidOption: function(){
-
+    		$('.main-container').append('<h1>Wrong option selected</h1>');
     	}
     }
 
@@ -125,14 +160,10 @@ Forum.controllers = (function () {
                     var categoryView = new Forum.views.SingleCategoryView();
                     var questionsView = new Forum.views.QuestionsView();
 
-                    var next = (page + 1 > count / Forum.config.questionsPerPage ? page : page + 1);
-                    var previous = (page - 1 <= 0 ? 0 : page - 1);
-                    var previousStatus = (page <= 0 ? "unavailable" : "available");
-                    var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
-
                     categoryView.render('.main-container', controllerData.categoryData);
-                    questionsView.render('.questionsBody', QuestionController.paginate(controllerData.questionsData.length, page,
-                        'category/' + controllerData.categoryData.objectId + '/', controllerData.questionsData));
+                    questionsView.render('.questionsBody', paginate(controllerData.questionsData.length, page,
+                        'category/' + controllerData.categoryData.objectId + '/', 'questions', 
+                        controllerData.questionsData, Forum.config.questionsPerPage));
                 });
         },
         showCategories: function () {
@@ -173,21 +204,6 @@ Forum.controllers = (function () {
                     singleQuestionView.render('.main-container', controllerData);
                 });
         },
-        paginate: function (count, page, url, questions) {
-            var next = (page + 1 > count / Forum.config.questionsPerPage ? page : page + 1);
-            var previous = (page - 1 <= 0 ? 0 : page - 1);
-            var previousStatus = (page <= 0 ? "unavailable" : "available");
-            var nextStatus = (page + 1 > count / Forum.config.questionsPerPage ? "unavailable" : "available");
-
-            return {
-                questions: questions,
-                next: next,
-                previous: previous,
-                previousStatus: previousStatus,
-                nextStatus: nextStatus,
-                url: url
-            };
-        },
         showAllQuestions: function (page) {
 
             if (!page || page < 0) {
@@ -202,7 +218,8 @@ Forum.controllers = (function () {
                 }).then(function (result) {
                     var questionsView = new Forum.views.QuestionsView();
 
-                    questionsView.render('.main-container', QuestionController.paginate(result.count, page, '', controllerData.questionsData));
+                    questionsView.render('.main-container', paginate(result.count,
+                     page, '', 'questions', controllerData.questionsData, Forum.config.questionsPerPage));
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID) {

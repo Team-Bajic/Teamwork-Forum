@@ -209,7 +209,7 @@ Forum.data = (function() {
 			}, null);
 		},
 		getAll: function() {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, queryParams, function(result) {
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '?include=question', function(result) {
 				return result;
 			}, null);
 		},
