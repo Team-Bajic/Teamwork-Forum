@@ -103,3 +103,6 @@ textarea {
     min-height: 5em;
 }
 
+#searchBar, #searchBarButton{
+    display: inline-block;
+}
