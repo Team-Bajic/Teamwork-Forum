@@ -50,11 +50,12 @@ Forum.data = (function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Tag/', null, '', function(result) {
 				return result;
 			}, null);
-		}
+		},
+
 	};
 
 	var Question = {
-		create: function(title, postedByID, questionText, categoryID) {
+		create: function(title, postedByID, questionText, categoryID, tags) {
 			var user = Forum.data.User.currentUser(),
 				headerAddition;
 
@@ -72,7 +73,9 @@ Forum.data = (function() {
 							__type: 'Pointer',
 							className: 'Category',
 							objectId: categoryID
-						}
+						},
+                        tags: tags,
+                        visits: 0
 					};
 
 					headerAddition = {

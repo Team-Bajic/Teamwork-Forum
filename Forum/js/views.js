@@ -80,12 +80,47 @@ Forum.views = (function() {
 		Forum.editor = CKEDITOR.replace('editor');
 
 		function assignNewQuestionEvents() {
+      var tagCounter = 0;
+      var tags = [];
+
+      $('#tagRemove').on('click', function(){
+        if(tagCounter > 0){
+          $('.addedTags').find('span').last().remove();
+          tagCounter -= 1;
+        } else{
+          alert('There are no tags to delete.');
+        }
+      });
+
+      $('#tagButton').on('click', function(){
+        var tag = $('#tagInput').val().trim();
+
+        if(tag.length === 0){
+          alert("You cannot add empty tag.");
+        } else if(tags.indexOf(tag) > -1){
+          alert('Already in added.');
+          $('#tagInput').val('');
+        } else {
+          tags.push(tag);
+
+          if(tagCounter > 0){
+            tag = ', ' + tag;
+          }
+
+          $('.addedTags').append("<span class='tag'>" + tag + "</span>");
+          $('#tagInput').val('');
+
+          tagCounter += 1;
+        }
+      });
+
 			$('.reveal-options-block').on('click', function(event) {
 				$('#createQuestionBox').slideDown();
 			});
 
 			$('.dismiss-button').on('click', function(event) {
 				$('#createQuestionBox').slideUp().find("input").val('');
+        $('.addedTags').find('.tag').remove();
 				Forum.editor.setData("");
 			});
 
@@ -96,11 +131,14 @@ Forum.views = (function() {
 						var title = $("input[name='new-question-title']").val(),
 							questionText = Forum.editor.getData(),
 							categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
-							tags = $("input[name='new-question-tags']").val(),
 							postedByID = result.objectId;
 
-						Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID)
-					});
+						  return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
+					}).then(function(result){
+                $('#createQuestionBox').slideUp().find("input").val('');
+                $('.addedTags').find('.tag').remove();
+                Forum.editor.setData("");
+              });
 			});
 		}
 	};

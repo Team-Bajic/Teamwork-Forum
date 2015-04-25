@@ -5,9 +5,19 @@
 	</div>
 
 	<div id="createQuestionBox" class="panel clearfix">
-		<input type="text" name="new-question-title" placeholder="Question title..."></input>
+		<input type="text" name="new-question-title" placeholder="Question title..."/>
 		<textarea name="editor" id="editor" placeholder="Question content..."></textarea>
-		<input type="text" name="new-question-tags" placeholder="Tags..."></input>
+		<!-- <input type="text" name="new-question-tags" placeholder="Tags..." disabled /> -->
+		<div class="tagsArea">
+			<section class="addedTags">
+				<span>Tags :</span>
+			</section>
+			<section class="text-center">
+				<input type="text" required="required" id="tagInput" />
+				<button class="button tiny" type="button" id="tagButton">Add Tag</button>
+				<button class="button tiny alert" type="button" id="tagRemove">Remove Last Tag</button>
+			</section>
+		</div>
 		<div class="right">
 			<a class="post-button button tiny">Post</a>
 			<a class="dismiss-button button alert tiny">Dismiss</a>

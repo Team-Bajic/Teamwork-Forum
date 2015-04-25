@@ -3,6 +3,16 @@
 	<div class="panel question">
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
 		<p class="questionParagraph large-10" >{{questionText}}</p>
+		<span>Tags: 
+		</span>
+		{{#each tags}}
+		 {{#if @first}} 
+		 	{{this}}
+		 {{else}} 
+		 	, {{this}}
+		 {{/if}}
+		 <span>
+		 {{/each}}
 		<p>postedBy:<a href="#/"> {{postedBy.username}}</a></p>
 	</div>
 </div>
