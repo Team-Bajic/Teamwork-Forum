@@ -8,6 +8,10 @@ html {
     font-family: 'Lobster';
     src: url(fonts/Lobster%201.4.otf);
 }
+@font-face{
+    font-family: 'foundation-icons';
+    src: url(fonts/foundation-icons.ttf);
+}
 
 .lobster{
     font-family: 'Lobster';
@@ -102,14 +106,28 @@ p {
 textarea {
     min-height: 5em;
 }
+#searchDiv{
+    margin-top: 1.5em;
+}
 #searchFilter, #searchBar{
-
+    padding: 0 8px 0 8px ;
     display: inline;
     font-size: 12px;
+    height: 2.2em;
 }
 #searchBar{
     width: 12em;
+    border-bottom-right-radius: 0 ;
+    border-top-right-radius: 0;
 }
 #searchFilter{
     width: 7em;
+}
+#searchBarButton{
+    margin-left: -3.8px;
+    padding: 0.37em 0.7em 0.42em 0.7em;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+
 }
