@@ -1,4 +1,4 @@
-{{#each questions.questionsData}}
+{{#each questions}}
 <div data-id="{{objectId}}">
 	<div class="panel question">
 		{{#if ../questions.userData.admin}}
@@ -16,7 +16,16 @@
 		 {{/if}}
 		 <span>
 		 {{/each}}
-		<p>author:<a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a><span class="right">Visits: {{visits}}</span></p>
+		<p>author:
+            <a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a>
+            <span class="right">Answers: 
+                {{#if answers}}
+                {{answers.length}} 
+                {{else}} 0
+                {{/if}}
+            </span>
+            <span class="right">Visits: {{visits}}|</span>
+        </p>
 	</div>
 </div>
 {{/each}}

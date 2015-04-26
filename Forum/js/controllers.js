@@ -175,7 +175,7 @@ Forum.controllers = (function () {
                     categoryView.render('.main-container', controllerData.categoryData);
                     questionsView.render('.questionsBody', paginate(controllerData.questionsData.length, page,
                         'category/' + controllerData.categoryData.objectId + '/', 'questions', 
-                        controllerData, Forum.config.questionsPerPage));
+                        controllerData.questionsData, Forum.config.questionsPerPage));
                 });
         },
         showCategories: function (userData) {
@@ -234,7 +234,7 @@ Forum.controllers = (function () {
                     var questionsView = new Forum.views.QuestionsView();
 
                     questionsView.render('.main-container', paginate(result.count,
-                     page, '', 'questions', controllerData, Forum.config.questionsPerPage));
+                     page, '', 'questions', controllerData.questionsData, Forum.config.questionsPerPage));
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID, tags) {
