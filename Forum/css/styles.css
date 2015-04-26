@@ -124,11 +124,15 @@ textarea {
 #searchFilter{
     width: 7em;
 }
-#searchBarButton{
+#searchBarButton {
     margin-left: -3.8px;
-    padding: 0.5em 0.7em 0.42em 0.7em;
+    padding: 0.35em 0.7em 0.42em 0.7em;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 
-
+}
+#questionInfo{
+    margin-top: 5em;
+    margin-bottom: -2em;
+    font-size: 14px;
 }

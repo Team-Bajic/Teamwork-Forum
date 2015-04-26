@@ -1,11 +1,18 @@
 {{#each questions}}
 <div data-id="{{objectId}}">
 	<div class="panel question">
-		{{#if ../userData.admin}}
-		<a id="deleteQuestionButton" class="button right tiny alert">Delete</a>
-		{{/if}}
+		{{#ifEquals ../userData.role.name "admins"}}
+            <a id="deleteQuestionButton" class="button right tiny alert">Delete</a>
+        {{else}}
+        {{#ifEquals ../../userData.role.name "users"}}
+            {{#ifEquals postedBy.objectId ../../../userData.objectId}}
+                <a id="deleteQuestionButton" class="button right tiny alert">Delete</a>
+            {{/ifEquals}}
+        {{/ifEquals}}
+		{{/ifEquals}}
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
 		<p class="questionParagraph large-10" >{{questionText}}</p>
+		<div id="questionInfo">
 		<span>Tags: 
 		</span>
 		{{#each tags}}
@@ -14,7 +21,6 @@
 		 {{else}} 
 		 	, {{this}}
 		 {{/if}}
-		 <span>
 		 {{/each}}
 		<p>author:
             <a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a>
@@ -23,9 +29,10 @@
                 {{answers.length}} 
                 {{else}} 0
                 {{/if}}
-            </span>
-            <span class="right">Visits: {{visits}}|</span>
+            Visits: {{visits}}
+			</span>
         </p>
+			 </div>
 	</div>
 </div>
 {{/each}}
