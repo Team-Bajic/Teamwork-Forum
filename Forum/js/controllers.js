@@ -146,7 +146,7 @@ Forum.controllers = (function () {
         showCategory: function (categoryId, page, userData) {
             Forum.data.Category.getById(categoryId)
                 .then(function (result) {
-                    controllerData.categoryData = JSON.parse(JSON.stringify(result));
+                    controllerData.categoryData = result;
                     controllerData.categoryData.user = {}; 
                 
                     if(userData){
@@ -175,13 +175,13 @@ Forum.controllers = (function () {
                     categoryView.render('.main-container', controllerData.categoryData);
                     questionsView.render('.questionsBody', paginate(controllerData.questionsData.length, page,
                         'category/' + controllerData.categoryData.objectId + '/', 'questions', 
-                        controllerData.questionsData, Forum.config.questionsPerPage));
+                        controllerData, Forum.config.questionsPerPage));
                 });
         },
         showCategories: function (userData) {
             Forum.data.Category.getAll()
                 .then(function (result) {
-                    controllerData.categoriesData = JSON.parse(JSON.stringify(result.results));
+                    controllerData.categoriesData = result.results;
 
                     var categoryView = new Forum.views.CategoryView();
                     categoryView.render('.side-container', controllerData.categoriesData);
@@ -198,16 +198,12 @@ Forum.controllers = (function () {
             Forum.data.Question.getById(questionId)
                 .then(function (result) {
                     controllerData.userData = {};
-                
+                    controllerData.questionData = result;
+                    controllerData.answersData = result.answers;
+
                     if(userData){
                         controllerData.userData = userData; 
                     }
-
-                    controllerData.questionData = JSON.parse(JSON.stringify(result));
-
-                    return Forum.data.Answer.getAnswersByQuestion(controllerData.questionData.objectId);
-                }).then(function (result) {
-                    controllerData.answersData = JSON.parse(JSON.stringify(result.results));
 
                     var singleQuestionView = new Forum.views.SingleQuestionView();
 
@@ -215,6 +211,9 @@ Forum.controllers = (function () {
                 });
         },
         showAllQuestions: function (page, userData) {
+            if(userData) {
+                controllerData.userData = userData;
+            }
 
             if (!page || page < 0) {
                 page = 0;
@@ -222,14 +221,14 @@ Forum.controllers = (function () {
 
             Forum.data.Question.getInRange(Forum.config.questionsPerPage * page, Forum.config.questionsPerPage)
                 .then(function (result) {
-                    controllerData.questionsData = JSON.parse(JSON.stringify(result.results));
+                    controllerData.questionsData = result.results;
 
                     return Forum.data.Question.getCount();
                 }).then(function (result) {
                     var questionsView = new Forum.views.QuestionsView();
 
                     questionsView.render('.main-container', paginate(result.count,
-                     page, '', 'questions', controllerData.questionsData, Forum.config.questionsPerPage));
+                     page, '', 'questions', controllerData, Forum.config.questionsPerPage));
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID, tags) {

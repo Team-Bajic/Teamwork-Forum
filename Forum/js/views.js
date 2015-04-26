@@ -28,9 +28,7 @@ Forum.views = (function() {
 	};
 
 	SingleQuestionView.prototype.render = function(element, data) {
-		$(element).html(Forum.templateBuilder('single-question-template', {
-			data: data
-		}));
+		$(element).html(Forum.templateBuilder('single-question-template', data));
 
 		assignNewAnswerEvents();
 

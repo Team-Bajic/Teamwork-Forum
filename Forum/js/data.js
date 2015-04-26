@@ -118,7 +118,7 @@ Forum.data = (function() {
 			}
 		},
 		getById: function(id) {
-			var queryParams = '?include=postedBy&include=answers';
+			var queryParams = '?include=answers.postedBy,postedBy';
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, queryParams, function(result) {
 				return result;
 			}, null);
@@ -231,12 +231,6 @@ Forum.data = (function() {
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '?include=question', function(result) {
-				return result;
-			}, null);
-		},
-		getAnswersByQuestion: function(questionId) {
-			var queryParams = '?where={"question":{"__type":"Pointer","className":"Question","objectId":"' + questionId + '"}}&include=postedBy';
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, queryParams, function(result) {
 				return result;
 			}, null);
 		}

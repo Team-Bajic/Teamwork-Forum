@@ -1,6 +1,9 @@
-{{#each questions}}
+{{#each questions.questionsData}}
 <div data-id="{{objectId}}">
 	<div class="panel question">
+		{{#if ../questions.userData.admin}}
+		<a id="deleteQuestionButton" class="button right tiny alert">Delete</a>
+		{{/if}}
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
 		<p class="questionParagraph large-10" >{{questionText}}</p>
 		<span>Tags: 

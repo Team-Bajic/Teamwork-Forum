@@ -1,11 +1,14 @@
 <div class="question-container" data-id="{{data.questionData.objectId}}">
 	<div class="panel question">
-		<h2 class="large-8 questionTitle">{{data.questionData.title}}</h2>
-		<p class="fullQuestionParagraph large-4" >{{data.questionData.questionText}}</p>
-		<p>author:<a href="#/"> {{data.questionData.postedBy.username}}</a></p>
+		<h2 class="questionTitle">{{questionData.title}}</h2>
+		<p>{{questionData.questionText}}</p>
+		<p>author:<a href="#/"> {{questionData.postedBy.username}}</a></p>
 	</div>
-	{{#each data.answersData}}
+	{{#each answersData}}
 	<div class="panel">
+		{{#if ../userData.admin}}
+		<a id="deleteAnswerButton" class="button right tiny alert">Delete</a>
+		{{/if}}
 		<p class="answerParagraph large-8">{{answerText}}</p>
 		{{#if author}}
 		<p>author:<a href="#/"> {{author}}</a></p>
@@ -19,7 +22,7 @@
 		<a class="reveal-answer-block button tiny radius">Add Answer</a>
 	</div>
 	<div id="createAnswerBox" class="panel clearfix">
-		{{#unless data.userData.sessionToken}}
+		{{#unless userData.sessionToken}}
 		<input type="text" class="answer-author" placeholder="Name"></input>
         <input type="email" class="answer-email" placeholder="E-mail"></input>
 		{{/unless}}
