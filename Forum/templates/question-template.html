@@ -1,7 +1,7 @@
 {{#each questions}}
 <div data-id="{{objectId}}">
 	<div class="panel question">
-		{{#if ../questions.userData.admin}}
+		{{#if ../userData.admin}}
 		<a id="deleteQuestionButton" class="button right tiny alert">Delete</a>
 		{{/if}}
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>

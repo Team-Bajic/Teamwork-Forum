@@ -21,16 +21,16 @@
 	<div class="answer-block-controls">
 		<a class="reveal-answer-block button tiny radius">Add Answer</a>
 	</div>
-	<div id="createAnswerBox" class="panel clearfix">
+	<form id="createAnswerBox" class="panel clearfix" autocomplete="off">
 		{{#unless userData.sessionToken}}
-		<input type="text" class="answer-author" placeholder="Name"></input>
-        <input type="email" class="answer-email" placeholder="E-mail"></input>
+		<input type="text" class="answer-author" placeholder="Name" minLength="4" required></input>
+        <input type="email" class="answer-email" placeholder="E-mail" email=></input>
 		{{/unless}}
 		<label>Answer:</label>
 		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>
 		<div class="new-question-controls right clearfix">
-			<a class="post-button button tiny radius">Post</a>
+			<input type="submit" value="Post" class="post-button button tiny radius"/>
 			<a class="dismiss-button button alert tiny radius">Dismiss</a>
 		</div>
-	</div>
+	</form>
 </div>

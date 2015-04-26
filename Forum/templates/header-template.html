@@ -14,25 +14,26 @@
     {{else}}
       <a data-reveal-id="login" class="button tiny radius" >Log in</a>
       <a data-reveal-id="register" class="button tiny radius" >Register</a>
-    <form id="loginForm">
+    
       <div id="login" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-        <input type="text" id="loginUsername" placeholder="Username"/>
-        <input type="password" id="loginPassword" placeholder="Password"/>
-        <input type="button" value="Log In" id="loginButton" class="button radius">
-        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        <form id="loginForm" autocomplete="off">
+          <input type="text" id="loginUsername" name="username" placeholder="Username" required/>
+          <input type="password" id="loginPassword" name="password" placeholder="Password" required/>
+          <input type="submit" value="Log In" id="loginButton" class="button radius">
+          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </form>
       </div>
-    </form>
-
-    <form action="" id="registerForm">
-      <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-        <input type="text" id="username" placeholder="Username"/>
-        <input type="password" id="password" placeholder="Password"/>
-        <input type="password" id="confirm-password" placeholder="Confirm Password"/>
-        <input type="email" id="email" placeholder="Email"/>
-        <a id="registerButton" class="button radius">Register</a>
+    
+    <div id="register" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+      <form id="registerForm" autocomplete="off">
+        <input type="text" id="username" placeholder="Username" minLength="4" maxlength="20"  required/>
+        <input type="password" id="password" placeholder="Password" minLength="4" required/>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" equalTo="#password" required/>
+        <input type="email" id="email" placeholder="Email" email required/>
+        <input type="submit" value="Register" id="registerButton" class="button radius"/>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-      </div>
-    </form>
+      </form>
+    </div>
     {{/if}}
   </ul>
   <div class="large-5 columns" id="searchDiv">

@@ -47,29 +47,38 @@ Forum.views = (function() {
 			});
 
 			$('.post-button').on('click', function(event) {
-				var postedBy,
-					user = Forum.data.User.currentUser(),
-					questionId = $('.question-container').attr('data-id'),
-					answerText = Forum.editor.getData();
+				var form = $('#createAnswerBox');
+				form.validate();
 
-				if (user != null) {
-					user.then(function(result) {
-						Forum.controllers.AnswerController.addAnswer('user', questionId, answerText, {user: result})
-							.then(function() {
-								$("#createAnswerBox").slideUp();
-								Forum.editor.setData("");
-							});
-					});
-				} else {
-					postedBy = $('.answer-author').val().trim(); //|| $('.answer-email').val().trim();
-                    
-					Forum.controllers.AnswerController.addAnswer('guest', questionId, answerText, {author: postedBy})
-						.then(function() {
-							$("#createAnswerBox").slideUp().find("input").val('');
-							Forum.editor.setData("");
-							Forum.Router.refresh();
+				if (form.valid()) {
+					event.preventDefault();
+					var postedBy,
+						user = Forum.data.User.currentUser(),
+						questionId = $('.question-container').attr('data-id'),
+						answerText = Forum.editor.getData();
+
+					if (user != null) {
+						user.then(function(result) {
+							Forum.controllers.AnswerController.addAnswer('user', questionId, answerText, {
+									user: result
+								})
+								.then(function() {
+									$("#createAnswerBox").slideUp();
+									Forum.editor.setData("");
+								});
 						});
+					} else {
+						postedBy = $('.answer-author').val().trim(); //|| $('.answer-email').val().trim();
 
+						Forum.controllers.AnswerController.addAnswer('guest', questionId, answerText, {
+								author: postedBy
+							})
+							.then(function() {
+								$("#createAnswerBox").slideUp().find("input").val('');
+								Forum.editor.setData("");
+								Forum.Router.refresh();
+							});
+					}
 				}
 			});
 		}
@@ -88,6 +97,9 @@ Forum.views = (function() {
 			Forum.editor = CKEDITOR.replace('editor');
 
 			function assignNewQuestionEvents() {
+				var form = $('#createQuestionBox');
+				form.validate();
+
 				var tagCounter = 0;
 				var tags = [];
 
@@ -133,20 +145,22 @@ Forum.views = (function() {
 				});
 
 				$('.post-button').on('click', function(event) {
+					if (form.valid()) {
+						event.preventDefault();
+						Forum.data.User.currentUser()
+							.then(function(result) {
+								var title = $("input[name='new-question-title']").val(),
+									questionText = Forum.editor.getData(),
+									categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
+									postedByID = result.objectId;
 
-					Forum.data.User.currentUser()
-						.then(function(result) {
-							var title = $("input[name='new-question-title']").val(),
-								questionText = Forum.editor.getData(),
-								categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
-								postedByID = result.objectId;
-
-							return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
-						}).then(function(result) {
-							$('#createQuestionBox').slideUp().find("input").val('');
-							$('.addedTags').find('.tag').remove();
-							Forum.editor.setData("");
-						});
+								return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
+							}).then(function(result) {
+								$('#createQuestionBox').slideUp().find("input").val('');
+								$('.addedTags').find('.tag').remove();
+								Forum.editor.setData("");
+							});
+						}
 				});
 			}
 		}
@@ -167,19 +181,25 @@ Forum.views = (function() {
 		assignRegisterEvents();
 
 		function assignLoginEvents() {
-			$('#loginForm').validate();
+			var form = $('#loginForm');
+			form.validate();
+			
 			$("a[data-reveal-id='login']").on('click', function(event) {
 				$('div#login').foundation('reveal', 'open');
 
 				$('#loginButton').on('click', function(event) {
-					var username = $('#loginUsername').val().trim(),
-						password = $('#loginPassword').val().trim();
+					if (form.valid()) {
+						event.preventDefault();
 
-					Forum.controllers.UserController.logInUser(username, password)
-						.then(function(result) {
-							Forum.Router.refresh()
-							$('div#login').foundation('reveal', 'close');
-						})
+						var username = $('#loginUsername').val().trim(),
+							password = $('#loginPassword').val().trim();
+
+						Forum.controllers.UserController.logInUser(username, password)
+							.then(function(result) {
+								Forum.Router.refresh()
+								$('div#login').foundation('reveal', 'close');
+							})
+					};					
 				});
 			});
 		};
@@ -259,6 +279,9 @@ Forum.views = (function() {
 				}
 			};
 
+			var form = $('#registerForm');
+			form.validate();
+
 			$("a[data-reveal-id='register']").on('click', function(event) {
 				$('div#register').foundation('reveal', 'open');
 
@@ -267,7 +290,10 @@ Forum.views = (function() {
 				});
 
 				$('#registerButton').on('click', function(event) {
-					validateUserData();
+					if (form.valid()) {
+						event.preventDefault();
+					}
+					// validateUserData();
 				});
 			});
 		}

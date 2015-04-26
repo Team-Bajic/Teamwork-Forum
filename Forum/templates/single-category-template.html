@@ -5,8 +5,8 @@
 		<a class="reveal-options-block button tiny radius">Add New Question</a>
 	</div>
 
-	<div id="createQuestionBox" class="panel clearfix">
-		<input type="text" name="new-question-title" placeholder="Question title..."/>
+	<form id="createQuestionBox" class="panel clearfix" autocomplete="off">
+		<input type="text" name="new-question-title" placeholder="Question title..." minLength="10" maxlength="50" required/>
 		<textarea name="editor" id="editor" placeholder="Question content..."></textarea>
 		<!-- <input type="text" name="new-question-tags" placeholder="Tags..." disabled /> -->
 		<div class="tagsArea">
@@ -14,16 +14,16 @@
 				<span>Tags :</span>
 			</section>
 			<section class="text-center">
-				<input type="text" required="required" id="tagInput" />
+				<input type="text" id="tagInput" />
 				<button class="button tiny radius" type="button" id="tagButton">Add Tag</button>
 				<button class="button tiny alert radius" type="button" id="tagRemove">Remove Last Tag</button>
 			</section>
 		</div>
 		<div class="right">
-			<a class="post-button button tiny radius">Post</a>
+			<input type="submit" value="Post" class="post-button button tiny radius"></a>
 			<a class="dismiss-button button alert tiny radius">Dismiss</a>
 		</div>
-	</div>
+	</form>
     {{/if}}
 	<div class="questionsBody">
 		
