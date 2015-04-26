@@ -3,16 +3,18 @@ var Forum = Forum || {};
 Forum.controllers = (function () {
     var controllerData = {};
 
-    function paginate(count, page, url, propertyName, data, perPage){
+    function paginate(count, page, url, propertyNames, data, perPage){
     	var next = (page + 1 > count / perPage ? page : page + 1);
         var previous = (page - 1 <= 0 ? 0 : page - 1);
         var previousStatus = (page <= 0 ? "unavailable" : "available");
         var nextStatus = (page + 1 > count / perPage ? "unavailable" : "available");
-
-
+        var i = 0;
         var objToReturn = {};
-        objToReturn[propertyName] = data;
-
+        
+        for(i; i < propertyNames.length; i += 1){
+            objToReturn[propertyNames[i]] = data[i];    
+        }
+        
         objToReturn.next = next;
         objToReturn.previous = previous;
         objToReturn.previousStatus = previousStatus;
@@ -96,7 +98,7 @@ Forum.controllers = (function () {
 
     			questionsView.render('.main-container', 
     				paginate(questions.length, page,
-    				 '#/search/by=tag/text=' + searched + '/', 'questions', questions,
+    				 '#/search/by=tag/text=' + searched + '/', ['questions'], [questions],
     				 Forum.config.questionsPerPage));	
     		});
     	},
@@ -116,7 +118,7 @@ Forum.controllers = (function () {
     			
     			questionsView.render('.main-container', 
     				paginate(questions.length, page, 
-    					'#/search/by=question/text=' + searched + '/', 'questions', questions,
+    					'#/search/by=question/text=' + searched + '/', ['questions'], [questions],
     					Forum.config.questionsPerPage));	
     		});
     	},
@@ -134,7 +136,7 @@ Forum.controllers = (function () {
 
     			$('.main-container').html(Forum.templateBuilder('answers-template',
     			 paginate(answers.length, page, '#/search/by=answer/text=' + searched + '/',
-    			 	'answers', answers, Forum.config.questionsPerPage)));
+    			 	['answers'], [answers], Forum.config.questionsPerPage)));
     		});
     	},
     	showInvalidOption: function(){
@@ -174,8 +176,8 @@ Forum.controllers = (function () {
 
                     categoryView.render('.main-container', controllerData.categoryData);
                     questionsView.render('.questionsBody', paginate(controllerData.questionsData.length, page,
-                        'category/' + controllerData.categoryData.objectId + '/', 'questions', 
-                        controllerData.questionsData, Forum.config.questionsPerPage));
+                        'category/' + controllerData.categoryData.objectId + '/', ['questions', 'userData'], 
+                        [controllerData.questionsData, userData], Forum.config.questionsPerPage));
                 });
         },
         showCategories: function (userData) {
@@ -234,7 +236,7 @@ Forum.controllers = (function () {
                     var questionsView = new Forum.views.QuestionsView();
 
                     questionsView.render('.main-container', paginate(result.count,
-                     page, '', 'questions', controllerData.questionsData, Forum.config.questionsPerPage));
+                     page, '', ['questions', 'userData'], [controllerData.questionsData, userData], Forum.config.questionsPerPage));
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID, tags) {
