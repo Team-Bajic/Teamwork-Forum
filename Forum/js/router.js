@@ -5,26 +5,32 @@ var Forum = Forum || {};
         var user = null;
         var passedData = {};
         
-		this.get('#/', function() {
+        function HeaderInclude(onSucces){
             user = Forum.data.User.currentUser();
             
+            var temp = $.Deferred();
+            
             if(user !== null){
-                user.then(function(result){
+                return user.then(function(result){
                     passedData.userData = result;
                     
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
                 }).then(function(result){
                     passedData.userData.role = result;
-                    
-                    Forum.controllers.HeaderController.showHeader(passedData.userData);
-                    Forum.controllers.CategoryController.showCategories(passedData.userData);
-                    Forum.controllers.QuestionController.showAllQuestions(0, passedData.userData);
                 });
             } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();
-                Forum.controllers.QuestionController.showAllQuestions(0);
+                passedData.userData = undefined;
+                
+                temp.resolve();
             }
+        }
+        
+		this.get('#/', function() {
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
+                Forum.controllers.QuestionController.showAllQuestions(0, passedData.userData);
+            });
 		});
         
         this.route('get', 'any', function(){
@@ -34,142 +40,63 @@ var Forum = Forum || {};
 		//for questions pagination
 		this.get('#/page=:pageNumber', function() {
             var _this = this;
-            user = Forum.data.User.currentUser();
             
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
-                    Forum.controllers.HeaderController.showHeader(passedData.userData);
-                    Forum.controllers.CategoryController.showCategories(passedData.userData);	
-                    Forum.controllers.QuestionController.showAllQuestions(parseInt(_this.params['pageNumber']), passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();	
-                Forum.controllers.QuestionController.showAllQuestions(parseInt(_this.params['pageNumber']));
-            }
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);	
+                Forum.controllers.QuestionController.showAllQuestions(parseInt(_this.params['pageNumber']), passedData.userData);
+            });
 		});
 
 		this.get('#/question/:objectId', function() {
             var _this = this;
-            user = Forum.data.User.currentUser();
             
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
+            $.when(HeaderInclude()).done(function(){
                     Forum.controllers.HeaderController.showHeader(passedData.userData);
                     Forum.controllers.CategoryController.showCategories(passedData.userData);
                     Forum.controllers.QuestionController.showQuestion(_this.params['objectId'], passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();
-                Forum.controllers.QuestionController.showQuestion(_this.params['objectId']);
-            }
+            });
 		});
 
 		//for answer pagination
 		this.get('#/question/:objectId/page=:pageNumber', function() {
             var _this = this;
-            user = Forum.data.User.currentUser();
-            
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
+            $.when(HeaderInclude()).done(function(){
                     Forum.controllers.HeaderController.showHeader(passedData.userData);
                     Forum.controllers.CategoryController.showCategories(passedData.userData);
                     Forum.controllers.QuestionController.showQuestion(_this.params['objectId'], parseInt(_this.params['pageNumber']), passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();
-                Forum.controllers.QuestionController.showQuestion(_this.params['objectId'], parseInt(_this.params['pageNumber']));
-            }
+            });
 		});
 
 		this.get('#/category/:objectId', function() {
             var _this = this;
-            user = Forum.data.User.currentUser();
             
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
+            $.when(HeaderInclude()).done(function(){
                     Forum.controllers.HeaderController.showHeader(passedData.userData);
                     Forum.controllers.CategoryController.showCategories(passedData.userData);	
                     Forum.controllers.CategoryController.showCategory(_this.params['objectId'], 0, passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();	
-                Forum.controllers.CategoryController.showCategory(_this.params['objectId'], 0);
-            }
+            });
 		});
 
 		//for questions pagination
 		this.get('#/category/:objectId/page=:pageNumber', function() {
             var _this = this;
-            user = Forum.data.User.currentUser();
             
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
-                    Forum.controllers.HeaderController.showHeader(passedData.userData);
-                    Forum.controllers.CategoryController.showCategories(passedData.userData);	
-                    Forum.controllers.CategoryController.showCategory(_this.params['objectId'], parseInt(_this.params['pageNumber']), passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();
-                Forum.controllers.CategoryController.showCategory(_this.params['objectId'], parseInt(_this.params['pageNumber']));
-            }
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);	
+                Forum.controllers.CategoryController.showCategory(_this.params['objectId'], parseInt(_this.params['pageNumber']), passedData.userData);
+            });
 		});
 
 		this.get('#/user/:objectId', function() {
             var _this = this;
-            user = Forum.data.User.currentUser();
             
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
-                    Forum.controllers.HeaderController.showHeader(passedData.userData);
-                    Forum.controllers.CategoryController.showCategories(passedData.userData);
-                    Forum.controllers.UserController.showProfile(_this.params['objectId'], passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();
-                Forum.controllers.UserController.showProfile(this.params['objectId']);   
-            }
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
+                Forum.controllers.UserController.showProfile(_this.params['objectId'], passedData.userData);
+            });
 		});
         
         this.get('#/admin/viewUsers', function() {
@@ -180,55 +107,36 @@ var Forum = Forum || {};
 
         this.get('#/search/by=:option/text=:searched', function(){
             var _this = this;
-            user = Forum.data.User.currentUser();
             
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-
-                    Forum.controllers.HeaderController.showHeader(passedData.userData);
-                    Forum.controllers.CategoryController.showCategories(passedData.userData);
-                });
-            } else{
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.CategoryController.showCategories();
-            }
-            
-            console.log(this.params['option'])
-            Forum.controllers.SearchController.getParams(this.params['option'], this.params['searched'], 0);
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
+                Forum.controllers.SearchController.getParams(_this.params['option'], _this.params['searched'], 0);
+            });
         });
 
         this.get('#/search/by=:option/text=:searched/page=:pageNumber', function(){
-            //Forum.controllers.HeaderController.showHeader();
-            Forum.controllers.SearchController
-            .getParams(this.params['option'], this.params['searched'], parseInt(this.params['pageNumber']));
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
+                Forum.controllers.SearchController
+                .getParams(this.params['option'], this.params['searched'], parseInt(this.params['pageNumber']));
+            });
         });
 
 		this.get('#/admin/viewAnswers', function() {
-            user = Forum.data.User.currentUser();
-            
-            if(user !== null){
-                user.then(function(result){
-                    passedData.userData = result;
-                    
-                    return Forum.data.Role.getById(passedData.userData.role.objectId);
-                }).then(function(result){
-                    passedData.userData.role = result;
-                    
+            $.when(HeaderInclude()).done(function(){
+                if(passedData.userData){
                     if(passedData.userData.role.name === "admins"){
                         Forum.controllers.HeaderController.showHeader(passedData.userData);
-                        Forum.controllers.CategoryController.showCategories();
+                        Forum.controllers.CategoryController.showCategories(passedData.userData);
                     } else{
                         Forum.Router.setLocation('#/');
                     }
-                });
-            } else{
-                Forum.Router.setLocation('#/');
-            }
+                } else {
+                    Forum.Router.setLocation('#/');
+                }
+            });
 		});
         
         this.get('#/admin/viewTags', function() {

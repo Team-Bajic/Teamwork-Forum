@@ -242,7 +242,7 @@ Forum.data = (function() {
 					'X-Parse-Session-Token': window.sessionStorage.sessionToken
 				}, '/logout', null, function() {
 					delete window.sessionStorage.sessionToken;
-				}, null)
+				}, null);
 			} else {
 				return null;
 			}
