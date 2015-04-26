@@ -197,6 +197,12 @@ Forum.controllers = (function () {
         showQuestion: function (questionId, userData) {
             Forum.data.Question.getById(questionId)
                 .then(function (result) {
+                    var dataToUpdate = {
+                    visits: parseInt(result.visits) + 1
+                    };
+
+                    Forum.Requester.putRequest(null, Forum.classesUrl + /Question/ + result.objectId, JSON.stringify(dataToUpdate), '');
+                
                     controllerData.userData = {};
                     controllerData.questionData = result;
                     controllerData.answersData = result.answers;

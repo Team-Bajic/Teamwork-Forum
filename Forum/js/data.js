@@ -12,7 +12,7 @@ Forum.data = (function() {
 			}, null);
 		},
 		getById: function(id) {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/' + id, null, '?include=questions', function(result) {
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/' + id, null, '?include=questions.postedBy', function(result) {
 				return result;
 			}, null);
 		},
@@ -119,9 +119,7 @@ Forum.data = (function() {
 		},
 		getById: function(id) {
 			var queryParams = '?include=answers.postedBy,postedBy';
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, queryParams, function(result) {
-				return result;
-			}, null);
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, queryParams);
 		},
 		deleteById: function(id) {
 			return Forum.Requester.deleteRequest(null, Forum.classesUrl + '/Question/' + id, '', function(result) {
