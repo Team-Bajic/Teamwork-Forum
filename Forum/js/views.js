@@ -76,9 +76,10 @@ Forum.views = (function() {
 		$(element).html(Forum.templateBuilder('single-category-template', {
 			data: data
 		}));
-
-		assignNewQuestionEvents();
+        
         if(data.user.sessionToken){
+            assignNewQuestionEvents();
+            
             $('#createQuestionBox').hide();
 
             Forum.editor = CKEDITOR.replace('editor');
