@@ -33,18 +33,25 @@ Forum.controllers = (function () {
             return Forum.data.User.signUp(username, password, email);
         },
         showProfile: function (objectId) {
-            var user = Forum.data.User.currentUser();
             controllerData.userData = null;
+            
+            Forum.data.User.getById(objectId).then(function(result){
+                controllerData.userData = result;
+                
+                var currentUser = Forum.data.User.currentUser();
+                
+                if (currentUser !== null) {
+                    return currentUser.then(function (result) {
+                        if(result.objectId === objectId){
+                            controllerData.userData.canEdit = true;
+                        }
+                    });
+                }
+            }).done(function(){
+                var profileView = new Forum.views.ProfileView();
 
-            if (user !== null) {
-                user.then(function (result) {
-                    controllerData.userData = result;
-
-                    var profileView = new Forum.views.ProfileView();
-
-                    profileView.render('.main-container', controllerData.userData);
-                })
-            }
+                profileView.render('.main-container', controllerData.userData);
+            });
         }
     };
 
@@ -226,19 +233,25 @@ Forum.controllers = (function () {
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID, tags) {
-            return Forum.data.Question.create(title, postedByID, questionText, categoryID, tags)
-                .then(function (result) {
-                    return Forum.data.Category.updateCategory(categoryID, result.objectId);
-                });
+            return Forum.data.Question.create(title, postedByID, questionText, categoryID, tags);
         }
     };
 
     var AnswerController = {
-        addAnswer: function (author, questionId, answerText) {
-            return Forum.data.Answer.createByGuest(author, questionId, answerText)
-                .then(function (result) {
-                    return Forum.data.Question.updateQuestion(questionId, result.objectId);
-                });
+        addAnswer: function (typeAnswer, questionId, answerText, additionalData) {
+            switch(typeAnswer){
+                case "user":
+                    return Forum.data.Answer.createByUser(additionalData.user, questionId, answerText);
+                    break;
+                case "guest":
+                    return Forum.data.Answer.createByGuest(additionalData.author, questionId, answerText);
+                    break;
+                default:
+                    var temp = $.Deferred();
+                    
+                    temp.resolve();
+                    break;
+            }
         }
     };
 

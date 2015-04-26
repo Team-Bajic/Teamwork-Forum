@@ -26,7 +26,7 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-		updateCategory: function(categoryId, questionId) {
+		addQuestion: function(categoryId, questionId) {
 			var dataToUpdate = {
 				"questions": {
 					"__op": "AddUnique",
@@ -37,8 +37,11 @@ Forum.data = (function() {
 					}]
 				}
 			}
-
-			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Category/' + categoryId, JSON.stringify(dataToUpdate), '', function(result) {
+            
+            var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+            
+			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Category/' + categoryId,
+                                              JSON.stringify(dataToUpdate), '', function(result) {
 				return result;
 			}, null);
 		}
@@ -73,17 +76,21 @@ Forum.data = (function() {
 	var Question = {
 		create: function(title, postedByID, questionText, categoryID, tags) {
 			var user = Forum.data.User.currentUser(),
-				headerAddition;
+				headerAddition,
+                questionId,
+                userData;
 
-			if (user != null) {
+			if (user !== null) {
 				return user.then(function(result) {
+                    userData = result;
+                    
 					var dataToSave = {
 						title: title,
 						questionText: questionText,
 						postedBy: {
 							__type: 'Pointer',
 							className: '_User',
-							objectId: postedByID
+							objectId: result.objectId
 						},
 						category: {
 							__type: 'Pointer',
@@ -101,7 +108,13 @@ Forum.data = (function() {
 					return Forum.Requester.postRequest(headerAddition, Forum.classesUrl + '/Question/', JSON.stringify(dataToSave), '', function(result) {
 						return result;
 					}, null);
-				});
+				}).then(function(result){
+                    questionId = result.objectId;
+                    
+                    return Forum.data.Category.addQuestion(categoryID, questionId);
+                }).then(function(){
+                    return Forum.data.User.addQuestion(questionId, userData);
+                });
 			}
 		},
 		getById: function(id) {
@@ -141,7 +154,7 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-		updateQuestion: function(questionid, answerId) {
+		addAnswer: function(questionId, answerId) {
 			var dataToUpdate = {
 				"answers": {
 					"__op": "AddUnique",
@@ -153,20 +166,20 @@ Forum.data = (function() {
 				}
 			};
 
-			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + questionid, JSON.stringify(dataToUpdate), '', function(result) {
+			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + questionId, JSON.stringify(dataToUpdate), '', function(result) {
 				return result;
 			}, null);
 		}
 	};
     
 	var Answer = {
-		createByUser: function(postedById, questionId, answerText) {
+		createByUser: function(userData, questionId, answerText) {
 			var dataToSave = {
 				answerText: answerText,
 				postedBy: {
 					__type: 'Pointer',
 					className: '_User',
-					objectId: postedById
+					objectId: userData.objectId
 				},
 				author: '',
 				answerType: 'user',
@@ -176,10 +189,17 @@ Forum.data = (function() {
 					objectId: questionId
 				}
 			};
-
-			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '', function(result) {
-				return result;
-			}, null);
+            
+            var answerId = null;
+            
+			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '')
+            .then(function(result){
+                answerId = result.objectId;
+                
+                return Forum.data.Question.addAnswer(questionId, answerId);
+            }).then(function(){
+                return Forum.data.User.addAnswer(answerId, userData);
+            });
 		},
 		createByGuest: function(author, questionId, answerText) {
 			var dataToSave = {
@@ -194,9 +214,10 @@ Forum.data = (function() {
 				}
 			};
 
-			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '', function(result) {
-				return result;
-			}, null);
+			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '')
+                .then(function(result){
+                    return Forum.data.Question.addAnswer(questionId, result.objectId);
+                });
 		},
 		getById: function(id) {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/' + id, null, '', function(result) {
@@ -257,6 +278,47 @@ Forum.data = (function() {
 				return result;
 			}, null)
 		},
+        getById: function(objectId){
+            return Forum.Requester.getRequest(null, '/users/' + objectId, null, '');
+        },
+        addAnswer: function(answerId, currentUser){
+            var dataToUpdate = {
+				"answers": {
+					"__op": "AddUnique",
+					"objects": [{
+						"__type": "Pointer",
+						"className": "Answer",
+						"objectId": answerId
+					}]
+				}
+			};
+            
+            var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+            
+			return Forum.Requester.putRequest(headerAddition, '/users/' + currentUser.objectId,
+                                              JSON.stringify(dataToUpdate), '', function(result) {
+				return result;
+			}, null);
+        },
+        addQuestion: function(questionId, currentUser){
+            var dataToUpdate = {
+				"questions": {
+					"__op": "AddUnique",
+					"objects": [{
+						"__type": "Pointer",
+						"className": "Question",
+						"objectId": questionId
+					}]
+				}
+			};
+            
+            var headerAddition = {'X-Parse-Session-Token': currentUser.sessionToken};
+            
+			return Forum.Requester.putRequest(headerAddition, '/users/' + currentUser.objectId,
+                                              JSON.stringify(dataToUpdate), '', function(result) {
+				return result;
+			}, null);
+        },
 		updateRole: function(roleId, userId) {
 			return Forum.Requester.putRequest(null, '/roles/' + roleId, JSON.stringify({
 				"users": {

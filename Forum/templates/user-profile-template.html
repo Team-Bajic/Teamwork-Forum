@@ -1,5 +1,7 @@
 <div class="profile-container panel clearfix" data-id="{{objectId}}">
+    {{#if canEdit}}
 	<a class="button tiny right">Edit Profile</a>
+    {{/if}}
 	<p class="profile-username">Username: <span class="bold">{{username}}</span></p>
 	<p class="profile-email">E-mail: <span class="bold">{{email}}</span></p>
 	<p class="profile-questions-asked">Questions asked: </p>
