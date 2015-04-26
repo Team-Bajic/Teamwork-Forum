@@ -6,6 +6,7 @@
 		{{/if}}
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
 		<p class="questionParagraph large-10" >{{questionText}}</p>
+		<div id="questionInfo">
 		<span>Tags: 
 		</span>
 		{{#each tags}}
@@ -14,7 +15,6 @@
 		 {{else}} 
 		 	, {{this}}
 		 {{/if}}
-		 <span>
 		 {{/each}}
 		<p>author:
             <a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a>
@@ -23,9 +23,10 @@
                 {{answers.length}} 
                 {{else}} 0
                 {{/if}}
-            </span>
-            <span class="right">Visits: {{visits}}|</span>
+            Visits: {{visits}}
+			</span>
         </p>
+			 </div>
 	</div>
 </div>
 {{/each}}
