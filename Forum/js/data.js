@@ -76,7 +76,7 @@ Forum.data = (function() {
 				headerAddition;
 
 			if (user != null) {
-				user.then(function(result) {
+				return user.then(function(result) {
 					var dataToSave = {
 						title: title,
 						questionText: questionText,
@@ -101,9 +101,8 @@ Forum.data = (function() {
 					return Forum.Requester.postRequest(headerAddition, Forum.classesUrl + '/Question/', JSON.stringify(dataToSave), '', function(result) {
 						return result;
 					}, null);
-				})
+				});
 			}
-
 		},
 		getById: function(id) {
 			var queryParams = '?include=postedBy&include=answers';
@@ -152,13 +151,14 @@ Forum.data = (function() {
 						"objectId": answerId
 					}]
 				}
-			}
+			};
 
 			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + questionid, JSON.stringify(dataToUpdate), '', function(result) {
 				return result;
 			}, null);
 		}
 	};
+    
 	var Answer = {
 		createByUser: function(postedById, questionId, answerText) {
 			var dataToSave = {

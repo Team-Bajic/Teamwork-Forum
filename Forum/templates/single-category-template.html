@@ -1,5 +1,6 @@
 <div class="category-container" data-id="{{data.objectId}}">
 	<h4 class="category-heading"><span class="lobster">Category:</span> {{data.title}}</h4>
+    {{#if data.user.sessionToken}}
 	<div class="options-block-controls clearfix">
 		<a class="reveal-options-block button tiny radius">Add New Question</a>
 	</div>
@@ -23,6 +24,7 @@
 			<a class="dismiss-button button alert tiny radius">Dismiss</a>
 		</div>
 	</div>
+    {{/if}}
 	<div class="questionsBody">
 		
 	</div>
