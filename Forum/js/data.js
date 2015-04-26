@@ -38,7 +38,7 @@ Forum.data = (function() {
 				}
 			}
 
-			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + categoryId, JSON.stringify(dataToUpdate), '', function(result) {
+			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Category/' + categoryId, JSON.stringify(dataToUpdate), '', function(result) {
 				return result;
 			}, null);
 		}

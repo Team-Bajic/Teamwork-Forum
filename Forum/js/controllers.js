@@ -226,18 +226,18 @@ Forum.controllers = (function () {
                 });
         },
         addQuestion: function (title, postedByID, questionText, categoryID, tags) {
-            Forum.data.Question.create(title, postedByID, questionText, categoryID, tags)
+            return Forum.data.Question.create(title, postedByID, questionText, categoryID, tags)
                 .then(function (result) {
-                    Forum.data.Category.updateCategory(categoryID, result.objectId);
+                    return Forum.data.Category.updateCategory(categoryID, result.objectId);
                 });
         }
     };
 
     var AnswerController = {
         addAnswer: function (author, questionId, answerText) {
-            Forum.data.Answer.createByGuest(author, questionId, answerText)
+            return Forum.data.Answer.createByGuest(author, questionId, answerText)
                 .then(function (result) {
-                    Forum.data.Question.updateQuestion(questionId, result.objectId);
+                    return Forum.data.Question.updateQuestion(questionId, result.objectId);
                 });
         }
     };

@@ -2,7 +2,7 @@
 	<div class="panel question">
 		<h2 class="large-8 questionTitle">{{data.questionData.title}}</h2>
 		<p class="fullQuestionParagraph large-4" >{{data.questionData.questionText}}</p>
-		<p>postedBy:<a href="#/"> {{data.questionData.postedBy.username}}</a></p>
+		<p>author:<a href="#/"> {{data.questionData.postedBy.username}}</a></p>
 	</div>
 	{{#each data.answersData}}
 	<div class="panel">
@@ -10,7 +10,7 @@
 		{{#if author}}
 		<p>author:<a href="#/"> {{author}}</a></p>
 		{{else}}
-		<p>postedBy:<a href="#/"> {{postedBy.username}}</a></p>
+		<p>author:<a href="#/"> {{postedBy.username}}</a></p>
 		{{/if}}
 	</div>
 	{{/each}}

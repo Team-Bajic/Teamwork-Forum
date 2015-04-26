@@ -57,16 +57,22 @@ Forum.views = (function() {
 				if (user != null) {
 					user.then(function(result) {
 						postedBy = result.objectId;
-						Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText).then(function(){
-                            $("#createAnswerBox").slideUp();
-				            Forum.editor.setData("");
-                        });
+						console.log(Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText));
+						Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText)
+							.then(function() {
+								$("#createAnswerBox").slideUp();
+								Forum.editor.setData("");
+							});
 					});
 				} else {
 					postedBy = $('.answer-author').val().trim() || $('.answer-email').val().trim();
-					Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText);
-                    $("#createAnswerBox").slideUp().find("input").val('');
-                    Forum.editor.setData("");
+					Forum.controllers.AnswerController.addAnswer(postedBy, questionId, answerText)
+						.then(function() {
+							$("#createAnswerBox").slideUp().find("input").val('');
+							Forum.editor.setData("");
+							Forum.Router.refresh();
+						});
+
 				}
 			});
 		}
@@ -76,77 +82,77 @@ Forum.views = (function() {
 		$(element).html(Forum.templateBuilder('single-category-template', {
 			data: data
 		}));
-        
-        if(data.user.sessionToken){
-            assignNewQuestionEvents();
-            
-            $('#createQuestionBox').hide();
 
-            Forum.editor = CKEDITOR.replace('editor');
+		if (data.user.sessionToken) {
+			assignNewQuestionEvents();
 
-            function assignNewQuestionEvents() {
-                var tagCounter = 0;
-                var tags = [];
+			$('#createQuestionBox').hide();
 
-                $('#tagRemove').on('click', function() {
-                    if (tagCounter > 0) {
-                        $('.addedTags').find('span').last().remove();
-                        tagCounter -= 1;
-                    } else {
-                        alert('There are no tags to delete.');
-                    }
-                });
+			Forum.editor = CKEDITOR.replace('editor');
 
-                $('#tagButton').on('click', function() {
-                    var tag = $('#tagInput').val().trim();
+			function assignNewQuestionEvents() {
+				var tagCounter = 0;
+				var tags = [];
 
-                    if (tag.length === 0) {
-                        alert("You cannot add empty tag.");
-                    } else if (tags.indexOf(tag) > -1) {
-                        alert('Already in added.');
-                        $('#tagInput').val('');
-                    } else {
-                        tags.push(tag);
+				$('#tagRemove').on('click', function() {
+					if (tagCounter > 0) {
+						$('.addedTags').find('span').last().remove();
+						tagCounter -= 1;
+					} else {
+						alert('There are no tags to delete.');
+					}
+				});
 
-                        if (tagCounter > 0) {
-                            tag = ', ' + tag;
-                        }
+				$('#tagButton').on('click', function() {
+					var tag = $('#tagInput').val().trim();
 
-                        $('.addedTags').append("<span class='tag'>" + tag + "</span>");
-                        $('#tagInput').val('');
+					if (tag.length === 0) {
+						alert("You cannot add empty tag.");
+					} else if (tags.indexOf(tag) > -1) {
+						alert('Already in added.');
+						$('#tagInput').val('');
+					} else {
+						tags.push(tag);
 
-                        tagCounter += 1;
-                    }
-                });
+						if (tagCounter > 0) {
+							tag = ', ' + tag;
+						}
 
-                $('.reveal-options-block').on('click', function(event) {
-                    $('#createQuestionBox').slideDown();
-                });
+						$('.addedTags').append("<span class='tag'>" + tag + "</span>");
+						$('#tagInput').val('');
 
-                $('.dismiss-button').on('click', function(event) {
-                    $('#createQuestionBox').slideUp().find("input").val('');
-                    $('.addedTags').find('.tag').remove();
-                    Forum.editor.setData("");
-                });
+						tagCounter += 1;
+					}
+				});
 
-                $('.post-button').on('click', function(event) {
+				$('.reveal-options-block').on('click', function(event) {
+					$('#createQuestionBox').slideDown();
+				});
 
-                    Forum.data.User.currentUser()
-                        .then(function(result) {
-                            var title = $("input[name='new-question-title']").val(),
-                                questionText = Forum.editor.getData(),
-                                categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
-                                postedByID = result.objectId;
+				$('.dismiss-button').on('click', function(event) {
+					$('#createQuestionBox').slideUp().find("input").val('');
+					$('.addedTags').find('.tag').remove();
+					Forum.editor.setData("");
+				});
 
-                            return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
-                        }).then(function(result) {
-                            $('#createQuestionBox').slideUp().find("input").val('');
-                            $('.addedTags').find('.tag').remove();
-                            Forum.editor.setData("");
-                        });
-                });
-            }
-        }
+				$('.post-button').on('click', function(event) {
+
+					Forum.data.User.currentUser()
+						.then(function(result) {
+							var title = $("input[name='new-question-title']").val(),
+								questionText = Forum.editor.getData(),
+								categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
+								postedByID = result.objectId;
+
+							return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
+						}).then(function(result) {
+							$('#createQuestionBox').slideUp().find("input").val('');
+							$('.addedTags').find('.tag').remove();
+							Forum.editor.setData("");
+						});
+				});
+			}
+		}
 	};
 
 	HeaderView.prototype.render = function(element, content) {
