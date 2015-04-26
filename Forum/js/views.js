@@ -199,8 +199,8 @@ Forum.views = (function() {
 					$('div#register').append($('<div id="notification"></div>'));
 				}
 
+				var isPasswordsProvided = (password.trim() != '') && (confirmPassword.trim() != '') ? true : false;
 				var isPasswordsMatch = (password == confirmPassword) ? true : false;
-				var isPasswordsProvided = isPasswordsMatch ? (((password.trim() == '') || (confirmPassword == '')) ? false : true) : false;
 				var isEmailProvided = (email.trim() != '') ? true : false;
 
 				if (isPasswordsMatch && isPasswordsProvided && isEmailProvided) {
@@ -229,11 +229,11 @@ Forum.views = (function() {
 								})
 								.fail(function() {
 									console.log('Failed to get the users role')
-								})
+								});
 							$('div#register').foundation('reveal', 'close');
 						})
 						.fail(function(res) {
-							console.log('failed')
+							console.log('failed');
 
 							var errorCode = JSON.parse(res.responseText).code;
 							var messages = [];
@@ -255,7 +255,7 @@ Forum.views = (function() {
 						})
 				} else {
 					var errorMessage = isPasswordsMatch ? '' : 'The passwords don\'t match. Check and re-enter again.<br/>';
-					errorMessage += isPasswordsProvided ? '' : 'You missed to enter your password.</br>';
+					errorMessage += isPasswordsProvided ? '' : 'Enter your password in both password fields.</br>';
 					errorMessage += isEmailProvided ? '' : 'You missed to enter your email.';
 
 					$('#notification').html(errorMessage);
