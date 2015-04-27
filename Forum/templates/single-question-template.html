@@ -8,11 +8,18 @@
 	</div>
 	{{#each answersData}}
 	<div class="panel">
-		{{#if ../userData.admin}}
-		<a id="deleteAnswerButton" class="button right tiny alert">Delete</a>
-		{{/if}}
+		{{#ifEquals ../userData.role.name "admins"}}
+            <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
+            <a class="button right tiny info radius editQuestionButton">Edit</a>
+        {{else}}
+        {{#ifEquals ../../userData.role.name "users"}}
+            {{#ifEquals postedBy.objectId ../../../userData.objectId}}
+                <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
+                <a class="button right tiny info radius editQuestionButton">Edit</a>
+            {{/ifEquals}}
+        {{/ifEquals}}
+		{{/ifEquals}}
 		<p class="answerParagraph large-8">{{answerText}}</p>
-
 		{{#if author}}
 		<p>author:<a href="#/"> {{author}}</a></p>
 		{{else}}

@@ -91,10 +91,22 @@ Forum.views = (function() {
 
 		if (data.user.sessionToken) {
 			assignNewQuestionEvents();
-
+			assignDeletebuttonEvents();
+			
 			$('#createQuestionBox').hide();
 
 			Forum.editor = CKEDITOR.replace('editor');
+
+			function assignDeletebuttonEvents() {
+				$('.deleteQuestionButton').on('click', function (event) {
+					var questionId = $(event.target).parent().parent().attr('data-id');
+
+					Forum.controllers.QuestionController.deleteQuestion(questionId)
+						.then(function (result) {
+							$(event.target).parent().parent().remove();
+						});
+				})
+			}
 
 			function assignNewQuestionEvents() {
 				var form = $('#createQuestionBox');

@@ -17,7 +17,9 @@ Forum.data = (function() {
 			}, null);
 		},
 		deleteById: function(id) {
-			return Forum.Requester.deleteRequest(null, Forum.classesUrl + '/Category/' + id, '', function(result) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+
+			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Category/' + id, '', function(result) {
 				return result;
 			}, null);
 		},
@@ -61,7 +63,9 @@ Forum.data = (function() {
 			}, null);
 		},
 		deleteById: function(id) {
-			return Forum.Requester.deleteRequest(null, Forum.classesUrl + '/Tag/' + id, '', function(result) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+
+			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Tag/' + id, '', function(result) {
 				return result;
 			}, null);
 		},
@@ -122,7 +126,9 @@ Forum.data = (function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, queryParams);
 		},
 		deleteById: function(id) {
-			return Forum.Requester.deleteRequest(null, Forum.classesUrl + '/Question/' + id, '', function(result) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+
+			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Question/' + id, '', function(result) {
 				return result;
 			}, null);
 		},
@@ -223,7 +229,9 @@ Forum.data = (function() {
 			}, null);
 		},
 		deleteById: function(id) {
-			return Forum.Requester.deleteRequest(null, Forum.classesUrl + '/Answer/' + id, '', function(result) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+			
+			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Answer/' + id, '', function(result) {
 				return result;
 			}, null);
 		},

@@ -266,7 +266,7 @@ Forum.controllers = (function () {
                     }
 
                     var singleQuestionView = new Forum.views.SingleQuestionView();
-                    console.log(controllerData);
+
                     singleQuestionView.render('.main-container', controllerData);
                 });
         },
@@ -290,7 +290,7 @@ Forum.controllers = (function () {
         addQuestion: function (title, postedByID, questionText, categoryID, tags) {
             return Forum.data.Question.create(title, postedByID, questionText, categoryID, tags);
         },
-        deleteQuestion: function (questionId, userData) {
+        deleteQuestion: function (questionId) {
             return Forum.data.Question.deleteById(questionId);
         }
     };
