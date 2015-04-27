@@ -31,6 +31,8 @@ Forum.data = (function() {
 
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Category/' + id,
                 JSON.stringify(dataToUpdate), '', function(result) {
+                	return result;
+            }, null);
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/', null, '', function(result) {
@@ -86,6 +88,8 @@ Forum.data = (function() {
 
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Tag/' + id,
                 JSON.stringify(dataToUpdate), '', function(result) {
+                	return result;
+            }, null);
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Tag/', null, '', function(result) {
@@ -159,6 +163,8 @@ Forum.data = (function() {
 
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Question/' + id,
                 JSON.stringify(dataToUpdate), '', function(result) {
+                	return result;
+            }, null);
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, '?include=postedBy', function(result) {
@@ -271,6 +277,8 @@ Forum.data = (function() {
 
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Answer/' + id,
                 JSON.stringify(dataToUpdate), '', function(result) {
+                	return result;
+            }, null);
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '?include=question,postedBy', function(result) {
