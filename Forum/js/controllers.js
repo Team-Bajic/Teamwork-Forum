@@ -350,7 +350,10 @@ Forum.controllers = (function() {
 		},
 		addQuestion: function(title, postedByID, questionText, categoryID, tags) {
 			return Forum.data.Question.create(title, postedByID, questionText, categoryID, tags);
-		}
+		},
+        deleteQuestion: function (questionId, userData) {
+            return Forum.data.Question.deleteById(questionId);
+        }
 	};
 
 	var AnswerController = {
@@ -368,7 +371,10 @@ Forum.controllers = (function() {
 					temp.resolve();
 					break;
 			}
-		}
+		},
+        deleteAnswer: function (answerId) {
+            return Forum.data.Answer.deleteById(answerId);
+        }
 	};
 
 	var HeaderController = {
