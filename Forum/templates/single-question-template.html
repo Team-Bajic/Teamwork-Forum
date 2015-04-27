@@ -26,15 +26,15 @@
 		</div>
 	</div>
 	{{#each answersData}}
-	<div class="panel" data-id="{{objectId}}">
+	<div class="panel answer" data-id="{{objectId}}">
 		{{#ifEquals ../userData.role.name "admins"}}
             <a class="button right tiny alert radius deleteAnswerButton">Delete</a>
-            <a class="button right tiny info radius editAnswerButton">Edit</a>
+            <a data-reveal-id="answerEdit" class="button right tiny info radius editAnswerButton">Edit</a>
         {{else}}
         {{#ifEquals ../../userData.role.name "users"}}
             {{#ifEquals postedBy.objectId ../../../userData.objectId}}
                 <a class="button right tiny alert radius deleteAnswerButton">Delete</a>
-                <a class="button right tiny info radius editAnswerButton">Edit</a>
+                <a data-reveal-id="answerEdit" class="button right tiny info radius editAnswerButton">Edit</a>
             {{/ifEquals}}
         {{/ifEquals}}
 		{{/ifEquals}}

@@ -135,3 +135,4 @@ Parse.Cloud.beforeDelete("Category", function(request, response) {
 		response.error("Login first!");
 	}
 });
+
