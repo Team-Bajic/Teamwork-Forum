@@ -34,12 +34,26 @@ Forum.controllers = (function () {
         registerUser: function (username, password, email) {
             return Forum.data.User.signUp(username, password, email);
         },
+        showUsers: function(){
+        	Forum.data.User.getAll()
+        	.then(function(result){
+        		$('.main-container').html(Forum.templateBuilder('users-template', {users: result.results}));
+        	});
+        },
         showProfile: function (objectId) {
             controllerData.userData = null;
             
             Forum.data.User.getById(objectId).then(function(result){
                 controllerData.userData = result;
                 
+                if(!controllerData.userData.questions){
+                	controllerData.userData.questions = [];
+                }
+
+                if(!controllerData.userData.answers){
+                	controllerData.userData.answers = [];
+                }
+
                 var currentUser = Forum.data.User.currentUser();
                 
                 if (currentUser !== null) {
@@ -128,11 +142,15 @@ Forum.controllers = (function () {
     				}
     			});
 
-    			answers = answers.slice(page * Forum.config.questionsPerPage, page * Forum.config.questionsPerPage + Forum.config.questionsPerPage);
+    			if (!page || page < 0) {
+		        	page = 0;
+				}
 
+    			answers = answers.slice(page * Forum.config.answersPerPage, page * Forum.config.answersPerPage + Forum.config.answersPerPage);
+    			console.log(answers);
     			$('.main-container').html(Forum.templateBuilder('answers-template',
     			 paginate(answers.length, page, '#/search/by=answer/text=' + searched + '/',
-    			 	['answers'], [answers], Forum.config.questionsPerPage)));
+    			 	['answers'], [answers], Forum.config.answersPerPage)));
     		});
     	},
     	showInvalidOption: function(){
@@ -188,7 +206,26 @@ Forum.controllers = (function () {
     };
 
     var TagController = {
+    	showTags: function(){
+    		Forum.data.Question.getAll().then(function(questions){
+    			var uniqueTags = [];
+    			var tagsData = [];
+    			questions.results.forEach(function(question){
+    				if(question.tags){
+    					question.tags.forEach(function(tag){
+    						if(uniqueTags.indexOf(tag) <= -1){
+    							uniqueTags.push(tag);
+    							
+    						}
+    					});
+    				}
+    			});
 
+    		});
+    	},
+    	showTag: function(tagId){
+
+    	}
     };
 
     var QuestionController = {

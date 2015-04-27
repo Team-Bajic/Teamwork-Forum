@@ -4,7 +4,7 @@
 			<h2 class="large-10">
 			Author: 
 			{{#if postedBy}}
-				<a href="#/user/{{postedBy.objectId}}">{{author}}</a>
+				<a href="#/user/{{postedBy.objectId}}">{{postedBy.username}}</a>
 			{{else}}
 				{{author}}
 			{{/if}}

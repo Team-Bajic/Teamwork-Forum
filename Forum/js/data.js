@@ -228,7 +228,7 @@ Forum.data = (function() {
 			}, null);
 		},
 		getAll: function() {
-			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '?include=question', function(result) {
+			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '?include=question,postedBy', function(result) {
 				return result;
 			}, null);
 		}
@@ -270,6 +270,9 @@ Forum.data = (function() {
 				return result;
 			}, null)
 		},
+        getAll: function(){
+            return Forum.Requester.getRequest(null, '/users', null, '');
+        },
         getById: function(objectId){
             return Forum.Requester.getRequest(null, '/users/' + objectId, null, '');
         },

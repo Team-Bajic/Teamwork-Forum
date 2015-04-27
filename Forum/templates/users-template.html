@@ -1,0 +1,15 @@
+{{#each users}}
+	<div data-id="{{objectId}}">
+		<div class="panel user">
+			<p>
+				<button type="button" class="button alert tiny right userDeleteButton">Delete</button>
+				<button type="button" class="button info tiny right userEditButton">Edit</button>
+			</p>
+			<h3>Username: <a href="#/user/objectId">{{username}}</a></h3>
+			<p>Joined: {{createdAt}}</p>
+			<p><span>Questions: {{questions.length}}</span>
+			<span>Answers: {{answers.length}}</span>
+			</p>
+		</div>
+	</div>
+{{/each}}
