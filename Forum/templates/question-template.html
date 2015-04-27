@@ -15,10 +15,13 @@
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
 		<p class="questionParagraph large-10" >{{questionText}}</p>
 		<div id="questionInfo">
-		<span>Tags: 
+		<span>Tags:
 		</span>
 		{{#each tags}}
 		 {{#if @first}} 
+		 	<span class="secondary radius label">{{this}}</span>
+		 {{else}} 
+		 	, <span class="secondary radius label">{{this}}</span>
 		 	<a href="#/search/by=tag/text={{this}}">{{this}}</a>
 		 {{else}} 
 		 	, <a href="#/search/by=tag/text={{this}}">{{this}}</a>
@@ -26,12 +29,12 @@
 		 {{/each}}
 		<p>author:
             <a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a>
-            <span class="right">Answers: 
+            <span class="right"><i class="fi-comment size-18"></i> Answers:
                 {{#if answers}}
                 {{answers.length}} 
                 {{else}} 0
                 {{/if}}
-            Visits: {{visits}}
+            <i class="fi-eye"></i> Visits: {{visits}}
 			</span>
         </p>
 			 </div>
