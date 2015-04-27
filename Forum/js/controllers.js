@@ -59,10 +59,6 @@ Forum.controllers = (function () {
 
     var SearchController = {
     	getParams: function(option, searched, page){
-    		if (!page || page < 0) {
-                page = 0;
-            }
-
     		switch(option){
     			case 'tag':
     				this.searchByTag(searched, page);
@@ -154,10 +150,10 @@ Forum.controllers = (function () {
                     if(userData){
                         controllerData.categoryData.user = userData;
                     }
-                       
-                    if (!page || page < 0) {
-                        page = 0;
-                    }
+                     
+					if (!page || page < 0) {
+			        	page = 0;
+					}
 
                     var start = Forum.config.questionsPerPage * page;
                     var end = Forum.config.questionsPerPage * page + Forum.config.questionsPerPage;
@@ -196,35 +192,50 @@ Forum.controllers = (function () {
     };
 
     var QuestionController = {
-        showQuestion: function (questionId, userData) {
+        showQuestion: function (questionId, page, userData) {
             Forum.data.Question.getById(questionId)
                 .then(function (result) {
                     var dataToUpdate = {
-                    visits: parseInt(result.visits) + 1
+                    	visits: parseInt(result.visits) + 1
                     };
 
+					if (!page || page < 0) {
+			        	page = 0;
+					}
+
+					var start = Forum.config.answersPerPage * page;
+                    var end = Forum.config.answersPerPage * page + Forum.config.answersPerPage;
+                    var count;
+
+                    if (result.answers) {
+                        result.answers = result.answers.slice(start, end);
+                    } else {
+                        result.answers = [];
+                    }
+
                     Forum.Requester.putRequest(null, Forum.classesUrl + /Question/ + result.objectId, JSON.stringify(dataToUpdate), '');
-                
+                	
+
+                    controllerData = paginate(result.answers.length, page, 'question/' + questionId + '/',
+                    	['answersData'], [result.answers], Forum.config.answersPerPage);
+
+
+
                     controllerData.userData = {};
                     controllerData.questionData = result;
-                    controllerData.answersData = result.answers;
 
                     if(userData){
                         controllerData.userData = userData; 
                     }
 
                     var singleQuestionView = new Forum.views.SingleQuestionView();
-
+                    console.log(controllerData);
                     singleQuestionView.render('.main-container', controllerData);
                 });
         },
         showAllQuestions: function (page, userData) {
             if(userData) {
                 controllerData.userData = userData;
-            }
-
-            if (!page || page < 0) {
-                page = 0;
             }
 
             Forum.data.Question.getInRange(Forum.config.questionsPerPage * page, Forum.config.questionsPerPage)
