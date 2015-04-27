@@ -136,3 +136,6 @@ textarea {
     margin-bottom: -2em;
     font-size: 14px;
 }
+.adminButton{
+    padding: 0.75em!important;
+}

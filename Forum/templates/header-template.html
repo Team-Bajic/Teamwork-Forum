@@ -2,10 +2,10 @@
   <ul class="right">
     {{#if sessionToken}}
       {{#if admin}}
-        <a href="#/admin/viewUsers" class="button tiny radius">View Users</a>
-        <a href="#/admin/viewQuestions" class="button tiny radius">View Questions</a>
-        <a href="#/admin/viewAnswers" class="button tiny radius">View Answers</a>
-        <a href="#/admin/viewTags" class="button tiny radius">View Tags</a>
+        <a href="#/admin/viewUsers" class="button tiny radius adminButton">View Users</a>
+        <a href="#/admin/viewQuestions" class="button tiny radius adminButton">View Questions</a>
+        <a href="#/admin/viewAnswers" class="button tiny radius adminButton">View Answers</a>
+        <a href="#/admin/viewTags" class="button tiny radius adminButton">View Tags</a>
       {{/if}}
       {{#if user}}
         <a href="#/user/{{objectId}}" class="button tiny radius">My Profile</a>
