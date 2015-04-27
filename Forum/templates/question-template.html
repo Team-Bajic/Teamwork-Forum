@@ -13,10 +13,9 @@
         {{/ifEquals}}
 		{{/ifEquals}}
 		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
-		<p class="questionParagraph large-10" >{{questionText}}</p>
+		<p class="questionParagraph large-10" >{{{questionText}}}</p>
 		<div id="questionInfo">
-		<span>Tags:
-		</span>
+		<span>Tags: </span>
 		{{#each tags}}
 		 {{#if @first}} 
 		 	<span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>

@@ -12,9 +12,17 @@
         {{/ifEquals}}
 		{{/ifEquals}}
 		<h2 class="questionTitle">{{questionData.title}}</h2>
-		<p>{{questionData.questionText}}</p>
+		<p>{{{questionData.questionText}}}</p>
 		<div id="questionInfo">
-		<p>author:<a href="#/user/{{questionData.postedBy.objectId}}"> {{questionData.postedBy.username}}</a></p>
+			<span>tags: </span>
+			{{#each questionData.tags}}
+			{{#if @first}} 
+				<span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
+			{{else}} 
+				, <span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
+			{{/if}}
+			{{/each}}
+			<p>author:<a href="#/user/{{questionData.postedBy.objectId}}"> {{questionData.postedBy.username}}</a></p>
 		</div>
 	</div>
 	{{#each answersData}}
@@ -30,7 +38,7 @@
             {{/ifEquals}}
         {{/ifEquals}}
 		{{/ifEquals}}
-		<p class="answerParagraph large-8">{{answerText}}</p>
+		<p class="answerParagraph large-8">{{{answerText}}}</p>
 		{{#if author}}
 		<p>author:<a href="#/"> {{author}}</a></p>
 		{{else}}
