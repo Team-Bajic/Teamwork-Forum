@@ -297,6 +297,7 @@ Forum.controllers = (function() {
 					}
 
 					var start = Forum.config.answersPerPage * page;
+<<<<<<< HEAD
 					var end = Forum.config.answersPerPage * page + Forum.config.answersPerPage;
 					var count;
 
@@ -399,4 +400,118 @@ Forum.controllers = (function() {
 		HeaderController: HeaderController,
 		SearchController: SearchController
 	};
+=======
+                    var end = Forum.config.answersPerPage * page + Forum.config.answersPerPage;
+                    var count;
+
+                    if (result.answers) {
+                        result.answers = result.answers.slice(start, end);
+                    } else {
+                        result.answers = [];
+                    }
+
+                    Forum.Requester.putRequest(null, Forum.classesUrl + /Question/ + result.objectId, JSON.stringify(dataToUpdate), '');
+                	
+
+                    controllerData = paginate(result.answers.length, page, 'question/' + questionId + '/',
+                    	['answersData'], [result.answers], Forum.config.answersPerPage);
+
+
+
+                    controllerData.userData = {};
+                    controllerData.questionData = result;
+
+                    if(userData){
+                        controllerData.userData = userData; 
+                    }
+
+                    var singleQuestionView = new Forum.views.SingleQuestionView();
+
+                    singleQuestionView.render('.main-container', controllerData);
+                });
+        },
+        showAllQuestions: function (page, userData) {
+            if(userData) {
+                controllerData.userData = userData;
+            }
+
+            Forum.data.Question.getInRange(Forum.config.questionsPerPage * page, Forum.config.questionsPerPage)
+                .then(function (result) {
+                    controllerData.questionsData = result.results;
+
+                    return Forum.data.Question.getCount();
+                }).then(function (result) {
+                    var questionsView = new Forum.views.QuestionsView();
+
+                    questionsView.render('.main-container', paginate(result.count,
+                     page, '', ['questions', 'userData'], [controllerData.questionsData, userData], Forum.config.questionsPerPage));
+                });
+        },
+        addQuestion: function (title, postedByID, questionText, categoryID, tags) {
+            return Forum.data.Question.create(title, postedByID, questionText, categoryID, tags);
+        },
+        deleteQuestion: function (questionId) {
+            return Forum.data.Question.deleteById(questionId);
+        }
+    };
+
+    var AnswerController = {
+        addAnswer: function (typeAnswer, questionId, answerText, additionalData) {
+            switch(typeAnswer){
+                case "user":
+                    return Forum.data.Answer.createByUser(additionalData.user, questionId, answerText);
+                    break;
+                case "guest":
+                    return Forum.data.Answer.createByGuest(additionalData.author, questionId, answerText);
+                    break;
+                default:
+                    var temp = $.Deferred();
+                    
+                    temp.resolve();
+                    break;
+            }
+        },
+        deleteAnswer: function (answerId) {
+            return Forum.data.Answer.deleteById(answerId);
+        }
+    };
+
+    var HeaderController = {
+        showHeader: function (userData) {
+            if(userData === undefined){
+                userData = null;
+            } else{
+                if(userData.role.name === "users"){
+                    userData.user = true;
+                } else if(userData.role.name === "admins"){
+                    userData.admin = true;
+                }
+            }
+            
+            var headerView = new Forum.views.HeaderView();
+
+            headerView.render('.header', userData);
+            
+            $('#searchBarButton').on('click', function(){
+                if($('#searchBar').val().trim().length === 0){
+                    alert("You cannot search for empty string.");
+                } else{
+                    var selectedOption = $('#searchFilter').val().toLowerCase();
+                
+                    Forum.Router.setLocation('#/search/by=' + selectedOption + '/text=' + $('#searchBar').val()); 
+                }
+            });
+        }
+    };
+
+    return {
+        UserController: UserController,
+        CategoryController: CategoryController,
+        TagController: TagController,
+        QuestionController: QuestionController,
+        AnswerController: AnswerController,
+        HeaderController: HeaderController,
+        SearchController: SearchController
+    };
+>>>>>>> a77f42186335318f968a61e59300ba1e2217dcee
 })();

@@ -25,6 +25,20 @@ Forum.views = (function() {
 
 	QuestionsView.prototype.render = function(element, data) {
 		$(element).html(Forum.templateBuilder('question-template', data));
+
+		assignDeleteButtonEvents();
+
+		function assignDeleteButtonEvents() {
+			$('.deleteQuestionButton').on('click', function(event) {
+				var questionId = $(event.target).parent().parent().attr('data-id');
+
+				Forum.controllers.QuestionController.deleteQuestion(questionId)
+					.then(function(result) {
+						$(event.target).parent().parent().remove();
+					});
+			})
+		}
+
 	};
 
 	SingleQuestionView.prototype.render = function(element, data) {
@@ -160,7 +174,7 @@ Forum.views = (function() {
 								$('.addedTags').find('.tag').remove();
 								Forum.editor.setData("");
 							});
-						}
+					}
 				});
 			}
 		}
@@ -183,7 +197,7 @@ Forum.views = (function() {
 		function assignLoginEvents() {
 			var form = $('#loginForm');
 			form.validate();
-			
+
 			$("a[data-reveal-id='login']").on('click', function(event) {
 				$('div#login').foundation('reveal', 'open');
 
@@ -199,7 +213,7 @@ Forum.views = (function() {
 								Forum.Router.refresh()
 								$('div#login').foundation('reveal', 'close');
 							})
-					};					
+					};
 				});
 			});
 		};

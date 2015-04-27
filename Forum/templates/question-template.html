@@ -2,13 +2,13 @@
 <div data-id="{{objectId}}">
 	<div class="panel question">
 		{{#ifEquals ../userData.role.name "admins"}}
-            <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
-            <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
+            <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
+            <a class="button right tiny info radius editQuestionButton">Edit</a>
         {{else}}
         {{#ifEquals ../../userData.role.name "users"}}
             {{#ifEquals postedBy.objectId ../../../userData.objectId}}
-                <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
-                <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
+                <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
+                <a class="button right tiny info radius editQuestionButton">Edit</a>
             {{/ifEquals}}
         {{/ifEquals}}
 		{{/ifEquals}}
