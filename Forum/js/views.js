@@ -47,7 +47,7 @@ Forum.views = (function() {
 		assignNewAnswerEvents();
 		assignDeleteButtonEvents();
     assignEditAnswerEvents();
-    assignEditAnswerEvents();
+    assignEditQuestionEvents();
 
 		$("#createAnswerBox").hide();
 
@@ -58,15 +58,15 @@ Forum.views = (function() {
 
         $('.editAnswerButton').on('click', function(event) {
             $('div#answerEdit').foundation('reveal', 'open');
-        })
+        });
     }
 
-    function assignEditAnswerEvents(){
-        $('.question-container').append(Forum.templateBuilder('answerEdit-template',{}));
+    function assignEditQuestionEvents(){
+        $('.question-container').append(Forum.templateBuilder('questionEdit-template',{}));
 
-        $('.editAnswerButton').on('click', function(event) {
-            $('div#answerEdit').foundation('reveal', 'open');
-        })
+        $('.editQuestionButton').on('click', function(event) {
+            $('div#questionEdit').foundation('reveal', 'open');
+        });
     }
 
 		function assignDeleteButtonEvents() {
