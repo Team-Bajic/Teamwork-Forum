@@ -137,18 +137,23 @@ Parse.Cloud.beforeDelete("Category", function(request, response) {
 });
 
 Parse.Cloud.beforeSave("Category", function(request, response) {
-	if (!request.object.get("title")) {
-		response.error("Title is required for creating a category!");
-	} else if (request.object.get("title").length <= 10) {
-		response.error("Category title must be longer than 10 character.");
+	var user = request.user;
+	if (user && (user.get('role').id === "0cmOiSZe8k")) {
+		if (!request.object.get("title")) {
+			response.error("Title is required for creating a category!");
+		} else if (request.object.get("title").length <= 10) {
+			response.error("Category title must be longer than 10 character.");
+		} else {
+			response.success();
+		}
 	} else {
-		response.success();
+		response.error("Unauthorized");
 	}
 });
 
 Parse.Cloud.beforeSave("Question", function(request, response) {
 	var user = request.user;
-	if (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id) {
+	if (user && (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id)) {
 		if (!request.object.get("title")) {
 			response.error("Title is required for creating a question!");
 		} else if (request.object.get("title").length <= 10) {
@@ -160,12 +165,14 @@ Parse.Cloud.beforeSave("Question", function(request, response) {
 		} else {
 			response.success();
 		}
+	} else {
+		response.error("Unauthorized");
 	}
 });
 
 Parse.Cloud.beforeSave("Answer", function(request, response) {
 	var user = request.user;
-	if (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id) {
+	if (user && (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id)) {
 		if (!request.object.get("answerText")) {
 			response.error("Answer text is required!")
 		} else if (request.object.get("answerText").length < 20) {
@@ -173,5 +180,23 @@ Parse.Cloud.beforeSave("Answer", function(request, response) {
 		} else {
 			response.success();
 		}
+	} else {
+		response.error("Unauthorized");
 	}
+});
+
+Parse.Cloud.define('incrementQuestionVisits', function (request, response) {
+	var query = new Parse.Query("Question");
+
+	query.equalTo("objectId", request.object.id);
+	query.find({
+		success: function (question) {
+			question.increment("visits");
+			question.save();
+			response.success();
+		},
+		error: function (error) {
+			response.error(error);
+		}
+	})
 });
