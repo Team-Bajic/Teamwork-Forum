@@ -136,3 +136,42 @@ Parse.Cloud.beforeDelete("Category", function(request, response) {
 	}
 });
 
+Parse.Cloud.beforeSave("Category", function(request, response) {
+	if (!request.object.get("title")) {
+		response.error("Title is required for creating a category!");
+	} else if (request.object.get("title").length <= 10) {
+		response.error("Category title must be longer than 10 character.");
+	} else {
+		response.success();
+	}
+});
+
+Parse.Cloud.beforeSave("Question", function(request, response) {
+	var user = request.user;
+	if (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id) {
+		if (!request.object.get("title")) {
+			response.error("Title is required for creating a question!");
+		} else if (request.object.get("title").length <= 10) {
+			response.error("Question title must be longer than 10 character.");
+		} else if (!request.object.get("questionText")) {
+			response.error("Question text is required!")
+		} else if (request.object.get("questionText").length < 20) {
+			response.error("Question text must be longer than 20 characters.")
+		} else {
+			response.success();
+		}
+	}
+});
+
+Parse.Cloud.beforeSave("Answer", function(request, response) {
+	var user = request.user;
+	if (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id) {
+		if (!request.object.get("answerText")) {
+			response.error("Answer text is required!")
+		} else if (request.object.get("answerText").length < 20) {
+			response.error("Answer text must be longer than 20 characters.")
+		} else {
+			response.success();
+		}
+	}
+});
