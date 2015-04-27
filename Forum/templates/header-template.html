@@ -1,8 +1,9 @@
 <nav data-topbar role="navigation">
   <ul class="right">
+    <a href="#/viewTags" class="button tiny radius">View Tags</a>
     {{#if sessionToken}}
       {{#if admin}}
-        <a href="#/admin" class="button tiny">Admin Panel</a>
+        <a href="#/admin" class="button tiny radius">Admin Panel</a>
       {{/if}}
       {{#if user}}
         <a href="#/user/{{objectId}}" class="button tiny radius">My Profile</a>
@@ -33,7 +34,6 @@
     </div>
     {{/if}}
   </ul>
-    <a href="#/viewTags" class="button tiny radius">View Tags</a>
   <div class="large-5 columns" id="searchDiv">
     <select name="searchFilter" class="radius" id="searchFilter">
       <option disabled>Search by</option>
