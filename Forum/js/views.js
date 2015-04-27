@@ -47,10 +47,19 @@ Forum.views = (function() {
 		assignNewAnswerEvents();
 		assignDeleteButtonEvents();
     assignEditAnswerEvents();
-    
+    assignEditAnswerEvents();
+
 		$("#createAnswerBox").hide();
 
 		Forum.editor = CKEDITOR.replace('editor');
+
+    function assignEditAnswerEvents(){
+        $('.question-container').append(Forum.templateBuilder('answerEdit-template',{}));
+
+        $('.editAnswerButton').on('click', function(event) {
+            $('div#answerEdit').foundation('reveal', 'open');
+        })
+    }
 
     function assignEditAnswerEvents(){
         $('.question-container').append(Forum.templateBuilder('answerEdit-template',{}));
