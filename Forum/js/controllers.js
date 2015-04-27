@@ -34,6 +34,9 @@ Forum.controllers = (function() {
 		registerUser: function(username, password, email) {
 			return Forum.data.User.signUp(username, password, email);
 		},
+		showAdminPanel: function(){
+			$('.main-container').html(Forum.templateBuilder('adminPanel-template'), {});
+		},
 		showUsers: function() {
 			Forum.data.User.getAll()
 				.then(function(result) {
@@ -318,8 +321,9 @@ Forum.controllers = (function() {
 					}
 
 					var singleQuestionView = new Forum.views.SingleQuestionView();
-					console.log(controllerData);
 					singleQuestionView.render('.main-container', controllerData);
+				}, function(error){
+					$('.main-container').html('<h1>Question with id "' + questionId + '" does not exists.</h1>');
 				});
 		},
 		showAllQuestions: function(page, userData) {
@@ -333,10 +337,15 @@ Forum.controllers = (function() {
 
 					return Forum.data.Question.getCount();
 				}).then(function(result) {
-					var questionsView = new Forum.views.QuestionsView();
+					if(parseInt(result.count) > 0){
+						var questionsView = new Forum.views.QuestionsView();
 
-					questionsView.render('.main-container', paginate(result.count,
-						page, '', ['questions', 'userData'], [controllerData.questionsData, userData], Forum.config.questionsPerPage));
+						questionsView.render('.main-container', paginate(result.count,
+							page, '', ['questions', 'userData'], [controllerData.questionsData, userData],
+							 Forum.config.questionsPerPage));
+					} else{
+						$('.main-container').html('<h1>There are no questions.</h1>');
+					}
 				});
 		},
 		addQuestion: function(title, postedByID, questionText, categoryID, tags) {

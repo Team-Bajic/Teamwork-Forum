@@ -170,6 +170,18 @@ var Forum = Forum || {};
                 Forum.controllers.CategoryController.showCategories(passedData.userData);
             });
         });
+        
+        this.get('#/admin', function() {
+            $.when(HeaderInclude()).done(function(){
+                if(passedData.userData && passedData.userData.role.name === "admins"){
+                    Forum.controllers.HeaderController.showHeader(passedData.userData);
+                    Forum.controllers.UserController.showAdminPanel();
+                    Forum.controllers.CategoryController.showCategories();
+                } else{
+                    Forum.Router.setLocation('#/');
+                }
+            });
+        });
 	});
 
 	Forum.Router.run('#/');
