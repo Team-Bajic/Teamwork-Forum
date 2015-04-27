@@ -19,12 +19,9 @@
 		</span>
 		{{#each tags}}
 		 {{#if @first}} 
-		 	<span class="secondary radius label">{{this}}</span>
+		 	<span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
 		 {{else}} 
-		 	, <span class="secondary radius label">{{this}}</span>
-		 	<a href="#/search/by=tag/text={{this}}">{{this}}</a>
-		 {{else}} 
-		 	, <a href="#/search/by=tag/text={{this}}">{{this}}</a>
+		 	, <span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
 		 {{/if}}
 		 {{/each}}
 		<p>author:
