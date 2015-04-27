@@ -1,0 +1,18 @@
+{{#each tags}}
+	<div data-id="{{objectId}}">
+		<div class="panel tag">
+		<h3>Title: <a href="#/tag/{{title}}">{{title}}</a></h3>
+		<p><span class="right">Times used: {{timesUsed}}</span></p>
+		</div>
+	</div>
+{{/each}}
+<div class="clearfix">
+	<ul class="pagination">
+		<li class="arrow left {{previousStatus}}">
+			<a href="#/{{url}}page={{previous}}">&laquo;</a>
+		</li>
+		<li class="arrow right {{nextStatus}}">
+			<a href="#/{{url}}page={{next}}">&raquo;</a>
+		</li>
+	</ul>
+</div>

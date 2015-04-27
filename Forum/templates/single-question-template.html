@@ -1,5 +1,16 @@
 <div class="question-container" data-id="{{questionData.objectId}}">
 	<div class="panel question">
+	{{#ifEquals userData.role.name "admins"}}
+            <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
+            <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
+        {{else}}
+        {{#ifEquals userData.role.name "users"}}
+            {{#ifEquals questionData.postedBy.objectId userData.objectId}}
+                <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
+                <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
+            {{/ifEquals}}
+        {{/ifEquals}}
+		{{/ifEquals}}
 		<h2 class="questionTitle">{{questionData.title}}</h2>
 		<p>{{questionData.questionText}}</p>
 		<div id="questionInfo">
@@ -10,6 +21,16 @@
 	<div class="panel">
 		{{#if ../userData.admin}}
 		<a id="deleteAnswerButton" class="button right tiny alert">Delete</a>
+		<a id="editQuestionButton" class="button right tiny info radius">Edit</a>
+		{{else}}
+			{{#ifEquals answerType "user"}}
+				{{#ifEquals ../userData.role.name "users"}}
+	            {{#ifEquals postedBy.objectId ../userData.objectId}}
+	                <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
+	                <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
+	            {{/ifEquals}}
+	        	{{/ifEquals}}
+			{{/ifEquals}}
 		{{/if}}
 		<p class="answerParagraph large-8">{{answerText}}</p>
 

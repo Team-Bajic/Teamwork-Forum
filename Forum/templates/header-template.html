@@ -3,9 +3,6 @@
     {{#if sessionToken}}
       {{#if admin}}
         <a href="#/admin/viewUsers" class="button tiny radius adminButton">View Users</a>
-        <a href="#/admin/viewQuestions" class="button tiny radius adminButton">View Questions</a>
-        <a href="#/admin/viewAnswers" class="button tiny radius adminButton">View Answers</a>
-        <a href="#/admin/viewTags" class="button tiny radius adminButton">View Tags</a>
       {{/if}}
       {{#if user}}
         <a href="#/user/{{objectId}}" class="button tiny radius">My Profile</a>
@@ -36,6 +33,7 @@
     </div>
     {{/if}}
   </ul>
+    <a href="#/viewTags" class="button tiny radius">View Tags</a>
   <div class="large-5 columns" id="searchDiv">
     <select name="searchFilter" class="radius" id="searchFilter">
       <option disabled>Search by</option>

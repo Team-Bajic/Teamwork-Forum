@@ -122,40 +122,53 @@ var Forum = Forum || {};
         });
 
         this.get('#/search/by=:option/text=:searched/page=:pageNumber', function(){
+            var _this = this;
+
             $.when(HeaderInclude()).done(function(){
                 Forum.controllers.HeaderController.showHeader(passedData.userData);
                 Forum.controllers.CategoryController.showCategories(passedData.userData);
                 Forum.controllers.SearchController
-                .getParams(this.params['option'], this.params['searched'], parseInt(this.params['pageNumber']));
+                .getParams(_this.params['option'], _this.params['searched'], parseInt(_this.params['pageNumber']));
             });
         });
 
 		this.get('#/tag/:tagTitle', function() {
+            var _this = this;
+
             $.when(HeaderInclude()).done(function(){
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.Tag.showTag(this.params['tagTitle'], 0);
-                Forum.controllers.CategoryController.showCategories();
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.TagController.showTag(_this.params['tagTitle'], 0, passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
             });
 		});
 
         this.get('#/tag/:tagTitle/page=:pageNumber', function() {
+            var _this = this;
+
             $.when(HeaderInclude()).done(function(){
-                Forum.controllers.HeaderController.showHeader();
-                Forum.controllers.Tag.showTag(this.params['tagTitle'], parseInt(this.params['pageNumber']));
-                Forum.controllers.CategoryController.showCategories();
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.TagController.showTag(_this.params['tagTitle'], 
+                    parseInt(_this.params['pageNumber']), passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
             });
         });
         
         this.get('#/viewTags', function() {
-			Forum.controllers.HeaderController.showHeader(userData);
-			Forum.controllers.Tag.showTags(0);
-			Forum.controllers.CategoryController.showCategories(userData);
+            $.when(HeaderInclude()).done(function(){
+    			Forum.controllers.HeaderController.showHeader(passedData.userData);
+    			Forum.controllers.TagController.showTags(0, passedData.userData);
+    			Forum.controllers.CategoryController.showCategories(passedData.userData);
+            });
 		});
 
         this.get('#/viewTags/page=:pageNumber', function() {
-            Forum.controllers.HeaderController.showHeader(userData);
-            Forum.controllers.Tag.showTags(parseInt(this.params['pageNumber']));
-            Forum.controllers.CategoryController.showCategories(userData);
+            var _this = this;
+
+            $.when(HeaderInclude()).done(function(){
+                Forum.controllers.HeaderController.showHeader(passedData.userData);
+                Forum.controllers.TagController.showTags(parseInt(_this.params['pageNumber']), passedData.userData);
+                Forum.controllers.CategoryController.showCategories(passedData.userData);
+            });
         });
 	});
 
