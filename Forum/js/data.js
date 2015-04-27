@@ -23,6 +23,15 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
+		editById: function (id, title) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+				dataToUpdate = {
+					title: title
+				};
+
+			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Category/' + id,
+                JSON.stringify(dataToUpdate), '', function(result) {
+		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/', null, '', function(result) {
 				return result;
@@ -68,6 +77,15 @@ Forum.data = (function() {
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Tag/' + id, '', function(result) {
 				return result;
 			}, null);
+		},
+		editById: function (id, title) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+				dataToUpdate = {
+					title: title
+				};
+
+			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Tag/' + id,
+                JSON.stringify(dataToUpdate), '', function(result) {
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Tag/', null, '', function(result) {
@@ -131,6 +149,16 @@ Forum.data = (function() {
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Question/' + id, '', function(result) {
 				return result;
 			}, null);
+		},
+		editById: function (id, title, questionText) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+				dataToUpdate = {
+					title: title,
+					questionText: questionText
+				};
+
+			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Question/' + id,
+                JSON.stringify(dataToUpdate), '', function(result) {
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, '?include=postedBy', function(result) {
@@ -234,6 +262,15 @@ Forum.data = (function() {
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Answer/' + id, '', function(result) {
 				return result;
 			}, null);
+		},
+		editById: function (id, questionText) {
+			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+				dataToUpdate = {
+					questionText: questionText
+				};
+
+			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Answer/' + id,
+                JSON.stringify(dataToUpdate), '', function(result) {
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, '?include=question,postedBy', function(result) {
