@@ -2,7 +2,9 @@
 	<div class="panel question">
 		<h2 class="questionTitle">{{questionData.title}}</h2>
 		<p>{{questionData.questionText}}</p>
+		<div id="questionInfo">
 		<p>author:<a href="#/user/{{questionData.postedBy.objectId}}"> {{questionData.postedBy.username}}</a></p>
+		</div>
 	</div>
 	{{#each answersData}}
 	<div class="panel">
@@ -10,11 +12,13 @@
 		<a id="deleteAnswerButton" class="button right tiny alert">Delete</a>
 		{{/if}}
 		<p class="answerParagraph large-8">{{answerText}}</p>
+
 		{{#if author}}
 		<p>author:<a href="#/"> {{author}}</a></p>
 		{{else}}
 		<p>author:<a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a></p>
 		{{/if}}
+
 	</div>
 	{{/each}}
 
