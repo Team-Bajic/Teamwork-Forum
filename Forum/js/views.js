@@ -45,10 +45,31 @@ Forum.views = (function() {
 		$(element).html(Forum.templateBuilder('single-question-template', data));
 
 		assignNewAnswerEvents();
+		assignDeleteButtonEvents();
 
 		$("#createAnswerBox").hide();
 
 		Forum.editor = CKEDITOR.replace('editor');
+
+		function assignDeleteButtonEvents() {
+			$('.deleteQuestionButton').on('click', function(event) {
+				var questionId = $(event.target).parent().parent().attr('data-id');
+
+				Forum.controllers.QuestionController.deleteQuestion(questionId)
+					.then(function(result) {
+						Forum.Router.setLocation('#/');
+					});
+			})
+
+			$('.deleteAnswerButton').on('click', function(event) {
+				var answerId = $(event.target).parent().attr('data-id');
+
+				Forum.controllers.AnswerController.deleteAnswer(answerId)
+					.then(function(result) {
+						$(event.target).parent().remove();
+					});
+			})
+		}
 
 		function assignNewAnswerEvents() {
 			$('.reveal-answer-block').on('click', function(event) {
