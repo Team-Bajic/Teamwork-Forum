@@ -3,10 +3,12 @@
 	<div class="panel question">
 		{{#ifEquals ../userData.role.name "admins"}}
             <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
+            <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
         {{else}}
         {{#ifEquals ../../userData.role.name "users"}}
             {{#ifEquals postedBy.objectId ../../../userData.objectId}}
                 <a id="deleteQuestionButton" class="button right tiny alert radius">Delete</a>
+                <a id="editQuestionButton" class="button right tiny info radius">Edit</a>
             {{/ifEquals}}
         {{/ifEquals}}
 		{{/ifEquals}}
@@ -20,6 +22,9 @@
 		 	<span class="secondary radius label">{{this}}</span>
 		 {{else}} 
 		 	, <span class="secondary radius label">{{this}}</span>
+		 	<a href="#/search/by=tag/text={{this}}">{{this}}</a>
+		 {{else}} 
+		 	, <a href="#/search/by=tag/text={{this}}">{{this}}</a>
 		 {{/if}}
 		 {{/each}}
 		<p>author:
