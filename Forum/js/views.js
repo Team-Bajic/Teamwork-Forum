@@ -60,7 +60,6 @@ Forum.views = (function() {
         $('div#answerEdit').foundation('reveal', 'open');
         $('#answerText').val($(event.target).next().text());
         $('#saveAnswerButton').attr('data-id', $(event.target).parents('.answer').last().attr('data-id'));
-
       });
 
       $('div#answerEdit').submit(function(e) {

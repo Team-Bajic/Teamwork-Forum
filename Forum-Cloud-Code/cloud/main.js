@@ -291,3 +291,79 @@ Parse.Cloud.define('editCategory', function (request, response) {
 		}
 	}
 });
+
+Parse.Cloud.define('editTag', function (request, response) {
+	var query = new Parse.Query("Question");
+	var user = request.params.userData;
+
+	if (user) {
+		if(request.params.tag.newTitle.length < 5){
+			response.error("Tag title length must be greater than 5.");
+		} else{
+			user = JSON.parse(JSON.stringify(user));
+
+			query.equalTo("tags", request.params.tag.currentTitle);
+			query.find({
+				success: function (questions) {
+					if(user.role.objectId === "0cmOiSZe8k"){
+						questions.forEach(function(question){
+							var currentTags = questions.get('tags');
+							var index = currentTags.indexOf(request.params.tag.currentTitle);
+
+							currentTags.splice(index, 1);
+							question.set('tags', currentTags);
+							question.save();
+						});
+
+						response.success("Successfully edited the tag.");
+					} else{
+						response.error('Unauthorised');
+					}
+				},
+				error: function (error) {
+					response.error(error);
+				}
+			})
+		}
+	}
+});
+
+Parse.Cloud.define('registerUser', function (request, response) {
+	var query = new Parse.Query("Question");
+	var userData = request.params.userData;
+
+	function validateEmail(email) 
+	{
+		var re = /\S+@\S+\.\S+/;
+		return re.test(email);
+	}
+
+	if (userData) {
+		userData = JSON.parse(JSON.stringify(userData));
+
+		if(userData.username.length < 5){
+			response.error("Username must be must be at least 5 characters long.");
+		} else if(userData.password.length < 6){
+			response.error("Password must be at least 6 characters long.");
+		} else if(validateEmail(userData.email) === false){
+			response.error("Email is not valid.");
+		} else{
+			var user = new Parse.User();
+			user.set("username", userData.username);
+			user.set("password", userData.password);
+			user.set("email", userData.email);
+
+			user.signUp(null, {
+			  	success: function(user) {
+			    	response.success("Successfull registration.");
+			  	},
+			  	error: function(user, error) {
+			    	response.error("Error: " + error.code + " " + error.message);
+			  	}
+			});
+		}
+	} else{
+		response.error("Cannot complete registration.");
+	}
+});
+
