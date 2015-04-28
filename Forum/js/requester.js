@@ -23,33 +23,40 @@ Forum.Requester = (function() {
 		return obj;
 	}
 
-	function makeRequest(headers, url, method, data, urlParams, onSuccess, onError) {
-		return $.ajax({
+	function makeRequest(headers, url, method, data, urlParams) {
+		var defer = $.Deferred();
+
+		$.ajax({
 			url: (Forum.baseUrl + url + urlParams).toString(),
 			method: method,
-			type: method,
 			data: data,
-			success: onSuccess,
-			error: onError,
-			headers: headers
+			headers: headers,
+			success: function(data){
+				defer.resolve(data);
+			},
+			error: function(error){
+				defer.reject(error);
+			}
 		});
+
+		return defer.promise();
 	}
 
-	function getRequest(headerAddition, url, data, urlParams, onSuccess, onError) {
+	function getRequest(headerAddition, url, data, urlParams) {
 
-		return makeRequest(copyHeader(headerAddition), url, 'GET', data, urlParams, onSuccess, onError);
+		return makeRequest(copyHeader(headerAddition), url, 'GET', data, urlParams);
 	}
 
-	function postRequest(headerAddition, url, data, onSuccess, onError) {
-		return makeRequest(copyHeader(headerAddition), url, 'POST', data, '', onSuccess, onError);
+	function postRequest(headerAddition, url, data) {
+		return makeRequest(copyHeader(headerAddition), url, 'POST', data, '');
 	}
 
-	function putRequest(headerAddition, url, data, urlParams, onSuccess, onError) {
-		return makeRequest(copyHeader(headerAddition), url, 'PUT', data, urlParams, onSuccess, onError);
+	function putRequest(headerAddition, url, data, urlParams) {
+		return makeRequest(copyHeader(headerAddition), url, 'PUT', data, urlParams);
 	}
 
-	function deleteRequest(headerAddition, url, urlParams, onSuccess, onError) {
-		return makeRequest(copyHeader(headerAddition), url, 'DELETE', null, urlParams, onSuccess, onError);
+	function deleteRequest(headerAddition, url, urlParams) {
+		return makeRequest(copyHeader(headerAddition), url, 'DELETE', null, urlParams);
 	}
 
 	return {

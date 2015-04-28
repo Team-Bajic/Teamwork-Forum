@@ -13,7 +13,7 @@ var Forum = Forum || {};
             if(user !== null){
                 return user.then(function(result){
                     passedData.userData = result;
-                    
+                    console.log(passedData);
                     return Forum.data.Role.getById(passedData.userData.role.objectId);
                 }).then(function(result){
                     passedData.userData.role = result;
