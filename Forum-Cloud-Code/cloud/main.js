@@ -210,7 +210,7 @@ Parse.Cloud.define('editAnswer', function (request, response) {
 			response.error("Text too short, minimum 5 characters.");
 		} else{
 			user = JSON.parse(JSON.stringify(user));
-			
+
 			query.get(request.params.answer.objectId, {
 				success: function (answer) {
 					if (user.role.objectId === "0cmOiSZe8k" || (answer.get('answerType') === "user" 
@@ -267,15 +267,27 @@ Parse.Cloud.define('editQuestion', function (request, response) {
 
 Parse.Cloud.define('editCategory', function (request, response) {
 	var query = new Parse.Query("Category");
+	var user = request.params.userData;
 
-	query.equalTo("objectId", request.object.id);
-	query.find({
-		success: function (category) {
-			category.save();
-			response.success();
-		},
-		error: function (error) {
-			response.error(error);
+	if (user) {
+		if(request.params.category.newTitle.length < 5){
+			response.error("Category title length must be greater than 5.");
+		} else{
+			user = JSON.parse(JSON.stringify(user));
+			query.get(request.params.category.objectId, {
+				success: function (category) {
+					if(user.role.objectId === "0cmOiSZe8k"){
+						category.set('title', request.params.category.newTitle);
+						category.save();
+						response.success();
+					} else{
+						response.error('Unauthorised');
+					}
+				},
+				error: function (error) {
+					response.error(error);
+				}
+			})
 		}
-	})
+	}
 });
