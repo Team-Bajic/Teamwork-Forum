@@ -199,8 +199,12 @@ Forum.views = (function() {
                   user: result
                 })
                 .then(function() {
-                  $("#createAnswerBox").slideUp();
-                  Forum.editor.setData("");
+                    $('#answerSuccessfullyPosted').slideDown('fast');
+                    setTimeout(function(){
+                      $("#createAnswerBox").slideUp();
+                      Forum.editor.setData("");
+                    },1000)
+
                 });
             });
           } else {
@@ -289,7 +293,7 @@ Forum.views = (function() {
                   questionText = Forum.editor.getData(),
                   categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
                   postedByID = result.objectId;
-
+                  $('#questionSuccessfullyPosted').slideDown('fast');
                 return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
               }).then(function(result) {
                 $('#createQuestionBox').slideUp().find("input").val('');
@@ -350,79 +354,6 @@ Forum.views = (function() {
     };
 
     function assignRegisterEvents() {
-      function validateUserData() {
-        var username = $('div#register').children('#username').val();
-        var password = $('div#register').children('#password').val();
-        var confirmPassword = $('div#register').children('#confirm-password').val();
-        var email = $('div#register').children('#email').val();
-
-        $('#registerForm').validate();
-        if (!($('div#register').children('#notification').length)) {
-          $('div#register').append($('<div id="notification"></div>'));
-        }
-
-        var isPasswordsProvided = (password.trim() != '') && (confirmPassword.trim() != '') ? true : false;
-        var isPasswordsMatch = (password == confirmPassword) ? true : false;
-        var isEmailProvided = (email.trim() != '') ? true : false;
-
-        if (isPasswordsMatch && isPasswordsProvided && isEmailProvided) {
-          function response() {
-            var deferredObject = $.Deferred();
-            deferredObject.resolve();
-            deferredObject.notify();
-            return Forum.controllers.UserController.registerUser(username, password, email);
-          }
-
-          $.when(response())
-            .done(function(res) {
-              $('#notification').text('Account succesfully created');
-
-              function getRole() {
-                var deferredObject = $.Deferred();
-                deferredObject.resolve();
-
-                return Forum.data.User.getUsersRole();
-              }
-
-              $.when(getRole()).done(function(role) {
-                  console.log(role);
-
-                  Forum.data.User.updateRole(role.results[0].objectId, res.objectId);
-                })
-                .fail(function() {
-                  console.log('Failed to get the users role')
-                });
-              $('div#register').foundation('reveal', 'close');
-            })
-            .fail(function(res) {
-              console.log('failed');
-
-              var errorCode = JSON.parse(res.responseText).code;
-              var messages = [];
-
-              messages[125] = "Invalid email address.";
-              messages[200] = "Please, choose your username.";
-              messages[201] = "Please, choose your password.";
-              messages[202] = "This username has been already taken. Choose another one.";
-              messages[203] = "This email has been already taken.";
-
-              if (messages[errorCode]) {
-                $('#notification').text(messages[errorCode]);
-              } else {
-                $('#notification').text("Unknown error during registration.");
-              }
-            })
-            .progress(function() {
-              $('#notification').text('Working...');
-            })
-        } else {
-          var errorMessage = isPasswordsMatch ? '' : 'The passwords don\'t match. Check and re-enter again.<br/>';
-          errorMessage += isPasswordsProvided ? '' : 'Enter your password in both password fields.</br>';
-          errorMessage += isEmailProvided ? '' : 'You missed to enter your email.';
-
-          $('#notification').html(errorMessage);
-        }
-      };
 
       var form = $('#registerForm');
       form.validate();

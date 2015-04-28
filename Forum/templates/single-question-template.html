@@ -58,6 +58,10 @@
 		{{/unless}}
 		<label>Answer:</label>
 		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>
+		<div data-alert class="alert-box info radius" style="display: none" id="answerSuccessfullyPosted">
+			Answer posted successfully.
+			<a href="#" class="close">&times;</a>
+		</div>
 		<div class="new-question-controls right clearfix">
 			<input type="submit" value="Post" class="post-button button tiny radius"/>
 			<a class="dismiss-button button alert tiny radius">Dismiss</a>
