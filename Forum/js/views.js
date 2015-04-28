@@ -1,400 +1,447 @@
 var Forum = Forum || {};
 
 Forum.views = (function() {
-	var CategoryView = function() {};
+  var CategoryView = function() {};
 
-	var QuestionsView = function() {};
+  var QuestionsView = function() {};
 
-	var SingleQuestionView = function() {};
+  var SingleQuestionView = function() {};
 
-	var HeaderView = function() {};
+  var HeaderView = function() {};
 
-	var SingleCategoryView = function() {};
+  var SingleCategoryView = function() {};
 
-	var ProfileView = function() {};
+  var ProfileView = function() {};
 
-	ProfileView.prototype.render = function(element, data) {
-		$(element).html(Forum.templateBuilder('user-profile-template', data));
-	};
+  ProfileView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('user-profile-template', data));
+  };
 
-	CategoryView.prototype.render = function(element, data) {
-		$(element).html(Forum.templateBuilder('category-template', {
-			categories: data
-		}));
-	};
+  CategoryView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('category-template', {
+      categories: data
+    }));
+  };
 
-	QuestionsView.prototype.render = function(element, data) {
-		$(element).html(Forum.templateBuilder('question-template', data));
+  QuestionsView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('question-template', data));
 
-		assignDeleteButtonEvents();
+    assignDeleteButtonEvents();
 
-		function assignDeleteButtonEvents() {
-			$('.deleteQuestionButton').on('click', function(event) {
-				var questionId = $(event.target).parent().parent().attr('data-id');
+    function assignDeleteButtonEvents() {
+      $('.deleteQuestionButton').on('click', function(event) {
+        var questionId = $(event.target).parent().parent().attr('data-id');
 
-				Forum.controllers.QuestionController.deleteQuestion(questionId)
-					.then(function(result) {
-						$(event.target).parent().parent().remove();
-					});
-			})
-		}
+        Forum.controllers.QuestionController.deleteQuestion(questionId)
+          .then(function(result) {
+            $(event.target).parent().parent().remove();
+          });
+      })
+    }
 
-	};
+  };
 
-	SingleQuestionView.prototype.render = function(element, data) {
-		$(element).html(Forum.templateBuilder('single-question-template', data));
+  SingleQuestionView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('single-question-template', data));
 
-		assignNewAnswerEvents();
-		assignDeleteButtonEvents();
+    assignNewAnswerEvents();
+    assignDeleteButtonEvents();
     assignEditAnswerEvents();
     assignEditQuestionEvents();
 
-		$("#createAnswerBox").hide();
+    $("#createAnswerBox").hide();
 
-		Forum.editor = CKEDITOR.replace('editor');
+    Forum.editor = CKEDITOR.replace('editor');
 
-    function assignEditAnswerEvents(){
-        $('.question-container').append(Forum.templateBuilder('answerEdit-template',{}));
+    function assignEditAnswerEvents() {
+      $('.question-container').append(Forum.templateBuilder('answerEdit-template', {}));
 
-        $('.editAnswerButton').on('click', function(event) {
-            $('div#answerEdit').foundation('reveal', 'open');
-            $('#answerText').val($(event.target).next().text());
-            $('#saveAnswerButton').attr('data-id', $(event.target).parents('.answer').last().attr('data-id'));
+      $('.editAnswerButton').on('click', function(event) {
+        $('div#answerEdit').foundation('reveal', 'open');
+        $('#answerText').val($(event.target).next().text());
+        $('#saveAnswerButton').attr('data-id', $(event.target).parents('.answer').last().attr('data-id'));
 
-        });
+      });
 
-        $('div#answerEdit').submit(function(e){
-          e.preventDefault();
-        });
+      $('div#answerEdit').submit(function(e) {
+        e.preventDefault();
+      });
 
-        $('#saveAnswerButton').on('click', function(e){
-          e.preventDefault();
-            Forum.controllers.AnswerController.editAnswer($(e.target).attr('data-id'), $('#answerText').val())
-            .then(function(result){
-              $('#saveAnswerButton').removeAttr('data-id');
-              $('#answerText').val('');
-              $('div#answerEdit').foundation('reveal', 'close');
-              Forum.Router.refresh();
-            });
-        });
+      $('#saveAnswerButton').on('click', function(e) {
+        e.preventDefault();
+        Forum.controllers.AnswerController.editAnswer($(e.target).attr('data-id'), $('#answerText').val())
+          .then(function(result) {
+            $('#saveAnswerButton').removeAttr('data-id');
+            $('#answerText').val('');
+            $('div#answerEdit').foundation('reveal', 'close');
+            Forum.Router.refresh();
+          });
+      });
     }
 
-    function assignEditQuestionEvents(){
-        $('.question-container').append(Forum.templateBuilder('questionEdit-template',{}));
+    function assignEditQuestionEvents() {
+      $('.question-container').append(Forum.templateBuilder('questionEdit-template', {}));
+      var tags = [];
 
-        $('.editQuestionButton').on('click', function(event) {
-            $('div#questionEdit').foundation('reveal', 'open');
-            $('#questionTitle').val($(event.target).next().text());
-            $('#questionText').val($(event.target).next().text());
-            $('#saveQuestionButton').attr('data-id', $(event.target).parents('.question-container').last().attr('data-id'));
+      $('.editQuestionButton').on('click', function(event) {
+        $('div#questionEdit').foundation('reveal', 'open');
+        $('#questionTitle').val($(event.target).next().text());
+        $('#questionText').val($(event.target).next().text());
+        $('#saveQuestionButton').attr('data-id', $(event.target).parents('.question-container').last().attr('data-id'));
+        $($(event.target).parents('.question-container').last()).find('.label a').each(function() {
+          tags.push($(this).text());
+          $('#questionEdit .addedTags')
+            .append('<span class="secondary radius label tag">' + $(this).text() + '</span><button type="button" class="removeTagButton button tiny alert">X</button>');
         });
 
-        $('div#questionEdit').submit(function(e){
-          e.preventDefault();
+        $('.removeTagButton').on('click', function(event) {
+          $(event.target).prev().remove();
+          $(event.target).remove();
         });
 
-        $('#saveQuestionButton').on('click', function(e){
-          e.preventDefault();
-            Forum.controllers.QuestionController.editQuestion($(e.target).attr('data-id'), $('#questionTitle').val(), $('#questionText').val())
-            .then(function(result){
-                $('#saveQuestionButton').removeAttr('data-id');
-                $('#questionTitle').val('');
-                $('#questionText').val('');
-                $('div#questionEdit').foundation('reveal', 'close');
+        $('#editTagButton').on('click', function() {
+          var tag = $('#tagInput').val().trim();
+
+          if (tag.length === 0) {
+            alert("You cannot add empty tag.");
+          } else if (tags.indexOf(tag) > -1) {
+            alert('Already in added.');
+            $('#tagInput').val('');
+          } else {
+            tags.push(tag);
+
+            $('#questionEdit .addedTags')
+            .append('<span class="secondary radius label tag">' + tag 
+              + '</span><button type="button" class="removeTagButton button tiny alert">X</button>');
+
+            $('#tagInput').val('');
+
+            $('.removeTagButton').last().on('click', function(event) {
+              $(event.target).prev().remove();
+              $(event.target).remove();
+            });
+          }
+        });
+      });
+
+      $('div#questionEdit').submit(function(e) {
+        e.preventDefault();
+      });
+
+      $('#saveQuestionButton').on('click', function(e) {
+        e.preventDefault();
+
+        var tagsToUpdate = [];
+        var dataToPass = {};
+
+        $('#questionEdit').find('.tag').each(function(){
+            tagsToUpdate.push($(this).text());
+        });        
+
+        dataToPass.tags = tagsToUpdate;
+        dataToPass.questionTitle = $('#questionTitle').val();
+        dataToPass.questionText = $('#questionText').val();
+
+        Forum.controllers.QuestionController.editQuestion($(e.target).attr('data-id'), dataToPass)
+          .then(function(result) {
+            $('#saveQuestionButton').removeAttr('data-id');
+            $('#questionTitle').val('');
+            $('#questionText').val('');
+            $('div#questionEdit').foundation('reveal', 'close');
+            Forum.Router.refresh();
+          });
+      });
+    }
+
+    function assignDeleteButtonEvents() {
+      $('.deleteQuestionButton').on('click', function(event) {
+        var questionId = $(event.target).parent().parent().attr('data-id');
+
+        Forum.controllers.QuestionController.deleteQuestion(questionId)
+          .then(function(result) {
+            Forum.Router.setLocation('#/');
+          });
+      })
+
+      $('.deleteAnswerButton').on('click', function(event) {
+        var answerId = $(event.target).parent().attr('data-id');
+
+        Forum.controllers.AnswerController.deleteAnswer(answerId)
+          .then(function(result) {
+            $(event.target).parent().remove();
+          });
+      })
+    }
+
+    function assignNewAnswerEvents() {
+      $('.reveal-answer-block').on('click', function(event) {
+        $("#createAnswerBox").slideDown();
+      });
+
+      $('.dismiss-button').on('click', function(event) {
+        $("#createAnswerBox").slideUp();
+        Forum.editor.setData("");
+      });
+
+      $('.post-button').on('click', function(event) {
+        var form = $('#createAnswerBox');
+        form.validate();
+
+        if (form.valid()) {
+          event.preventDefault();
+          var postedBy,
+            user = Forum.data.User.currentUser(),
+            questionId = $('.question-container').attr('data-id'),
+            answerText = Forum.editor.getData();
+
+          if (user != null) {
+            user.then(function(result) {
+              Forum.controllers.AnswerController.addAnswer('user', questionId, answerText, {
+                  user: result
+                })
+                .then(function() {
+                  $("#createAnswerBox").slideUp();
+                  Forum.editor.setData("");
+                });
+            });
+          } else {
+            postedBy = $('.answer-author').val().trim(); //|| $('.answer-email').val().trim();
+
+            Forum.controllers.AnswerController.addAnswer('guest', questionId, answerText, {
+                author: postedBy
+              })
+              .then(function() {
+                $("#createAnswerBox").slideUp().find("input").val('');
+                Forum.editor.setData("");
                 Forum.Router.refresh();
-            });
-        });
+              });
+          }
+        }
+      });
     }
+  };
 
-		function assignDeleteButtonEvents() {
-			$('.deleteQuestionButton').on('click', function(event) {
-				var questionId = $(event.target).parent().parent().attr('data-id');
+  SingleCategoryView.prototype.render = function(element, data) {
+    $(element).html(Forum.templateBuilder('single-category-template', {
+      data: data
+    }));
 
-				Forum.controllers.QuestionController.deleteQuestion(questionId)
-					.then(function(result) {
-						Forum.Router.setLocation('#/');
-					});
-			})
+    if (data.user.sessionToken) {
+      assignNewQuestionEvents();
 
-			$('.deleteAnswerButton').on('click', function(event) {
-				var answerId = $(event.target).parent().attr('data-id');
+      $('#createQuestionBox').hide();
 
-				Forum.controllers.AnswerController.deleteAnswer(answerId)
-					.then(function(result) {
-						$(event.target).parent().remove();
-					});
-			})
-		}
+      Forum.editor = CKEDITOR.replace('editor');
 
-		function assignNewAnswerEvents() {
-			$('.reveal-answer-block').on('click', function(event) {
-				$("#createAnswerBox").slideDown();
-			});
+      function assignNewQuestionEvents() {
+        var form = $('#createQuestionBox');
+        form.validate();
 
-			$('.dismiss-button').on('click', function(event) {
-				$("#createAnswerBox").slideUp();
-				Forum.editor.setData("");
-			});
+        var tagCounter = 0;
+        var tags = [];
 
-			$('.post-button').on('click', function(event) {
-				var form = $('#createAnswerBox');
-				form.validate();
+        $('#tagRemove').on('click', function() {
+          if (tagCounter > 0) {
+            $('.addedTags').find('span').last().remove();
+            tagCounter -= 1;
+          } else {
+            alert('There are no tags to delete.');
+          }
+        });
 
-				if (form.valid()) {
-					event.preventDefault();
-					var postedBy,
-						user = Forum.data.User.currentUser(),
-						questionId = $('.question-container').attr('data-id'),
-						answerText = Forum.editor.getData();
+        $('#tagButton').on('click', function() {
+          var tag = $('#tagInput').val().trim();
 
-					if (user != null) {
-						user.then(function(result) {
-							Forum.controllers.AnswerController.addAnswer('user', questionId, answerText, {
-									user: result
-								})
-								.then(function() {
-									$("#createAnswerBox").slideUp();
-									Forum.editor.setData("");
-								});
-						});
-					} else {
-						postedBy = $('.answer-author').val().trim(); //|| $('.answer-email').val().trim();
+          if (tag.length === 0) {
+            alert("You cannot add empty tag.");
+          } else if (tags.indexOf(tag) > -1) {
+            alert('Already in added.');
+            $('#tagInput').val('');
+          } else {
+            tags.push(tag);
 
-						Forum.controllers.AnswerController.addAnswer('guest', questionId, answerText, {
-								author: postedBy
-							})
-							.then(function() {
-								$("#createAnswerBox").slideUp().find("input").val('');
-								Forum.editor.setData("");
-								Forum.Router.refresh();
-							});
-					}
-				}
-			});
-		}
-	};
+            if (tagCounter > 0) {
+              tag = ', ' + tag;
+            }
 
-	SingleCategoryView.prototype.render = function(element, data) {
-		$(element).html(Forum.templateBuilder('single-category-template', {
-			data: data
-		}));
+            $('.addedTags').append("<span class='tag'>" + tag + "</span>");
+            $('#tagInput').val('');
 
-		if (data.user.sessionToken) {
-			assignNewQuestionEvents();
+            tagCounter += 1;
+          }
+        });
 
-			$('#createQuestionBox').hide();
+        $('.reveal-options-block').on('click', function(event) {
+          $('#createQuestionBox').slideDown();
+        });
 
-			Forum.editor = CKEDITOR.replace('editor');
+        $('.dismiss-button').on('click', function(event) {
+          $('#createQuestionBox').slideUp().find("input").val('');
+          $('.addedTags').find('.tag').remove();
+          Forum.editor.setData("");
+        });
 
-			function assignNewQuestionEvents() {
-				var form = $('#createQuestionBox');
-				form.validate();
+        $('.post-button').on('click', function(event) {
+          if (form.valid()) {
+            event.preventDefault();
+            Forum.data.User.currentUser()
+              .then(function(result) {
+                var title = $("input[name='new-question-title']").val(),
+                  questionText = Forum.editor.getData(),
+                  categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
+                  postedByID = result.objectId;
 
-				var tagCounter = 0;
-				var tags = [];
+                return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
+              }).then(function(result) {
+                $('#createQuestionBox').slideUp().find("input").val('');
+                $('.addedTags').find('.tag').remove();
+                Forum.editor.setData("");
+              });
+          }
+        });
+      }
+    }
+  };
 
-				$('#tagRemove').on('click', function() {
-					if (tagCounter > 0) {
-						$('.addedTags').find('span').last().remove();
-						tagCounter -= 1;
-					} else {
-						alert('There are no tags to delete.');
-					}
-				});
+  HeaderView.prototype.render = function(element, content) {
+    $(element).html(Forum.templateBuilder('header-template', content));
 
-				$('#tagButton').on('click', function() {
-					var tag = $('#tagInput').val().trim();
+    $('#logout').on('click', function() {
+      Forum.controllers.UserController.logOutUser()
+        .then(function(result) {
+          Forum.Router.setLocation('#/');
+          Forum.Router.refresh();
+        });
+    });
 
-					if (tag.length === 0) {
-						alert("You cannot add empty tag.");
-					} else if (tags.indexOf(tag) > -1) {
-						alert('Already in added.');
-						$('#tagInput').val('');
-					} else {
-						tags.push(tag);
+    assignLoginEvents();
+    assignRegisterEvents();
 
-						if (tagCounter > 0) {
-							tag = ', ' + tag;
-						}
+    function assignLoginEvents() {
+      var form = $('#loginForm');
+      form.validate();
 
-						$('.addedTags').append("<span class='tag'>" + tag + "</span>");
-						$('#tagInput').val('');
+      $("a[data-reveal-id='login']").on('click', function(event) {
+        $('div#login').foundation('reveal', 'open');
 
-						tagCounter += 1;
-					}
-				});
+        $('#loginButton').on('click', function(event) {
+          if (form.valid()) {
+            event.preventDefault();
 
-				$('.reveal-options-block').on('click', function(event) {
-					$('#createQuestionBox').slideDown();
-				});
+            var username = $('#loginUsername').val().trim(),
+              password = $('#loginPassword').val().trim();
 
-				$('.dismiss-button').on('click', function(event) {
-					$('#createQuestionBox').slideUp().find("input").val('');
-					$('.addedTags').find('.tag').remove();
-					Forum.editor.setData("");
-				});
+            Forum.controllers.UserController.logInUser(username, password)
+              .then(function(result) {
+                Forum.Router.refresh()
+                $('div#login').foundation('reveal', 'close');
+              })
+          };
+        });
+      });
+    };
 
-				$('.post-button').on('click', function(event) {
-					if (form.valid()) {
-						event.preventDefault();
-						Forum.data.User.currentUser()
-							.then(function(result) {
-								var title = $("input[name='new-question-title']").val(),
-									questionText = Forum.editor.getData(),
-									categoryID = $(event.target).parents('.category-container').last().attr('data-id'),
-									postedByID = result.objectId;
+    function assignRegisterEvents() {
+      function validateUserData() {
+        var username = $('div#register').children('#username').val();
+        var password = $('div#register').children('#password').val();
+        var confirmPassword = $('div#register').children('#confirm-password').val();
+        var email = $('div#register').children('#email').val();
 
-								return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
-							}).then(function(result) {
-								$('#createQuestionBox').slideUp().find("input").val('');
-								$('.addedTags').find('.tag').remove();
-								Forum.editor.setData("");
-							});
-					}
-				});
-			}
-		}
-	};
+        $('#registerForm').validate();
+        if (!($('div#register').children('#notification').length)) {
+          $('div#register').append($('<div id="notification"></div>'));
+        }
 
-	HeaderView.prototype.render = function(element, content) {
-		$(element).html(Forum.templateBuilder('header-template', content));
+        var isPasswordsProvided = (password.trim() != '') && (confirmPassword.trim() != '') ? true : false;
+        var isPasswordsMatch = (password == confirmPassword) ? true : false;
+        var isEmailProvided = (email.trim() != '') ? true : false;
 
-		$('#logout').on('click', function() {
-			Forum.controllers.UserController.logOutUser()
-				.then(function(result) {
-					Forum.Router.setLocation('#/');
-					Forum.Router.refresh();
-				});
-		});
+        if (isPasswordsMatch && isPasswordsProvided && isEmailProvided) {
+          function response() {
+            var deferredObject = $.Deferred();
+            deferredObject.resolve();
+            deferredObject.notify();
+            return Forum.controllers.UserController.registerUser(username, password, email);
+          }
 
-		assignLoginEvents();
-		assignRegisterEvents();
+          $.when(response())
+            .done(function(res) {
+              $('#notification').text('Account succesfully created');
 
-		function assignLoginEvents() {
-			var form = $('#loginForm');
-			form.validate();
+              function getRole() {
+                var deferredObject = $.Deferred();
+                deferredObject.resolve();
 
-			$("a[data-reveal-id='login']").on('click', function(event) {
-				$('div#login').foundation('reveal', 'open');
+                return Forum.data.User.getUsersRole();
+              }
 
-				$('#loginButton').on('click', function(event) {
-					if (form.valid()) {
-						event.preventDefault();
+              $.when(getRole()).done(function(role) {
+                  console.log(role);
 
-						var username = $('#loginUsername').val().trim(),
-							password = $('#loginPassword').val().trim();
+                  Forum.data.User.updateRole(role.results[0].objectId, res.objectId);
+                })
+                .fail(function() {
+                  console.log('Failed to get the users role')
+                });
+              $('div#register').foundation('reveal', 'close');
+            })
+            .fail(function(res) {
+              console.log('failed');
 
-						Forum.controllers.UserController.logInUser(username, password)
-							.then(function(result) {
-								Forum.Router.refresh()
-								$('div#login').foundation('reveal', 'close');
-							})
-					};
-				});
-			});
-		};
+              var errorCode = JSON.parse(res.responseText).code;
+              var messages = [];
 
-		function assignRegisterEvents() {
-			function validateUserData() {
-				var username = $('div#register').children('#username').val();
-				var password = $('div#register').children('#password').val();
-				var confirmPassword = $('div#register').children('#confirm-password').val();
-				var email = $('div#register').children('#email').val();
+              messages[125] = "Invalid email address.";
+              messages[200] = "Please, choose your username.";
+              messages[201] = "Please, choose your password.";
+              messages[202] = "This username has been already taken. Choose another one.";
+              messages[203] = "This email has been already taken.";
 
-				$('#registerForm').validate();
-				if (!($('div#register').children('#notification').length)) {
-					$('div#register').append($('<div id="notification"></div>'));
-				}
+              if (messages[errorCode]) {
+                $('#notification').text(messages[errorCode]);
+              } else {
+                $('#notification').text("Unknown error during registration.");
+              }
+            })
+            .progress(function() {
+              $('#notification').text('Working...');
+            })
+        } else {
+          var errorMessage = isPasswordsMatch ? '' : 'The passwords don\'t match. Check and re-enter again.<br/>';
+          errorMessage += isPasswordsProvided ? '' : 'Enter your password in both password fields.</br>';
+          errorMessage += isEmailProvided ? '' : 'You missed to enter your email.';
 
-				var isPasswordsProvided = (password.trim() != '') && (confirmPassword.trim() != '') ? true : false;
-				var isPasswordsMatch = (password == confirmPassword) ? true : false;
-				var isEmailProvided = (email.trim() != '') ? true : false;
+          $('#notification').html(errorMessage);
+        }
+      };
 
-				if (isPasswordsMatch && isPasswordsProvided && isEmailProvided) {
-					function response() {
-						var deferredObject = $.Deferred();
-						deferredObject.resolve();
-						deferredObject.notify();
-						return Forum.controllers.UserController.registerUser(username, password, email);
-					}
+      var form = $('#registerForm');
+      form.validate();
 
-					$.when(response())
-						.done(function(res) {
-							$('#notification').text('Account succesfully created');
+      $("a[data-reveal-id='register']").on('click', function(event) {
+        $('div#register').foundation('reveal', 'open');
 
-							function getRole() {
-								var deferredObject = $.Deferred();
-								deferredObject.resolve();
+        $('.closerevealmodal').on('click', function(event) {
+          $('div#register').foundation('reveal', 'close');
+        });
 
-								return Forum.data.User.getUsersRole();
-							}
+        $('#registerButton').on('click', function(event) {
+          if (form.valid()) {
+            event.preventDefault();
+          }
+          // validateUserData();
+        });
+      });
+    }
+  }
 
-							$.when(getRole()).done(function(role) {
-									console.log(role);
-
-									Forum.data.User.updateRole(role.results[0].objectId, res.objectId);
-								})
-								.fail(function() {
-									console.log('Failed to get the users role')
-								});
-							$('div#register').foundation('reveal', 'close');
-						})
-						.fail(function(res) {
-							console.log('failed');
-
-							var errorCode = JSON.parse(res.responseText).code;
-							var messages = [];
-
-							messages[125] = "Invalid email address.";
-							messages[200] = "Please, choose your username.";
-							messages[201] = "Please, choose your password.";
-							messages[202] = "This username has been already taken. Choose another one.";
-							messages[203] = "This email has been already taken.";
-
-							if (messages[errorCode]) {
-								$('#notification').text(messages[errorCode]);
-							} else {
-								$('#notification').text("Unknown error during registration.");
-							}
-						})
-						.progress(function() {
-							$('#notification').text('Working...');
-						})
-				} else {
-					var errorMessage = isPasswordsMatch ? '' : 'The passwords don\'t match. Check and re-enter again.<br/>';
-					errorMessage += isPasswordsProvided ? '' : 'Enter your password in both password fields.</br>';
-					errorMessage += isEmailProvided ? '' : 'You missed to enter your email.';
-
-					$('#notification').html(errorMessage);
-				}
-			};
-
-			var form = $('#registerForm');
-			form.validate();
-
-			$("a[data-reveal-id='register']").on('click', function(event) {
-				$('div#register').foundation('reveal', 'open');
-
-				$('.closerevealmodal').on('click', function(event) {
-					$('div#register').foundation('reveal', 'close');
-				});
-
-				$('#registerButton').on('click', function(event) {
-					if (form.valid()) {
-						event.preventDefault();
-					}
-					// validateUserData();
-				});
-			});
-		}
-	}
-
-	return {
-		CategoryView: CategoryView,
-		QuestionsView: QuestionsView,
-		SingleQuestionView: SingleQuestionView,
-		HeaderView: HeaderView,
-		SingleCategoryView: SingleCategoryView,
-		ProfileView: ProfileView
-	};
+  return {
+    CategoryView: CategoryView,
+    QuestionsView: QuestionsView,
+    SingleQuestionView: SingleQuestionView,
+    HeaderView: HeaderView,
+    SingleCategoryView: SingleCategoryView,
+    ProfileView: ProfileView
+  };
 })();

@@ -209,6 +209,8 @@ Parse.Cloud.define('editAnswer', function (request, response) {
 		if(request.params.answer.newText.length < 5){
 			response.error("Text too short, minimum 5 characters.");
 		} else{
+			user = JSON.parse(JSON.stringify(user));
+			
 			query.get(request.params.answer.objectId, {
 				success: function (answer) {
 					if (user.role.objectId === "0cmOiSZe8k" || (answer.get('answerType') === "user" 
@@ -239,12 +241,14 @@ Parse.Cloud.define('editQuestion', function (request, response) {
 		if(request.params.question.newText.length < 10 || request.params.question.newTitle.length < 10){
 			response.error("One of the changed is less than the minimum allowed.");
 		} else{
+			user = JSON.parse(JSON.stringify(user));
 			query.get(request.params.question.objectId, {
 				success: function (question) {
 					if(user.role.objectId === "0cmOiSZe8k" 
 						|| user.objectId === JSON.parse(JSON.stringify(question.get('postedBy'))).objectId) {
 						question.set('title', request.params.question.newTitle);
 						question.set('questionText', request.params.question.newText);
+						question.set('tags', request.params.question.tags);
 						question.save();
 						response.success("Successfully edited");
 					} else{

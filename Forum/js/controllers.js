@@ -326,12 +326,12 @@ Forum.controllers = (function() {
 					$('.main-container').html('<h1>Question with id "' + questionId + '" does not exists.</h1>');
 				});
 		},
-		editQuestion: function(questionId, questionTitle, questionText){
+		editQuestion: function(questionId, questionData){
 			var user = Forum.data.User.currentUser();
 
         	if(user !== null){
         		return user.then(function(result){
-					Forum.data.Question.editById(questionId, questionTitle, questionText, result);
+					Forum.data.Question.editById(questionId, questionData, result);
 				})
         	}
 		},

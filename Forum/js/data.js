@@ -154,13 +154,14 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-		editById: function (id, title, questionText, userData) {
+		editById: function (id, questionData, userData) {
 			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
 				dataToUpdate = {
 					question: {
-						newTitle: title,
-						newText: questionText,
-						objectId: id
+						newTitle: questionData.questionTitle,
+						newText: questionData.questionText,
+						objectId: id,
+						tags: questionData.tags
 					},
 					userData: userData
 				};
