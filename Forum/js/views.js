@@ -333,9 +333,18 @@ Forum.views = (function() {
 
             Forum.controllers.UserController.logInUser(username, password)
               .then(function(result) {
-                Forum.Router.refresh()
-                $('div#login').foundation('reveal', 'close');
-              })
+                  $('#validLogin').slideDown('fast');
+                  setTimeout(function(){
+                    Forum.Router.refresh()
+                    $('div#login').foundation('reveal', 'close');
+                  },1000)
+
+              }, function(error){
+                  $('#invalidLogin').slideDown('fast');
+                  setTimeout(function(){
+                    $('#invalidLogin').slideUp('fast')
+                  }, 2000)
+                })
           };
         });
       });
