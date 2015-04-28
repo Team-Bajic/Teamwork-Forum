@@ -154,14 +154,18 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-		editById: function (id, title, questionText) {
+		editById: function (id, title, questionText, userData) {
 			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
 				dataToUpdate = {
-					title: title,
-					questionText: questionText
+					question: {
+						newTitle: title,
+						newText: questionText,
+						objectId: id
+					},
+					userData: userData
 				};
 
-			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Question/' + id,
+			return Forum.Requester.postRequest(headerAddition, '/functions/editQuestion',
                 JSON.stringify(dataToUpdate), '', function(result) {
                 	return result;
             }, null);
@@ -269,13 +273,17 @@ Forum.data = (function() {
 				return result;
 			}, null);
 		},
-		editById: function (id, questionText) {
+		editById: function (id, answerText, userData) {
 			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
 				dataToUpdate = {
-					questionText: questionText
+					answer: {
+						newText: answerText,
+						objectId: id
+					},
+					userData: userData
 				};
 
-			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Answer/' + id,
+			return Forum.Requester.postRequest(headerAddition, '/functions/editAnswer',
                 JSON.stringify(dataToUpdate), '', function(result) {
                 	return result;
             }, null);

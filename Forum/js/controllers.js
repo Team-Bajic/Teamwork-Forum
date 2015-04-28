@@ -326,6 +326,15 @@ Forum.controllers = (function() {
 					$('.main-container').html('<h1>Question with id "' + questionId + '" does not exists.</h1>');
 				});
 		},
+		editQuestion: function(questionId, questionTitle, questionText){
+			var user = Forum.data.User.currentUser();
+
+        	if(user !== null){
+        		return user.then(function(result){
+					Forum.data.Question.editById(questionId, questionTitle, questionText, result);
+				})
+        	}
+		},
 		showAllQuestions: function(page, userData) {
 			if (userData) {
 				controllerData.userData = userData;
@@ -374,6 +383,15 @@ Forum.controllers = (function() {
 		},
         deleteAnswer: function (answerId) {
             return Forum.data.Answer.deleteById(answerId);
+        },
+        editAnswer: function(answerId, answerNewText){
+        	var user = Forum.data.User.currentUser();
+
+        	if(user !== null){
+        		return user.then(function(result){
+        			return Forum.data.Answer.editById(answerId, answerNewText, result);
+        		});
+        	}
         }
 	};
 
