@@ -38,7 +38,12 @@ body {
     background-color: #fdfdfe;
     font-family: 'Constantine';
 }
-
+.questionTitle{
+    word-wrap: break-word;
+}
+.singleQuestionParagraph{
+    word-wrap: break-word;
+}
 .questionParagraph{
     width: 100%;
     text-overflow: ellipsis;
