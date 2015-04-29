@@ -15,34 +15,38 @@ Forum.data = (function() {
 			var queryParams = '?include=questions.postedBy';
 
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/' + id, null, queryParams)
-			.then(function(result) {
-				return result;
-			}, null);
+				.then(function(result) {
+					return result;
+				}, null);
 		},
 		deleteById: function(id) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+			var headerAddition = {
+				'X-Parse-Session-Token': window.sessionStorage.sessionToken
+			};
 
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Category/' + id, '')
-			.then(function(result) {
-				return result;
-			}, null);
+				.then(function(result) {
+					return result;
+				}, null);
 		},
-		editById: function (id, title) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+		editById: function(id, title) {
+			var headerAddition = {
+					'X-Parse-Session-Token': window.sessionStorage.sessionToken
+				},
 				dataToUpdate = {
 					title: title
 				};
 
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Category/' + id,
-                JSON.stringify(dataToUpdate), '').then(function(result) {
-                	return result;
-            }, null);
+				JSON.stringify(dataToUpdate), '').then(function(result) {
+				return result;
+			}, null);
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Category/', null, '')
-			.then(function(result) {
-				return result;
-			}, null);
+				.then(function(result) {
+					return result;
+				}, null);
 		},
 		addQuestion: function(categoryId, questionId) {
 			var dataToUpdate = {
@@ -55,9 +59,11 @@ Forum.data = (function() {
 					}]
 				}
 			}
-            
-            var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
-            
+
+			var headerAddition = {
+				'X-Parse-Session-Token': window.sessionStorage.sessionToken
+			};
+
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Category/' + categoryId,
 				JSON.stringify(dataToUpdate), '').then(function(result) {
 				return result;
@@ -75,28 +81,32 @@ Forum.data = (function() {
 		},
 		getById: function(id) {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Tag/' + id, null, '')
-			.then(function(result) {
-				return result;
-			}, null);
+				.then(function(result) {
+					return result;
+				}, null);
 		},
 		deleteById: function(id) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+			var headerAddition = {
+				'X-Parse-Session-Token': window.sessionStorage.sessionToken
+			};
 
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Tag/' + id, '')
-			.then(function(result) {
-				return result;
-			}, null);
+				.then(function(result) {
+					return result;
+				}, null);
 		},
-		editById: function (id, title) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+		editById: function(id, title) {
+			var headerAddition = {
+					'X-Parse-Session-Token': window.sessionStorage.sessionToken
+				},
 				dataToUpdate = {
 					title: title
 				};
 
 			return Forum.Requester.putRequest(headerAddition, Forum.classesUrl + '/Tag/' + id,
-                JSON.stringify(dataToUpdate), '').then(function(result) {
-                	return result;
-            }, null);
+				JSON.stringify(dataToUpdate), '').then(function(result) {
+				return result;
+			}, null);
 		},
 		getAll: function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Tag/', null, '');
@@ -108,13 +118,13 @@ Forum.data = (function() {
 		create: function(title, postedByID, questionText, categoryID, tags) {
 			var user = Forum.data.User.currentUser(),
 				headerAddition,
-                questionId,
-                userData;
+				questionId,
+				userData;
 
 			if (user !== null) {
 				return user.then(function(result) {
-                    userData = result;
-                    
+					userData = result;
+
 					var dataToSave = {
 						title: title,
 						questionText: questionText,
@@ -128,8 +138,8 @@ Forum.data = (function() {
 							className: 'Category',
 							objectId: categoryID
 						},
-                        tags: tags,
-                        visits: 0
+						tags: tags,
+						visits: 0
 					};
 
 					headerAddition = {
@@ -137,18 +147,18 @@ Forum.data = (function() {
 					};
 
 					return Forum.Requester.postRequest(headerAddition, Forum.classesUrl + '/Question/', JSON.stringify(dataToSave), '')
-					.then(function(result) {
-						return result;
-					}, function(error){
-						console.log(error);
-					});
-				}).then(function(result){
-                    questionId = result.objectId;
-                    
-                    return Forum.data.Category.addQuestion(categoryID, questionId);
-                }).then(function(){
-                    return Forum.data.User.addQuestion(questionId, userData);
-                });
+						.then(function(result) {
+							return result;
+						}, function(error) {
+							console.log(error);
+						});
+				}).then(function(result) {
+					questionId = result.objectId;
+
+					return Forum.data.Category.addQuestion(categoryID, questionId);
+				}).then(function() {
+					return Forum.data.User.addQuestion(questionId, userData);
+				});
 			}
 		},
 		getById: function(id) {
@@ -157,17 +167,21 @@ Forum.data = (function() {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/' + id, null, queryParams);
 		},
 		deleteById: function(id) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
+			var headerAddition = {
+				'X-Parse-Session-Token': window.sessionStorage.sessionToken
+			};
 
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Question/' + id, '')
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
-		editById: function (id, questionData, userData) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+		editById: function(id, questionData, userData) {
+			var headerAddition = {
+					'X-Parse-Session-Token': window.sessionStorage.sessionToken
+				},
 				dataToUpdate = {
 					question: {
 						newTitle: questionData.questionTitle,
@@ -179,51 +193,51 @@ Forum.data = (function() {
 				};
 
 			return Forum.Requester.postRequest(headerAddition, '/functions/editQuestion',
-                JSON.stringify(dataToUpdate), '').then(function(result) {
-                	return result;
-            }, function(error){
-            	console.log(error);
-            });
+				JSON.stringify(dataToUpdate), '').then(function(result) {
+				return result;
+			}, function(error) {
+				console.log(error);
+			});
 		},
 		getAll: function() {
 			var queryParams = '?include=postedBy';
 
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams)
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
 		getInRange: function(skipNum, limitNum) {
 			var queryParams = "?skip=" + skipNum + "&limit=" + limitNum + '&include=postedBy';
 
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams)
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
 		getInRangeByCategory: function(questionId, skipNum, limitNum) {
 			var queryParams = '?where={"category":{"__type":"Pointer","className":"Category","objectId":"' + questionId + '"}}&include=postedBy' + "&skip=" + skipNum + "&limit=" + limitNum;
 
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams)
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
 		getCount: function() {
 			var queryParams = "?count=1&limit=0";
 
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Question/', null, queryParams)
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
 		addAnswer: function(questionId, answerId) {
 			var dataToUpdate = {
@@ -238,14 +252,14 @@ Forum.data = (function() {
 			};
 
 			return Forum.Requester.putRequest(null, Forum.classesUrl + '/Question/' + questionId, JSON.stringify(dataToUpdate), '')
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		}
 	};
-    
+
 	var Answer = {
 		createByUser: function(userData, questionId, answerText) {
 			var dataToSave = {
@@ -263,17 +277,17 @@ Forum.data = (function() {
 					objectId: questionId
 				}
 			};
-            
-            var answerId = null;
-            
+
+			var answerId = null;
+
 			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '')
-            .then(function(result){
-                answerId = result.objectId;
-                
-                return Forum.data.Question.addAnswer(questionId, answerId);
-            }).then(function(){
-                return Forum.data.User.addAnswer(answerId, userData);
-            });
+				.then(function(result) {
+					answerId = result.objectId;
+
+					return Forum.data.Question.addAnswer(questionId, answerId);
+				}).then(function() {
+					return Forum.data.User.addAnswer(answerId, userData);
+				});
 		},
 		createByGuest: function(author, questionId, answerText) {
 			var dataToSave = {
@@ -289,32 +303,36 @@ Forum.data = (function() {
 			};
 
 			return Forum.Requester.postRequest(null, Forum.classesUrl + '/Answer/', JSON.stringify(dataToSave), '')
-                .then(function(result){
-                    return Forum.data.Question.addAnswer(questionId, result.objectId);
-                }, function(error){
-                	console.log(error);
-                });
+				.then(function(result) {
+					return Forum.data.Question.addAnswer(questionId, result.objectId);
+				}, function(error) {
+					console.log(error);
+				});
 		},
 		getById: function(id) {
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/' + id, null, '')
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
 		deleteById: function(id) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
-			
+			var headerAddition = {
+				'X-Parse-Session-Token': window.sessionStorage.sessionToken
+			};
+
 			return Forum.Requester.deleteRequest(headerAddition, Forum.classesUrl + '/Answer/' + id, '')
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
-		editById: function (id, answerText, userData) {
-			var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken},
+		editById: function(id, answerText, userData) {
+			var headerAddition = {
+					'X-Parse-Session-Token': window.sessionStorage.sessionToken
+				},
 				dataToUpdate = {
 					answer: {
 						newText: answerText,
@@ -324,20 +342,20 @@ Forum.data = (function() {
 				};
 
 			return Forum.Requester.postRequest(headerAddition, '/functions/editAnswer',
-                JSON.stringify(dataToUpdate), '').then(function(result) {
-                	return result;
-            }, function(error){
-            	console.log(error);
-            });
+				JSON.stringify(dataToUpdate), '').then(function(result) {
+				return result;
+			}, function(error) {
+				console.log(error);
+			});
 		},
 		getAll: function() {
 			var urlParams = '?include=question,postedBy';
 			return Forum.Requester.getRequest(null, Forum.classesUrl + '/Answer/', null, urlParams)
-			.then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		}
 	};
 
@@ -359,41 +377,44 @@ Forum.data = (function() {
 		logOut: function() {
 			if (window.sessionStorage.sessionToken) {
 				return Forum.Requester.postRequest({
-					'X-Parse-Session-Token': window.sessionStorage.sessionToken
-				}, '/logout', null)
-				.then(function(result) {
-					delete window.sessionStorage.sessionToken;
-				}, function(error){
-					console.log(error);
-				});
+						'X-Parse-Session-Token': window.sessionStorage.sessionToken
+					}, '/logout', null)
+					.then(function(result) {
+						delete window.sessionStorage.sessionToken;
+					}, function(error) {
+						console.log(error);
+					});
 			} else {
 				return null;
 			}
 		},
 		signUp: function(username, password, email) {
-			return Forum.Requester.postRequest(null, '/users', JSON.stringify({
-				username: username,
-				password: password,
-				email: email,
-				role: {
-					"__type": "Pointer",
-					"className": "_Role",
-					"objectId": "Yt4OgikFDX"
-				}
-			}), '').then(function(result) {
-				return result;
-			}, function(error){
-				console.log(error);
-			});
+			return Forum.Requester.postRequest(null, '/functions/registerUser', JSON.stringify({
+					userData: {
+						username: username,
+						password: password,
+						email: email,
+						role: {
+							"__type": "Pointer",
+							"className": "_Role",
+							"objectId": "Yt4OgikFDX"
+						}
+					}
+				}), '')
+				.then(function(result) {
+					return result;
+				}, function(error) {
+					console.log(error);
+				});
 		},
-        getAll: function(){
-            return Forum.Requester.getRequest(null, '/users', null, '');
-        },
-        getById: function(objectId){
-            return Forum.Requester.getRequest(null, '/users/' + objectId, null, '');
-        },
-        addAnswer: function(answerId, currentUser){
-            var dataToUpdate = {
+		getAll: function() {
+			return Forum.Requester.getRequest(null, '/users', null, '');
+		},
+		getById: function(objectId) {
+			return Forum.Requester.getRequest(null, '/users/' + objectId, null, '');
+		},
+		addAnswer: function(answerId, currentUser) {
+			var dataToUpdate = {
 				"answers": {
 					"__op": "AddUnique",
 					"objects": [{
@@ -403,16 +424,18 @@ Forum.data = (function() {
 					}]
 				}
 			};
-            
-            var headerAddition = {'X-Parse-Session-Token': window.sessionStorage.sessionToken};
-            
+
+			var headerAddition = {
+				'X-Parse-Session-Token': window.sessionStorage.sessionToken
+			};
+
 			return Forum.Requester.putRequest(headerAddition, '/users/' + currentUser.objectId,
 				JSON.stringify(dataToUpdate), '').then(function(result) {
 				return result;
 			}, null);
-        },
-        addQuestion: function(questionId, currentUser){
-            var dataToUpdate = {
+		},
+		addQuestion: function(questionId, currentUser) {
+			var dataToUpdate = {
 				"questions": {
 					"__op": "AddUnique",
 					"objects": [{
@@ -422,14 +445,16 @@ Forum.data = (function() {
 					}]
 				}
 			};
-            
-            var headerAddition = {'X-Parse-Session-Token': currentUser.sessionToken};
-            
+
+			var headerAddition = {
+				'X-Parse-Session-Token': currentUser.sessionToken
+			};
+
 			return Forum.Requester.putRequest(headerAddition, '/users/' + currentUser.objectId,
 				JSON.stringify(dataToUpdate), '').then(function(result) {
 				return result;
 			}, null);
-        },
+		},
 		updateRole: function(roleId, userId) {
 			return Forum.Requester.putRequest(null, '/roles/' + roleId, JSON.stringify({
 				"users": {
@@ -448,41 +473,41 @@ Forum.data = (function() {
 			var queryParams = '?where={"name":"users"}';
 
 			return Forum.Requester.getRequest(null, '/roles', '', queryParams)
-			.then(function(result) {
-				return result;
-			}, null);
+				.then(function(result) {
+					return result;
+				}, null);
 		},
 		currentUser: function() {
 			if (window.sessionStorage.sessionToken) {
 				return Forum.Requester.getRequest({
-					'X-Parse-Session-Token': window.sessionStorage.sessionToken
-				}, '/users/me', null, '')
-				.then(function(result) {
-					return result;
-				}, function(error) {
-					return null;
-				});
+						'X-Parse-Session-Token': window.sessionStorage.sessionToken
+					}, '/users/me', null, '')
+					.then(function(result) {
+						return result;
+					}, function(error) {
+						return null;
+					});
 			} else {
 				return null;
 			}
 		}
 	};
 
-    var Role = {
-        getById: function(objectId){
-            return Forum.Requester.getRequest(null, "/roles/" + objectId, null, '')
-            .then(function(result){
-            	return result;
-            }, null);
-        }
-    };
-    
+	var Role = {
+		getById: function(objectId) {
+			return Forum.Requester.getRequest(null, "/roles/" + objectId, null, '')
+				.then(function(result) {
+					return result;
+				}, null);
+		}
+	};
+
 	return {
 		Category: Category,
 		Tag: Tag,
 		Question: Question,
 		Answer: Answer,
 		User: User,
-        Role: Role
+		Role: Role
 	};
 })();

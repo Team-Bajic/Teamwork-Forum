@@ -131,6 +131,7 @@ Forum.eventHandlers = (function() {
 
 			Forum.controllers.QuestionController.editQuestion($(e.target).attr('data-id'), dataToPass)
 				.then(function(result) {
+					console.log(result);
 					$('#saveQuestionButton').removeAttr('data-id');
 					$('#questionTitle').val('');
 					$('#questionText').val('');

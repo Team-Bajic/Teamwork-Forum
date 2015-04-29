@@ -136,85 +136,35 @@ Parse.Cloud.beforeDelete("Category", function(request, response) {
 	}
 });
 
-// Parse.Cloud.beforeSave("Category", function(request, response) {
-// 	var user = request.user;
-// 	if (user && (user.get('role').id === "0cmOiSZe8k")) {
-// 		if (!request.object.get("title")) {
-// 			response.error("Title is required for creating a category!");
-// 		} else if (request.object.get("title").length <= 10) {
-// 			response.error("Category title must be longer than 10 character.");
-// 		} else {
-// 			response.success();
-// 		}
-// 	} else {
-// 		response.error("Unauthorized");
-// 	}
-// });
-
-// Parse.Cloud.beforeSave("Question", function(request, response) {
-// 	var user = request.user;
-// 	if (user && (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id)) {
-// 		if (!request.object.get("title")) {
-// 			response.error("Title is required for creating a question!");
-// 		} else if (request.object.get("title").length <= 10) {
-// 			response.error("Question title must be longer than 10 character.");
-// 		} else if (!request.object.get("questionText")) {
-// 			response.error("Question text is required!")
-// 		} else if (request.object.get("questionText").length < 20) {
-// 			response.error("Question text must be longer than 20 characters.")
-// 		} else {
-// 			response.success();
-// 		}
-// 	} else {
-// 		response.error("Unauthorized");
-// 	}
-// });
-
-// Parse.Cloud.beforeSave("Answer", function(request, response) {
-// 	var user = request.user;
-// 	if (user && (user.get('role').id === "0cmOiSZe8k" || user.id === request.object.get('postedBy').id)) {
-// 		if (!request.object.get("answerText")) {
-// 			response.error("Answer text is required!")
-// 		} else if (request.object.get("answerText").length < 20) {
-// 			response.error("Answer text must be longer than 20 characters.")
-// 		} else {
-// 			response.success();
-// 		}
-// 	} else {
-// 		response.error("Unauthorized");
-// 	}
-// });
-
-Parse.Cloud.define('incrementQuestionVisits', function (request, response) {
+Parse.Cloud.define('incrementQuestionVisits', function(request, response) {
 	var query = new Parse.Query("Question");
 
 	query.equalTo("objectId", request.object.id);
 	query.find({
-		success: function (question) {
+		success: function(question) {
 			question.increment("visits");
 			question.save();
 			response.success();
 		},
-		error: function (error) {
+		error: function(error) {
 			response.error(error);
 		}
 	})
 });
 
-Parse.Cloud.define('editAnswer', function (request, response) {
+Parse.Cloud.define('editAnswer', function(request, response) {
 	var query = new Parse.Query("Answer");
 	var user = request.params.userData;
 
-	if(user){
-		if(request.params.answer.newText.length < 5){
+	if (user) {
+		if (request.params.answer.newText.length < 5) {
 			response.error("Text too short, minimum 5 characters.");
-		} else{
+		} else {
 			user = JSON.parse(JSON.stringify(user));
 
 			query.get(request.params.answer.objectId, {
-				success: function (answer) {
-					if (user.role.objectId === "0cmOiSZe8k" || (answer.get('answerType') === "user" 
-						&& user.objectId === JSON.parse(JSON.stringify(answer.get('postedBy'))).objectId)) {
+				success: function(answer) {
+					if (user.role.objectId === "0cmOiSZe8k" || (answer.get('answerType') === "user" && user.objectId === JSON.parse(JSON.stringify(answer.get('postedBy'))).objectId)) {
 
 						answer.set('answerText', request.params.answer.newText);
 						answer.save();
@@ -223,68 +173,67 @@ Parse.Cloud.define('editAnswer', function (request, response) {
 						response.error('Unauthorised');
 					}
 				},
-				error: function (error) {
+				error: function(error) {
 					response.error(error);
 				}
 			})
 		}
-	} else{
+	} else {
 		response.error('Unauthorised');
 	}
 });
 
-Parse.Cloud.define('editQuestion', function (request, response) {
+Parse.Cloud.define('editQuestion', function(request, response) {
 	var query = new Parse.Query("Question");
 	var user = request.params.userData;
 
 	if (user) {
-		if(request.params.question.newText.length < 10 || request.params.question.newTitle.length < 10){
+		if (request.params.question.newText.length < 10 || request.params.question.newTitle.length < 10) {
 			response.error("One of the changed is less than the minimum allowed.");
-		} else{
+		} else {
 			user = JSON.parse(JSON.stringify(user));
 			query.get(request.params.question.objectId, {
-				success: function (question) {
-					if(user.role.objectId === "0cmOiSZe8k" 
-						|| user.objectId === JSON.parse(JSON.stringify(question.get('postedBy'))).objectId) {
+				success: function(question) {
+					if (user.role.objectId === "0cmOiSZe8k" || user.objectId === JSON.parse(JSON.stringify(question.get('postedBy'))).objectId) {
 						question.set('title', request.params.question.newTitle);
 						question.set('questionText', request.params.question.newText);
 						question.set('tags', request.params.question.tags);
 						question.save();
 						response.success("Successfully edited");
-					} else{
+					} else {
 						response.error('Unauthorised');
 					}
 				},
-				error: function (error) {
+				error: function(error) {
 					response.error(error);
 				}
 			})
 		}
-	} else{
+	} else {
 		response.error('Unauthorised');
 	}
 });
 
-Parse.Cloud.define('editCategory', function (request, response) {
+Parse.Cloud.define('editCategory', function(request, response) {
 	var query = new Parse.Query("Category");
 	var user = request.params.userData;
 
 	if (user) {
-		if(request.params.category.newTitle.length < 5){
+		if (request.params.category.newTitle.length < 5) {
 			response.error("Category title length must be greater than 5.");
-		} else{
+		} else {
 			user = JSON.parse(JSON.stringify(user));
 			query.get(request.params.category.objectId, {
-				success: function (category) {
-					if(user.role.objectId === "0cmOiSZe8k"){
+				success: function(category) {
+					if (user.role.objectId === "0cmOiSZe8k") {
 						category.set('title', request.params.category.newTitle);
 						category.save();
 						response.success();
-					} else{
+					} else {
 						response.error('Unauthorised');
 					}
 				},
-				error: function (error) {
+				error: function(error) {
 					response.error(error);
 				}
 			})
@@ -292,21 +241,21 @@ Parse.Cloud.define('editCategory', function (request, response) {
 	}
 });
 
-Parse.Cloud.define('editTag', function (request, response) {
+Parse.Cloud.define('editTag', function(request, response) {
 	var query = new Parse.Query("Question");
 	var user = request.params.userData;
 
 	if (user) {
-		if(request.params.tag.newTitle.length < 5){
+		if (request.params.tag.newTitle.length < 5) {
 			response.error("Tag title length must be greater than 5.");
-		} else{
+		} else {
 			user = JSON.parse(JSON.stringify(user));
 
 			query.equalTo("tags", request.params.tag.currentTitle);
 			query.find({
-				success: function (questions) {
-					if(user.role.objectId === "0cmOiSZe8k"){
-						questions.forEach(function(question){
+				success: function(questions) {
+					if (user.role.objectId === "0cmOiSZe8k") {
+						questions.forEach(function(question) {
 							var currentTags = questions.get('tags');
 							var index = currentTags.indexOf(request.params.tag.currentTitle);
 
@@ -316,11 +265,11 @@ Parse.Cloud.define('editTag', function (request, response) {
 						});
 
 						response.success("Successfully edited the tag.");
-					} else{
+					} else {
 						response.error('Unauthorised');
 					}
 				},
-				error: function (error) {
+				error: function(error) {
 					response.error(error);
 				}
 			})
@@ -328,12 +277,11 @@ Parse.Cloud.define('editTag', function (request, response) {
 	}
 });
 
-Parse.Cloud.define('registerUser', function (request, response) {
+Parse.Cloud.define('registerUser', function(request, response) {
 	var query = new Parse.Query("Question");
 	var userData = request.params.userData;
 
-	function validateEmail(email) 
-	{
+	function validateEmail(email) {
 		var re = /\S+@\S+\.\S+/;
 		return re.test(email);
 	}
@@ -341,29 +289,39 @@ Parse.Cloud.define('registerUser', function (request, response) {
 	if (userData) {
 		userData = JSON.parse(JSON.stringify(userData));
 
-		if(userData.username.length < 5){
+		if (userData.username.length < 5) {
 			response.error("Username must be must be at least 5 characters long.");
-		} else if(userData.password.length < 6){
+		} else if (userData.password.length < 6) {
 			response.error("Password must be at least 6 characters long.");
-		} else if(validateEmail(userData.email) === false){
+		} else if (validateEmail(userData.email) === false) {
 			response.error("Email is not valid.");
-		} else{
+		} else {
 			var user = new Parse.User();
-			user.set("username", userData.username);
-			user.set("password", userData.password);
-			user.set("email", userData.email);
+			var role = new Parse.Query("_Role");
+			role.get(userData.role.objectId, {
+				success: function(result) {
+					user.set("username", userData.username);
+					user.set("password", userData.password);
+					user.set("email", userData.email);
+					user.set("role", result);
 
-			user.signUp(null, {
-			  	success: function(user) {
-			    	response.success("Successfull registration.");
-			  	},
-			  	error: function(user, error) {
-			    	response.error("Error: " + error.code + " " + error.message);
-			  	}
+					user.signUp(null, {
+						success: function(user) {
+							response.success("Successfull registration.");
+						},
+						error: function(user, error) {
+							response.error("Error: " + error.code + " " + error.message);
+						}
+					});
+				},
+				error: function(error) {
+					response.error("Error: " + error.code + " " + error.message);
+				}
 			});
+
+
 		}
-	} else{
+	} else {
 		response.error("Cannot complete registration.");
 	}
 });
-
