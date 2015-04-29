@@ -55,6 +55,8 @@ Forum.eventHandlers = (function() {
 			}
 		});
 	}
+	var tags = [];
+	var tagCounter;
 
 	var successNotificationHandler = function(selector) {
 		$(selector).slideDown('fast');
@@ -65,9 +67,13 @@ Forum.eventHandlers = (function() {
 
 	var assignEditQuestionEvents = function() {
 		$('.main-container').append(Forum.templateBuilder('questionEdit-template', {}));
-		var tags = [];
 
 		$('.editQuestionButton').on('click', function(event) {
+			tags = [];
+			tagCounter = 0;
+
+			$('#questionEdit .addedTags').html('');
+
 			$('div#questionEdit').foundation('reveal', 'open');
 			$('#questionTitle').val($(event.target).next().text());
 			$('#questionText').val($(event.target).next().next().text());
@@ -75,8 +81,9 @@ Forum.eventHandlers = (function() {
 
 			$($(event.target).parents('.question').last()).find('.label').each(function() {
 				tags.push($(this).text());
+				tagCounter += 1;
 				$('#questionEdit .addedTags')
-					.append('<span class="secondary radius label">' + $(this).text() + '</span><a class="removeTagButton button tiny alert">X</a>');
+					.append('<span class="secondary radius label tag">' + $(this).text() + '</span><a class="removeTagButton button tiny alert">X</a>');
 			});
 
 			$('.removeTagButton').on('click', function(event) {
@@ -85,20 +92,20 @@ Forum.eventHandlers = (function() {
 			});
 
 			$('#editTagButton').on('click', function() {
-				var tag = $('#tagInput').val().trim();
+				var tag = $('#tagInputEdit').val().trim();
 
 				if (tag.length === 0) {
 					alert("You cannot add empty tag.");
 				} else if (tags.indexOf(tag) > -1) {
 					alert('Already in added.');
-					$('#tagInput').val('');
+					$('#tagInputEdit').val('');
 				} else {
 					tags.push(tag);
 
 					$('#questionEdit .addedTags')
 						.append('<span class="secondary radius label tag">' + tag + '</span><button type="button" class="removeTagButton button tiny alert">X</button>');
 
-					$('#tagInput').val('');
+					$('#tagInputEdit').val('');
 
 					$('.removeTagButton').last().on('click', function(event) {
 						$(event.target).prev().remove();
@@ -122,7 +129,7 @@ Forum.eventHandlers = (function() {
 			dataToPass.questionTitle = $('#questionTitle').val();
 			dataToPass.questionText = $('#questionText').val();
 
-			Forum.controllers.QuestionController.editQuestion($('.question').attr('data-id'), dataToPass)
+			Forum.controllers.QuestionController.editQuestion($(e.target).attr('data-id'), dataToPass)
 				.then(function(result) {
 					$('#saveQuestionButton').removeAttr('data-id');
 					$('#questionTitle').val('');
@@ -159,7 +166,10 @@ Forum.eventHandlers = (function() {
 		});
 	}
 
-	var newQuestionTagButtonEvents = function(tags, tagCounter) {
+	var newQuestionTagButtonEvents = function() {
+		tags = [];
+		tagCounter = 0;
+
 		$('#tagRemove').on('click', function() {
 			if (tagCounter > 0) {
 				$('.addedTags').find('span').last().remove();
@@ -184,7 +194,7 @@ Forum.eventHandlers = (function() {
 					tag = ', ' + tag;
 				}
 
-				$('.addedTags').append("<span class='tag'>" + tag + "</span>");
+				$('.addedTags').append("<span class='tag label'>" + tag + "</span>");
 				$('#tagInput').val('');
 
 				tagCounter += 1;

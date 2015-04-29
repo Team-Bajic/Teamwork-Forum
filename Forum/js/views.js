@@ -91,7 +91,7 @@ Forum.views = (function() {
 				Forum.data.User.currentUser()
 					.then(function(result) {
 						var title = $("input[name='new-question-title']").val(),
-							questionText = Forum.editor.getData(),
+							questionText = Forum.editor.document.getBody().getText(),
 							categoryID = $('.category-container').attr('data-id'),
 							postedByID = result.objectId;
 
