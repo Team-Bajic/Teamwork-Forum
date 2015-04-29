@@ -94,6 +94,9 @@ Forum.views = (function() {
 							questionText = Forum.editor.document.getBody().getText(),
 							categoryID = $('.category-container').attr('data-id'),
 							postedByID = result.objectId;
+              $('#createQuestionBox').find('.tag').each(function() {
+                  tags.push($(this).text());
+              });
 
 						return Forum.controllers.QuestionController.addQuestion(title, postedByID, questionText, categoryID, tags);
 					}).then(function(result) {

@@ -163,6 +163,9 @@ Forum.controllers = (function() {
 	}
 
 	var CategoryController = {
+		addCategory: function(title){
+
+		},
 		showCategory: function(categoryId, page, userData) {
 			Forum.data.Category.getById(categoryId)
 				.then(function(result) {
