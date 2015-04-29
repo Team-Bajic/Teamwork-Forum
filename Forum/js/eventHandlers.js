@@ -64,19 +64,19 @@ Forum.eventHandlers = (function() {
 	}
 
 	var assignEditQuestionEvents = function() {
-		$('.question-container').append(Forum.templateBuilder('questionEdit-template', {}));
+		$('.main-container').append(Forum.templateBuilder('questionEdit-template', {}));
 		var tags = [];
 
 		$('.editQuestionButton').on('click', function(event) {
 			$('div#questionEdit').foundation('reveal', 'open');
 			$('#questionTitle').val($(event.target).next().text());
-			$('#questionText').val($(event.target).next().text());
-			$('#saveQuestionButton').attr('data-id', $(event.target).parents('.question-container').last().attr('data-id'));
+			$('#questionText').val($(event.target).next().next().text());
+			$('#saveQuestionButton').attr('data-id', $(event.target).parents('.question').last().attr('data-id'));
 
-			$($(event.target).parents('.question-container').last()).find('.label a').each(function() {
+			$($(event.target).parents('.question').last()).find('.label').each(function() {
 				tags.push($(this).text());
 				$('#questionEdit .addedTags')
-					.append('<span class="secondary radius label tag">' + $(this).text() + '</span><a type="button" class="removeTagButton button tiny alert">X</a>');
+					.append('<span class="secondary radius label">' + $(this).text() + '</span><a class="removeTagButton button tiny alert">X</a>');
 			});
 
 			$('.removeTagButton').on('click', function(event) {
@@ -148,7 +148,8 @@ Forum.eventHandlers = (function() {
 
 		$('#saveAnswerButton').on('click', function(e) {
 			e.preventDefault();
-			Forum.controllers.AnswerController.editAnswer($(e.target).attr('data-id'), $('#answerText').val())
+			var newValue = "<p>" + $('#answerText').val() + "</p>"
+			Forum.controllers.AnswerController.editAnswer($(e.target).attr('data-id'), newValue)
 				.then(function(result) {
 					$('#saveAnswerButton').removeAttr('data-id');
 					$('#answerText').val('');

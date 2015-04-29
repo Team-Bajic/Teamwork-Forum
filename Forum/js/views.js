@@ -25,20 +25,22 @@ Forum.views = (function() {
 
 	QuestionsView.prototype.render = function(element, data) {
 		$(element).html(Forum.templateBuilder('question-template', data));
+    
 		Forum.eventHandlers.deleteQuestionButtonHandler(".deleteQuestionButton");
+    Forum.eventHandlers.assignEditQuestionEvents();
 	};
 
 	SingleQuestionView.prototype.render = function(element, data) {
 		$(element).html(Forum.templateBuilder('single-question-template', data));
 
-		Forum.eventHandlers.deleteQuestionButtonHandler(".deleteQuestionButton", true);
-		Forum.eventHandlers.deleteAnswerButtonHandler(".deleteAnswerButton");
-		Forum.eventHandlers.revealBlockButtonHandler('.reveal-answer-block', '#createAnswerBox');
-		Forum.eventHandlers.dismissButtonHandler('.dismiss-button', '#createAnswerBox');
-		Forum.eventHandlers.postButtonHandler('.post-button', '#createAnswerBox', postAnswer);
+    Forum.eventHandlers.deleteQuestionButtonHandler(".deleteQuestionButton", true);
+    Forum.eventHandlers.deleteAnswerButtonHandler(".deleteAnswerButton");
+    Forum.eventHandlers.revealBlockButtonHandler('.reveal-answer-block', '#createAnswerBox');
+    Forum.eventHandlers.dismissButtonHandler('.dismiss-button', '#createAnswerBox');
+    Forum.eventHandlers.postButtonHandler('.post-button', '#createAnswerBox', postAnswer);
 
-		Forum.eventHandlers.assignEditQuestionEvents();
-		Forum.eventHandlers.assignEditAnswerEvents();
+    Forum.eventHandlers.assignEditQuestionEvents();
+    Forum.eventHandlers.assignEditAnswerEvents();
 
 		Forum.editor = CKEDITOR.replace('editor');
 
