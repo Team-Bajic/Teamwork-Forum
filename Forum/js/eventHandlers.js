@@ -170,10 +170,15 @@ Forum.eventHandlers = (function() {
 			var newValue = "<p>" + $('#answerText').val() + "</p>"
 			Forum.controllers.AnswerController.editAnswer($(e.target).attr('data-id'), newValue)
 				.then(function(result) {
-					$('#saveAnswerButton').removeAttr('data-id');
-					$('#answerText').val('');
-					$('div#answerEdit').foundation('reveal', 'close');
-					Forum.Router.refresh();
+					$('#questionEditedSuccess').slideDown('fast');
+
+					setTimeout(function(){
+						$('#saveAnswerButton').removeAttr('data-id');
+						$('#answerText').val('');
+						$('div#answerEdit').foundation('reveal', 'close');
+						Forum.Router.refresh();
+					},1000)
+
 				});
 		});
 	}
