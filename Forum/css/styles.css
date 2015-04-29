@@ -3,7 +3,7 @@ html {
     overflow-y: scroll; 
 }
 @font-face {
-    font-family: 'Champagne';
+    font-family: 'Constantine';
     src: url(fonts/Constantine.ttf);
 }
 @font-face {
@@ -24,7 +24,7 @@ html {
 
 body {
     background: #E9EAED;
-    font-family: 'Champagne';
+    font-family: 'Constantine';
 }
 
 .panel{
@@ -36,7 +36,7 @@ body {
 
 .question, .questionTitle{
     background-color: #fdfdfe;
-    font-family: 'Champagne';
+    font-family: 'Constantine';
 }
 
 .questionParagraph{
@@ -96,7 +96,7 @@ p {
     padding: .4rem;
     background: none;
     transition: background-color .3s;
-    font-family: 'Champagne';
+    font-family: 'Constantine';
     font-size: 1.2rem;
 }
 .categories-container{
@@ -146,4 +146,7 @@ textarea {
     height: 2.4em;
     margin: 0 0 0 .5em;
     vertical-align: top;
+}
+.category-heading{
+    font-family: 'Constantine';
 }
