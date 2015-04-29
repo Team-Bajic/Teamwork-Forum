@@ -36,6 +36,14 @@
         <input type="password" id="password" placeholder="Password" minLength="4" required/>
         <input type="password" id="confirm-password" placeholder="Confirm Password" equalTo="#password" required/>
         <input type="email" id="email" placeholder="Email" email required/>
+        <div data-alert class="alert-box info radius" style="display: none" id="validReg">
+          Successfully regitered!.
+          <a href="#" class="close">&times;</a>
+        </div>
+        <div data-alert class="alert-box alert radius" style="display: none" id="invalidReg">
+          Registration failed!.
+          <a href="#" class="close">&times;</a>
+        </div>
         <input type="submit" value="Register" id="registerButton" class="button radius"/>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
       </form>

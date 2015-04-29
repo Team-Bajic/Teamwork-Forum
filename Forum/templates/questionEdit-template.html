@@ -1,18 +1,19 @@
 <div id="questionEdit" class="reveal-modal large" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-<form id="loginForm" autocomplete="off">
-<h2>Question title</h2> <input type="text" id="questionTitle">
-<h2>Question text</h2>
-  <textarea id="questionText" name="questionText"></textarea>
-  <div class="tagsArea">
-	<section class="addedTags">
-		<span>Tags :</span>
-	</section>
-	<section class="text-center">
-		<input type="text" id="tagInput" />
-		<button class="button tiny radius" type="button" id="editTagButton">Add Tag</button>
-	</section>
-	</div>
-  <input type="submit" value="Save Changes" id="saveQuestionButton" class="button radius">
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</form>
+	<form autocomplete="off">
+		<h2>Question title</h2>
+		<input id="questionTitle" name="questionTitle" type="text">
+		<h2>Question text</h2>
+		<textarea id="questionText" name="questionText"></textarea>
+		<div class="tagsArea">
+			<section class="addedTags">
+				<span>Tags :</span>
+			</section>
+			<section class="text-center">
+				<input id="tagInput" type="text"/>
+				<button id="editTagButton" class="button tiny radius" type="button">Add Tag</button>
+			</section>
+		</div>
+		<input id="saveQuestionButton" class="button medium radius right" type="submit" value="Save Changes">
+		<a class="close-reveal-modal" aria-label="Close">&#215;</a>
+	</form>
 </div>

@@ -1,29 +1,28 @@
 {{#each questions}}
-<div data-id="{{objectId}}">
-	<div class="panel question">
-		{{#ifEquals ../userData.role.name "admins"}}
+<div class="panel question" data-id="{{objectId}}">
+	{{#ifEquals ../userData.role.name "admins"}}
+        <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
+        <a class="button right tiny info radius editQuestionButton">Edit</a>
+    {{else}}
+    {{#ifEquals ../../userData.role.name "users"}}
+        {{#ifEquals postedBy.objectId ../../../userData.objectId}}
             <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
             <a class="button right tiny info radius editQuestionButton">Edit</a>
-        {{else}}
-        {{#ifEquals ../../userData.role.name "users"}}
-            {{#ifEquals postedBy.objectId ../../../userData.objectId}}
-                <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
-                <a class="button right tiny info radius editQuestionButton">Edit</a>
-            {{/ifEquals}}
         {{/ifEquals}}
-		{{/ifEquals}}
-		<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
-		<p class="questionParagraph large-10" >{{{questionText}}}</p>
-		<div id="questionInfo">
+    {{/ifEquals}}
+	{{/ifEquals}}
+	<h2 class="large-10 questionTitle"><a href="#/question/{{objectId}}">{{title}}</a></h2>
+	<p class="questionParagraph large-10">{{{questionText}}}</p>
+	<div id="questionInfo">
 		<span>Tags: </span>
 		{{#each tags}}
-		 {{#if @first}} 
-		 	<span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
-		 {{else}} 
-		 	, <span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
-		 {{/if}}
-		 {{/each}}
-		<p>author:
+			{{#if @first}} 
+				<span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
+			{{else}} 
+				, <span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
+			{{/if}}
+		{{/each}}
+		<p>Author:
             <a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a>
             <span class="right"><i class="fi-comment size-18"></i>
                 {{#if answers}}
@@ -33,7 +32,6 @@
             <i class="fi-eye"></i> {{visits}}
 			</span>
         </p>
-			 </div>
 	</div>
 </div>
 {{/each}}

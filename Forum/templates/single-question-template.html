@@ -1,5 +1,5 @@
-<div class="question-container" data-id="{{questionData.objectId}}">
-	<div class="panel question">
+<div class="question-container">
+	<div class="panel question" data-id="{{questionData.objectId}}">
 	{{#ifEquals userData.role.name "admins"}}
             <a class="button right tiny alert radius deleteQuestionButton">Delete</a>
             <a data-reveal-id="questionEdit" class="button right tiny info radius editQuestionButton">Edit</a>
@@ -11,10 +11,10 @@
             {{/ifEquals}}
         {{/ifEquals}}
 		{{/ifEquals}}
-		<h2 class="questionTitle">{{questionData.title}}</h2>
-		<p>{{{questionData.questionText}}}</p>
+		<h2 class="questionTitle"><a>{{questionData.title}}</a></h2>
+		<p class="questionParagraph">{{{questionData.questionText}}}</p>
 		<div id="questionInfo">
-			<span>tags: </span>
+			<span>Tags: </span>
 			{{#each questionData.tags}}
 			{{#if @first}} 
 				<span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
@@ -22,7 +22,7 @@
 				, <span class="secondary radius label"><a href="#/search/by=tag/text={{this}}">{{this}}</a></span>
 			{{/if}}
 			{{/each}}
-			<p>author:<a href="#/user/{{questionData.postedBy.objectId}}"> {{questionData.postedBy.username}}</a></p>
+			<p>Author:<a href="#/user/{{questionData.postedBy.objectId}}"> {{questionData.postedBy.username}}</a></p>
 		</div>
 	</div>
 	{{#each answersData}}
@@ -38,11 +38,11 @@
             {{/ifEquals}}
         {{/ifEquals}}
 		{{/ifEquals}}
-		<p class="answerParagraph large-8">{{{answerText}}}</p>
+			{{{answerText}}}
 		{{#if author}}
-		<p>author:<a href="#/"> {{author}}</a></p>
+		<p>Author:<a href="#/"> {{author}}</a></p>
 		{{else}}
-		<p>author:<a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a></p>
+		<p>Author:<a href="#/user/{{postedBy.objectId}}"> {{postedBy.username}}</a></p>
 		{{/if}}
 
 	</div>
@@ -53,11 +53,11 @@
 	</div>
 	<form id="createAnswerBox" class="panel clearfix" autocomplete="off">
 		{{#unless userData.sessionToken}}
-		<input type="text" class="answer-author" placeholder="Name" minLength="4" required></input>
-        <input type="email" class="answer-email" placeholder="E-mail" email=></input>
+			<input type="text" class="answer-author" placeholder="Name" minLength="4" required></input>
+	        <input type="email" class="answer-email" placeholder="E-mail" email=></input>
 		{{/unless}}
 		<label>Answer:</label>
-		<textarea name="editor" id="editor" placeholder="Answer content..."></textarea>
+		<textarea name="editor" id="editor"></textarea>
 		<div data-alert class="alert-box info radius" style="display: none" id="answerSuccessfullyPosted">
 			Answer posted successfully.
 			<a href="#" class="close">&times;</a>

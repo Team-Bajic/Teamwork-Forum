@@ -374,7 +374,12 @@ Forum.data = (function() {
 			return Forum.Requester.postRequest(null, '/users', JSON.stringify({
 				username: username,
 				password: password,
-				email: email
+				email: email,
+				role: {
+					"__type": "Pointer",
+					"className": "_Role",
+					"objectId": "Yt4OgikFDX"
+				}
 			}), '').then(function(result) {
 				return result;
 			}, function(error){
