@@ -2,9 +2,7 @@
   <ul class="right">
     <a href="#/viewTags" class="button tiny radius">View Tags</a>
     {{#if sessionToken}}
-      {{#if admin}}
-        <a href="#/admin" class="button tiny radius">Admin Panel</a>
-      {{/if}}
+
       {{#if user}}
         <a href="#/user/{{objectId}}" class="button tiny radius">My Profile</a>
       {{/if}}
